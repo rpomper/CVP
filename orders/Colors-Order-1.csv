@@ -1,0 +1,6 @@
+stimulus,left_image,right_image,condition,target_side,correct_response,background
+,B,black,Fam-Food,L,0,black-background
+,black,C,Fam-Veh,R,1,black-background
+,black,D,Fam-Food,R,1,black-background
+,H,black,Fam-Food,L,0,black-background
+,J,black,Fam-Veh,L,0,black-background
