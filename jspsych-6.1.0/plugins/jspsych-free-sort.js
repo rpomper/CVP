@@ -81,6 +81,11 @@ jsPsych.plugins['free-sort'] = (function() {
 
     var start_time = performance.now();
 
+    // set background image
+    // ${'html'}.css("background-image",trial.set_background) // ron
+    document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+
+
     var html = "";
     // check if there is a prompt and if it is shown above
     if (trial.prompt !== null && trial.prompt_location == "above") {
