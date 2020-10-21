@@ -133,6 +133,17 @@ function createTrials(data, tabletop) {
 
   // lwl_stimuli = []
 
+  var sorting_stimuli = [];
+  for (var i = 1; i <= 12; i++) {
+    sorting_stimuli.push("img/cell_img_" + i + ".jpg");
+  }
+
+  var sort_trial = {
+    type: 'free-sort',
+    stimuli: sorting_stimuli,
+    prompt: "<p>Click and drag the images below to sort them so that similar items are close together.</p>"
+  };
+
   for (var i = 0; i < expLength; i++) {
     // lwl_stimuli.push(
     // {stimulus: audioExt+data[i]['stimulus']+".wav",

@@ -1,6 +1,6 @@
 stimulus,left_image,right_image,condition,target_side,correct_response,background,left_planet,right_planet
-,B,black,Fam-Food,L,0,black-background,venus,neptune
-,black,C,Fam-Veh,R,1,black-background,jupiter,mars
-,black,D,Fam-Food,R,1,black-background,mercury,saturn
-,H,black,Fam-Food,L,0,black-background,mars,jupiter
-,J,black,Fam-Veh,L,0,black-background,saturn,mercury
+,B1,black,Fam-Food,L,0,black-background,venus,neptune
+,black,C1,Fam-Veh,R,1,black-background,jupiter,mars
+,black,D1,Fam-Food,R,1,black-background,mercury,saturn
+,H1,black,Fam-Food,L,0,black-background,mars,jupiter
+,J1,black,Fam-Veh,L,0,black-background,saturn,mercury
