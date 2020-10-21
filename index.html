@@ -53,9 +53,9 @@ var trial_order = jsPsych.data.getURLVariable('order')
 
 // choose csv file
 if (trial_order == "1") {
-  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/Colors-Order-1.csv';
+  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
 } else if (trial_order == "2") {
-  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/Colors-Order-2.csv';
+  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 }
 
 
@@ -142,14 +142,30 @@ function createTrials(data, tabletop) {
     // iti_tr_num: "Trial"
     // })
 
-    var lwl_iti = {
+    var show_trial_num = {
       type:'html-keyboard-response',
       stimulus: "<p style='font-size:90px;'>"+i.toString()+"</p>",
       choices: jsPsych.NO_KEYS,
       trial_duration: 500
     }
 
-    timeline.push(lwl_iti)
+    timeline.push(show_trial_num)
+
+
+    var show_planets = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 2000,
+      response_ends_trial: false,
+      margin_top: ['0px','0px'],
+      margin_bottom: ['0px','0px'],
+      margin_left: ['0px','250px'],
+      margin_right: ['250px','0px'],
+      // stimulus: audioExt+data[i]['stimulus']+".wav",
+      choices: [imageStart+data[i]['left_planet']+imageStop, imageStart+data[i]['right_planet']+imageStop],
+    }
+
+    timeline.push(show_planets)
+
 
     var lwl_trial = {
       type: 'audio-button-response-flexiblelocations',
