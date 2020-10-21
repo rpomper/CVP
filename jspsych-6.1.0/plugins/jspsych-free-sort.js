@@ -66,6 +66,13 @@ jsPsych.plugins['free-sort'] = (function() {
         pretty_name: 'Button label',
         default:  'Continue',
         description: 'The text that appears on the button to continue to the next trial.'
+      },
+      // ron
+      set_background: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image',
+        default: 'black-background',
+        description: 'The path and file name for images to be displayed as background'
       }
     }
   }
