@@ -180,6 +180,7 @@ function createTrials(data, tabletop) {
       choices: [imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
       set_background:data[i]['background'],
       data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
+      post_trial_gap: 500,
       on_finish: function(data) {
         data.correct = data.button_pressed == data.correct_response;
       }
