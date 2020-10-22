@@ -54,13 +54,23 @@ jsPsych.plugins["html-keyboard-response"] = (function() {
         default: true,
         description: 'If true, trial will end when subject makes a response.'
       },
-
+      // ron
+      set_background: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image',
+        default: 'black-background',
+        description: 'The path and file name for images to be displayed as background'
+      },
     }
   }
 
   plugin.trial = function(display_element, trial) {
 
     var new_html = '<div id="jspsych-html-keyboard-response-stimulus">'+trial.stimulus+'</div>';
+
+    // set background image
+    // ${'html'}.css("background-image",trial.set_background) // ron
+    document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
 
     // add prompt
     if(trial.prompt !== null){

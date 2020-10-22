@@ -158,9 +158,6 @@ function createTrials(data, tabletop) {
   // lwl_stimuli = []
 
   var sorting_stimuli = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
-  // for (var i = 1; i <= 12; i++) {
-  //   sorting_stimuli.push("img/cell_img_" + i + ".jpg");
-  // }
 
   var sort_trial = {
     type: 'free-sort',
@@ -188,6 +185,7 @@ function createTrials(data, tabletop) {
       type:'html-keyboard-response',
       stimulus: "<p style='font-size:90px;'>"+i.toString()+"</p>",
       choices: jsPsych.NO_KEYS,
+      set_background:'black-background',
       trial_duration: 500
     }
 
@@ -282,6 +280,7 @@ imageExt+'venus.jpg',
 imageExt+'black.jpg',
 imageExt+'black-background.jpg',
 imageExt+'launch-pad-background.jpg',
+imageExt+'launch-pad-ship-background.jpg',
 imageExt+'spaceship-1.jpg',
 imageExt+'spaceship-2.jpg',
 imageExt+'spaceship-3.jpg',
