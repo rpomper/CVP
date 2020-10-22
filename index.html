@@ -134,23 +134,26 @@ function createTrials(data, tabletop) {
   var numStop= '.jpg"  title = "" width="350" height="450">'
 
 
-  var num_pad = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: null,
-    response_ends_trial: true,
-    margin_top: ['0px'],
-    margin_bottom: ['0px'],
-    margin_left: ['300'],
-    margin_right: ['0px'],
-    set_background: 'numpad-empty',
-    // stimulus: audioExt+data[i]['stimulus']+".wav",
-    choices: [imageStart+'numpad-keys'+numStop],
-    // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
-    // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
-    // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
+  for (var i = 1; i <= 6; i++) {
+    var num_pad = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'numpad-'+i.toString(),
+      // stimulus: audioExt+data[i]['stimulus']+".wav",
+      choices: [imageStart+'numpad-keys'+numStop],
+      // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
+      // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
+      // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
+    }
+
+    timeline.push(num_pad)
   }
 
-  timeline.push(num_pad)
 
   // lwl_stimuli = []
 
