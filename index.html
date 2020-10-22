@@ -210,9 +210,9 @@ function createTrials(data, tabletop) {
     timeline.push(show_trial_num)
 
 
-    var show_planets = {
+    var part_1 = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 7000,
+      trial_duration: data[i]['audio1_dur'],
       response_ends_trial: false,
       margin_top: ['0px','0px'],
       margin_bottom: ['0px','0px'],
@@ -220,15 +220,15 @@ function createTrials(data, tabletop) {
       margin_right: ['250px','0px'],
       // stimulus: audioExt+data[i]['audio1']+".wav",
       stimulus: audioExt+data[i]['audio1']+".wav",
-      choices: [imageStart+data[i]['left_planet']+imageStop, imageStart+data[i]['right_planet']+imageStop],
+      choices: [imageStart+data[i]['left_image1']+imageStop, imageStart+data[i]['right_image1']+imageStop],
     }
 
-    timeline.push(show_planets)
+    timeline.push(part_1)
 
 
-    var lwl_trial = {
+    var part_2 = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 4000,
+      trial_duration: data[i]['audio2_dur'],
       // response_ends_trial: false,
       response_ends_trial: true,
       margin_top: ['0px','0px'],
@@ -236,7 +236,7 @@ function createTrials(data, tabletop) {
       margin_left: ['0px','250px'],
       margin_right: ['250px','0px'],
       stimulus: audioExt+data[i]['audio2']+".wav",
-      choices: [imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
+      choices: [imageStart+data[i]['left_image2']+imageStop, imageStart+data[i]['right_image2']+imageStop],
       set_background:data[i]['background'],
       data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
       post_trial_gap: 500,
@@ -245,7 +245,7 @@ function createTrials(data, tabletop) {
       }
     }
 
-    timeline.push(lwl_trial)
+    timeline.push(part_2)
 
   }
 
