@@ -107,7 +107,7 @@ function createTrials(data, tabletop) {
     delay_after: 250
   }
 
-  timeline.push(welcome);
+  // timeline.push(welcome);
 
   // var audio_test = {
   //   type: "audio-keyboard-response",
@@ -144,7 +144,7 @@ function createTrials(data, tabletop) {
       margin_left: ['300'],
       margin_right: ['0px'],
       set_background: 'numpad-'+i.toString(),
-      stimulus: 'stimuli/sounds/test-toma.wav',
+      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
       choices: [imageStart+'numpad-keys'+numStop],
       // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
       // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
@@ -153,6 +153,24 @@ function createTrials(data, tabletop) {
 
     timeline.push(num_pad)
   }
+
+  var num_pad_end = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 500,
+    response_ends_trial: false,
+    margin_top: ['100px'],
+    margin_bottom: ['0px'],
+    margin_left: ['300'],
+    margin_right: ['0px'],
+    set_background: 'numpad-6',
+    stimulus: 'stimuli/sounds/key-7.wav',
+    choices: [imageStart+'numpad-keys'+numStop],
+    // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
+    // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
+    // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
+  }
+
+  timeline.push(num_pad_end)
 
 
   // lwl_stimuli = []
@@ -201,7 +219,7 @@ function createTrials(data, tabletop) {
       margin_left: ['0px','250px'],
       margin_right: ['250px','0px'],
       // stimulus: audioExt+data[i]['audio1']+".wav",
-      stimulus: audioExt+'bem.wav',
+      stimulus: audioExt+data[i]['audio1']+".wav",
       choices: [imageStart+data[i]['left_planet']+imageStop, imageStart+data[i]['right_planet']+imageStop],
     }
 
