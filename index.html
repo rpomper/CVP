@@ -131,7 +131,7 @@ function createTrials(data, tabletop) {
   var audioExt="stimuli/sounds/"
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
-  // var numStop= '.jpg"  title = "" width="100" height="100">'
+  var numStop= '.jpg"  title = "" width="350" height="450">'
 
 
   var num_pad = {
@@ -144,7 +144,7 @@ function createTrials(data, tabletop) {
     margin_right: ['250px','0px'],
     set_background: 'numpad-empty',
     // stimulus: audioExt+data[i]['stimulus']+".wav",
-    choices: [imageStart+'numpad-keys'+imageStop],
+    choices: [imageStart+'numpad-keys'+numStop],
     // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
     // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
     // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
