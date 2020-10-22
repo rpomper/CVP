@@ -1,6 +1,6 @@
 left_image1,right_image1,left_image2,right_image2,audio1,audio2,audio1_dur,audio2_dur,condition,target_side,correct_response,background
-venus,neptune,B1,black,bem,there-he,7000,4000,Fam-Food,L,0,black-background
-jupiter,mars,black,C1,manu,there-she,7000,4000,Fam-Veh,R,1,black-background
-mercury,saturn,black,D1,sibu,there-he,7000,4000,Fam-Food,R,1,black-background
-mars,jupiter,H1,black,toma,there-she,7000,4000,Fam-Food,L,0,black-background
-saturn,mercury,J1,black,heab,there-he,7000,4000,Fam-Veh,L,0,black-background
+venus,neptune,B1,neptune,bem,there-he,7000,4000,Fam-Food,L,0,black-background
+jupiter,mars,jupiter,C1,manu,there-she,7000,4000,Fam-Veh,R,1,black-background
+mercury,saturn,mercury,D1,sibu,there-he,7000,4000,Fam-Food,R,1,black-background
+mars,jupiter,H1,jupiter,toma,there-she,7000,4000,Fam-Food,L,0,black-background
+saturn,mercury,J1,mercury,heab,there-he,7000,4000,Fam-Veh,L,0,black-background
