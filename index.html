@@ -194,13 +194,13 @@ function createTrials(data, tabletop) {
 
     var show_planets = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 2000,
+      trial_duration: 7000,
       response_ends_trial: false,
       margin_top: ['0px','0px'],
       margin_bottom: ['0px','0px'],
       margin_left: ['0px','250px'],
       margin_right: ['250px','0px'],
-      // stimulus: audioExt+data[i]['stimulus']+".wav",
+      stimulus: audioExt+data[i]['audio1']+".wav",
       choices: [imageStart+data[i]['left_planet']+imageStop, imageStart+data[i]['right_planet']+imageStop],
     }
 
@@ -209,14 +209,14 @@ function createTrials(data, tabletop) {
 
     var lwl_trial = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 4702,
+      trial_duration: 4000,
       // response_ends_trial: false,
       response_ends_trial: true,
       margin_top: ['0px','0px'],
       margin_bottom: ['0px','0px'],
       margin_left: ['0px','250px'],
       margin_right: ['250px','0px'],
-      // stimulus: audioExt+data[i]['stimulus']+".wav",
+      stimulus: audioExt+data[i]['audio2']+".wav",
       choices: [imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
       set_background:data[i]['background'],
       data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
