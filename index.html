@@ -55,10 +55,23 @@ var trial_order = jsPsych.data.getURLVariable('order')
 // choose csv file
 if (trial_order == "1") {
   var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
+  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv';
 } else if (trial_order == "2") {
   var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 }
 
+
+
+Papa.parse(phonoURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var phono = results.data
+	            console.log(phono)
+              // startExperiment(data);
+	          }
+	        })
 
 Papa.parse(publicSpreadsheetUrl, {
 	          download: true,
@@ -67,9 +80,12 @@ Papa.parse(publicSpreadsheetUrl, {
 	          complete: function(results) {
 	            var data = results.data
 	            console.log(data)
-              startExperiment(data);
+              startExperiment(data,phono);
 	          }
 	        })
+
+
+
 
 // function showInfo(data, tabletop) {
 //   alert('Successfully processed!')
@@ -132,6 +148,7 @@ function createTrials(data, tabletop) {
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
   var numStop= '.jpg"  title = "" width="350" height="450">'
+  var dotStop= '.jpg"  title = "" width="100" height="100">'
 
 
   var intro_teddy = {
@@ -342,9 +359,9 @@ imageExt+'numpad-6.jpg',
 imageExt+'numpad-keys.jpg']
 
 
-function startExperiment(data, tabletop) {
+function startExperiment(data, phono, tabletop) {
 	// createTrials(data,tabletop);
-  createTrials(data);
+  createTrials(data,phono);
 jsPsych.init({
   timeline: timeline,
   // preload_audio:audio,
