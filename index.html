@@ -146,6 +146,7 @@ function createTrials(data, phono, tabletop) {
   timeline.push(wait_to_start);
 
   var expLength = data.length;
+  var phonoLength = phono.length;
   var audioExt="stimuli/sounds/"
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
@@ -245,6 +246,37 @@ function createTrials(data, phono, tabletop) {
   timeline.push(phono_instr)
 
 
+  for (var i = 0; i < phonoLength; i++) {
+
+    var show_trial_num = {
+      type:'html-keyboard-response',
+      stimulus: "<p style='font-size:90px;'>"+phono[i]['tr_num']+"</p>",
+      choices: jsPsych.NO_KEYS,
+      set_background:'black-background',
+      trial_duration: 500
+    }
+
+    timeline.push(show_trial_num)
+
+
+    var test_phono = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['300px','300px','300px'],
+      margin_bottom: ['0px','0px','0px'],
+      margin_left: ['0px','100px','100px'],
+      margin_right: ['0px','0px','0px'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
+      stimulus: audioExt+phono[i]['audio']+".wav",
+      choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+    }
+
+    timeline.push(test_phono)
+
+  }
+
+
   var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
 
   var assemble_ship = {
@@ -272,9 +304,6 @@ function createTrials(data, phono, tabletop) {
       set_background: 'numpad-'+i.toString(),
       stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
       choices: [imageStart+'numpad-keys'+numStop],
-      // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
-      // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
-      // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
     }
 
     timeline.push(num_pad)
@@ -291,33 +320,9 @@ function createTrials(data, phono, tabletop) {
     set_background: 'numpad-6',
     stimulus: 'stimuli/sounds/key-7.wav',
     choices: [imageStart+'numpad-keys'+numStop],
-    // choices: [imageStart+'1'+numStop, imageStart+'2'+numStop,imageStart+'3'+numStop,
-    // imageStart+'4'+numStop,imageStart+'5'+numStop,imageStart+'6'+numStop,
-    // imageStart+'7'+numStop,imageStart+'8'+numStop,imageStart+'9'+numStop],
   }
 
   timeline.push(num_pad_end)
-
-  // var lwl_trials = {
-  //   type: 'audio-button-response-flexiblelocations',
-  //   // trial_duration: 4702,
-  //   // response_ends_trial: false,
-  //   response_ends_trial: true,
-  //   margin_top: ['0px','0px'],
-  //   margin_bottom: ['0px','0px'],
-  //   // margin_left: ['0px','89px'],
-  //   // margin_right: ['89px','0px'],
-  //   margin_left: ['0px','250px'],
-  //   margin_right: ['250px','0px'],
-  //   // set_background:data.background,
-  //   timeline: lwl_stimuli,
-  //   data: jsPsych.timelineVariable('data'),
-  //   on_finish: function(data) {
-  //     data.correct = data.button_pressed == data.correct_response;
-  //   }
-  // }
-  //
-  // timeline.push(lwl_trials);
 
   var fullscreen_exit = {
     type: 'fullscreen',
@@ -358,7 +363,8 @@ imageExt+'numpad-3.jpg',
 imageExt+'numpad-4.jpg',
 imageExt+'numpad-5.jpg',
 imageExt+'numpad-6.jpg',
-imageExt+'numpad-keys.jpg']
+imageExt+'numpad-keys.jpg',
+imageExt+'dot.jpg']
 
 
 function startExperiment(data, phono, tabletop) {
