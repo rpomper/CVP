@@ -54,8 +54,8 @@ var trial_order = jsPsych.data.getURLVariable('order')
 
 // choose csv file
 if (trial_order == "1") {
+  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv',
   var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
-  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv';
 } else if (trial_order == "2") {
   var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 }
@@ -69,11 +69,12 @@ Papa.parse(phonoURL, {
 	          complete: function(results) {
 	            var phono = results.data
 	            console.log(phono)
-              // startExperiment(data);
+              loadTraining(phono);
 	          }
 	        })
 
-Papa.parse(publicSpreadsheetUrl, {
+function loadTraining(phono) {
+  Papa.parse(publicSpreadsheetUrl, {
 	          download: true,
 	          header: true,
             dynamicTyping: true,
@@ -83,6 +84,7 @@ Papa.parse(publicSpreadsheetUrl, {
               startExperiment(data,phono);
 	          }
 	        })
+        }
 
 
 
