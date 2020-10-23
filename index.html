@@ -180,7 +180,7 @@ function createTrials(data, phono, tabletop) {
 
     var show_trial_num = {
       type:'html-keyboard-response',
-      stimulus: "<p style='font-size:90px;'>"+i.toString()+"</p>",
+      stimulus: "<p style='font-size:90px;'>"+data[i]['tr_num']+"</p>",
       choices: jsPsych.NO_KEYS,
       set_background:'black-background',
       trial_duration: 500
