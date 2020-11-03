@@ -177,164 +177,182 @@ function createTrials(data, phono, visuo, tabletop) {
 
   timeline.push(intro_teddy)
 
+// BLOCK PROCEDURE
 
-// TEACHING TRIALS
+  function presentBlock(block_num) {
 
-  for (var i = 0; i < expLength; i++) {
-    // lwl_stimuli.push(
-    // {stimulus: audioExt+data[i]['stimulus']+".wav",
-    // choices:[imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
-    // set_background:data[i]['background'],
-    // data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
-    // iti_tr_num: "Trial"
-    // })
+    teachingStart = 0 + 5*block_num
+    teachingStop = 5 + 5*block_num
+    testStart = 0 + 1*block_num
+    testStop = 1 + 1*block_num
 
-    var show_trial_num = {
-      type:'html-keyboard-response',
-      stimulus: "<p style='font-size:90px;'>"+data[i]['tr_num']+"</p>",
-      choices: jsPsych.NO_KEYS,
-      set_background:'black-background',
-      trial_duration: 500
-    }
+    // TEACHING TRIALS
 
-    timeline.push(show_trial_num)
+      for (var i = teachingStart; i < teachingStop; i++) {
+        // lwl_stimuli.push(
+        // {stimulus: audioExt+data[i]['stimulus']+".wav",
+        // choices:[imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
+        // set_background:data[i]['background'],
+        // data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
+        // iti_tr_num: "Trial"
+        // })
 
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+data[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
 
-    var part_1 = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: data[i]['audio1_dur'],
-      response_ends_trial: false,
-      margin_top: ['0px','0px'],
-      margin_bottom: ['0px','0px'],
-      margin_left: ['0px','250px'],
-      margin_right: ['250px','0px'],
-      // stimulus: audioExt+data[i]['audio1']+".wav",
-      stimulus: audioExt+data[i]['audio1']+".wav",
-      choices: [imageStart+data[i]['left_image1']+imageStop, imageStart+data[i]['right_image1']+imageStop],
-    }
-
-    timeline.push(part_1)
+        timeline.push(show_trial_num)
 
 
-    var part_2 = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: data[i]['audio2_dur'],
-      // response_ends_trial: false,
-      response_ends_trial: true,
-      margin_top: ['0px','0px'],
-      margin_bottom: ['0px','0px'],
-      margin_left: ['0px','250px'],
-      margin_right: ['250px','0px'],
-      stimulus: audioExt+data[i]['audio2']+".wav",
-      choices: [imageStart+data[i]['left_image2']+imageStop, imageStart+data[i]['right_image2']+imageStop],
-      set_background:data[i]['background'],
-      data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
-      post_trial_gap: 500,
-      on_finish: function(data) {
-        data.correct = data.button_pressed == data.correct_response;
+        var part_1 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: data[i]['audio1_dur'],
+          response_ends_trial: false,
+          margin_top: ['0px','0px'],
+          margin_bottom: ['0px','0px'],
+          margin_left: ['0px','250px'],
+          margin_right: ['250px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+data[i]['audio1']+".wav",
+          choices: [imageStart+data[i]['left_image1']+imageStop, imageStart+data[i]['right_image1']+imageStop],
+        }
+
+        timeline.push(part_1)
+
+
+        var part_2 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: data[i]['audio2_dur'],
+          // response_ends_trial: false,
+          response_ends_trial: true,
+          margin_top: ['0px','0px'],
+          margin_bottom: ['0px','0px'],
+          margin_left: ['0px','250px'],
+          margin_right: ['250px','0px'],
+          stimulus: audioExt+data[i]['audio2']+".wav",
+          choices: [imageStart+data[i]['left_image2']+imageStop, imageStart+data[i]['right_image2']+imageStop],
+          set_background:data[i]['background'],
+          data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
+          post_trial_gap: 500,
+          on_finish: function(data) {
+            data.correct = data.button_pressed == data.correct_response;
+          }
+        }
+
+        timeline.push(part_2)
+
       }
-    }
 
-    timeline.push(part_2)
+    // TEST PHONO
 
-  }
+      var phono_instr = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 10000,
+        response_ends_trial: false,
+        margin_top: ['100px'],
+        margin_bottom: ['0px'],
+        margin_left: ['300'],
+        margin_right: ['0px'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
+        stimulus: audioExt+"test-phono-instr.wav",
+        choices: [imageStart+"bear"+imageStop],
+      }
 
-// TEST PHONO
-
-  var phono_instr = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 10000,
-    response_ends_trial: false,
-    margin_top: ['100px'],
-    margin_bottom: ['0px'],
-    margin_left: ['300'],
-    margin_right: ['0px'],
-    // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"test-phono-instr.wav",
-    choices: [imageStart+"bear"+imageStop],
-  }
-
-  timeline.push(phono_instr)
+      timeline.push(phono_instr)
 
 
-  for (var i = 0; i < phonoLength; i++) {
+      for (var i = testStart; i < testStop; i++) {
 
-    var show_trial_num = {
-      type:'html-keyboard-response',
-      stimulus: "<p style='font-size:90px;'>"+phono[i]['tr_num']+"</p>",
-      choices: jsPsych.NO_KEYS,
-      set_background:'black-background',
-      trial_duration: 500
-    }
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+phono[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
 
-    timeline.push(show_trial_num)
-
-
-    var test_phono = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: null,
-      response_ends_trial: true,
-      margin_top: ['300px','300px','300px'],
-      margin_bottom: ['0px','0px','0px'],
-      margin_left: ['0px','200px','200px'],
-      margin_right: ['0px','0px','0px'],
-      // stimulus: audioExt+data[i]['audio1']+".wav",
-      stimulus: audioExt+phono[i]['audio']+".wav",
-      choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
-    }
-
-    timeline.push(test_phono)
-
-  }
+        timeline.push(show_trial_num)
 
 
-// TEST VISUO
+        var test_phono = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['300px','300px','300px'],
+          margin_bottom: ['0px','0px','0px'],
+          margin_left: ['0px','200px','200px'],
+          margin_right: ['0px','0px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+phono[i]['audio']+".wav",
+          choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+        }
 
-  var visuo_instr = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 10000,
-    response_ends_trial: false,
-    margin_top: ['100px'],
-    margin_bottom: ['0px'],
-    margin_left: ['300'],
-    margin_right: ['0px'],
-    // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"test-visuo-instr.wav",
-    choices: [imageStart+"bear"+imageStop],
-  }
+        timeline.push(test_phono)
 
-  timeline.push(visuo_instr)
-
-
-  for (var i = 0; i < visuoLength; i++) {
-
-    var show_trial_num = {
-      type:'html-keyboard-response',
-      stimulus: "<p style='font-size:90px;'>"+visuo[i]['tr_num']+"</p>",
-      choices: jsPsych.NO_KEYS,
-      set_background:'black-background',
-      trial_duration: 500
-    }
-
-    timeline.push(show_trial_num)
+      }
 
 
-    var test_visuo = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: null,
-      response_ends_trial: true,
-      margin_top: ['200px','200px','200px'],
-      margin_bottom: ['0px','0px','0px'],
-      margin_left: ['0px','150px','150px'],
-      margin_right: ['0px','0px','0px'],
-      // stimulus: audioExt+data[i]['audio1']+".wav",
-      stimulus: audioExt+visuo[i]['audio']+".wav",
-      choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
-    }
+    // TEST VISUO
 
-    timeline.push(test_visuo)
+      var visuo_instr = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 10000,
+        response_ends_trial: false,
+        margin_top: ['100px'],
+        margin_bottom: ['0px'],
+        margin_left: ['300'],
+        margin_right: ['0px'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
+        stimulus: audioExt+"test-visuo-instr.wav",
+        choices: [imageStart+"bear"+imageStop],
+      }
+
+      timeline.push(visuo_instr)
+
+
+      for (var i = testStart; i < testStop; i++) {
+
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+visuo[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
+
+        timeline.push(show_trial_num)
+
+
+        var test_visuo = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['200px','200px','200px'],
+          margin_bottom: ['0px','0px','0px'],
+          margin_left: ['0px','150px','150px'],
+          margin_right: ['0px','0px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+visuo[i]['audio']+".wav",
+          choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
+        }
+
+        timeline.push(test_visuo)
+
+      }
+
 
   }
+
+// ITERATE THROUGH BLOCKS
+
+  for (var block_num = 0; block_num < 2; block_num++) {
+    presentBlock(block_num)
+  }
+
 
 // ASSEMBLE SHIP
 
