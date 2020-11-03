@@ -55,7 +55,8 @@ var trial_order = jsPsych.data.getURLVariable('order')
 // choose csv file
 if (trial_order == "1") {
   var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv';
-  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
+  var visuoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Visuo.csv';
+  var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
 } else if (trial_order == "2") {
   var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 }
@@ -69,19 +70,34 @@ Papa.parse(phonoURL, {
 	          complete: function(results) {
 	            var phono = results.data
 	            console.log(phono)
-              loadTraining(phono);
+              loadVisuo(phono);
 	          }
 	        })
 
+
+function loadVisuo(phono) {
+  Papa.parse(visuoURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var visuo = results.data
+	            console.log(visuo)
+              loadTraining(phono,visuo);
+	          }
+	        })
+        }
+
+
 function loadTraining(phono) {
-  Papa.parse(publicSpreadsheetUrl, {
+  Papa.parse(teachingURL, {
 	          download: true,
 	          header: true,
             dynamicTyping: true,
 	          complete: function(results) {
 	            var data = results.data
 	            console.log(data)
-              startExperiment(data,phono);
+              startExperiment(data,phono,visuo);
 	          }
 	        })
         }
@@ -105,17 +121,8 @@ document.body.style.backgroundRepeat = "no-repeat";
 
 var timeline = []
 
-function createTrials(data, phono, tabletop) {
+function createTrials(data, phono, visuo, tabletop) {
 
-  // data = data['Order_'+trial_order]['elements']
-  // console.log(data);
-
-  //stim = tabletop.sheets("stimulus_sheet").toArray()
-
-  // var welcome = {
-  //   type: "html-keyboard-response",
-  //   stimulus: "Welcome to the experiment. Press any key to begin."
-  // };
 
   var welcome = {
     type: "fullscreen",
@@ -147,6 +154,7 @@ function createTrials(data, phono, tabletop) {
 
   var expLength = data.length;
   var phonoLength = phono.length;
+  var visuoLength = visuo.length;
   var audioExt="stimuli/sounds/"
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
@@ -169,6 +177,8 @@ function createTrials(data, phono, tabletop) {
 
   timeline.push(intro_teddy)
 
+
+// TEACHING TRIALS
 
   for (var i = 0; i < expLength; i++) {
     // lwl_stimuli.push(
@@ -229,6 +239,7 @@ function createTrials(data, phono, tabletop) {
 
   }
 
+// TEST PHONO
 
   var phono_instr = {
     type: 'audio-button-response-flexiblelocations',
@@ -239,7 +250,7 @@ function createTrials(data, phono, tabletop) {
     margin_left: ['300'],
     margin_right: ['0px'],
     // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"test-phono.wav",
+    stimulus: audioExt+"test-phono-instr.wav",
     choices: [imageStart+"bear"+imageStop],
   }
 
@@ -273,6 +284,55 @@ function createTrials(data, phono, tabletop) {
     }
 
     timeline.push(test_phono)
+
+  }
+
+
+// TEST VISUO
+
+  var visuo_instr = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 10000,
+    response_ends_trial: false,
+    margin_top: ['100px'],
+    margin_bottom: ['0px'],
+    margin_left: ['300'],
+    margin_right: ['0px'],
+    // stimulus: audioExt+data[i]['audio1']+".wav",
+    stimulus: audioExt+"test-visuo-instr.wav",
+    choices: [imageStart+"bear"+imageStop],
+  }
+
+  timeline.push(visuo_instr)
+
+
+  for (var i = 0; i < visuoLength; i++) {
+
+    var show_trial_num = {
+      type:'html-keyboard-response',
+      stimulus: "<p style='font-size:90px;'>"+visuo[i]['tr_num']+"</p>",
+      choices: jsPsych.NO_KEYS,
+      set_background:'black-background',
+      trial_duration: 500
+    }
+
+    timeline.push(show_trial_num)
+
+
+    var test_visuo = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['300px','300px','300px'],
+      margin_bottom: ['0px','0px','0px'],
+      margin_left: ['0px','200px','200px'],
+      margin_right: ['0px','0px','0px'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
+      stimulus: audioExt+phono[i]['audio']+".wav",
+      choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
+    }
+
+    timeline.push(test_visuo)
 
   }
 
@@ -344,6 +404,26 @@ imageExt+'E1.jpg',
 imageExt+'I1.jpg',
 imageExt+'K1.jpg',
 imageExt+'L1.jpg',
+imageExt+'B2.jpg',
+imageExt+'C2.jpg',
+imageExt+'D2.jpg',
+imageExt+'E2.jpg',
+imageExt+'F2.jpg',
+imageExt+'G2.jpg',
+imageExt+'H2.jpg',
+imageExt+'I2.jpg',
+imageExt+'J2.jpg',
+imageExt+'K2.jpg',
+imageExt+'A3.jpg',
+imageExt+'B3.jpg',
+imageExt+'D3.jpg',
+imageExt+'E3.jpg',
+imageExt+'F3.jpg',
+imageExt+'G3.jpg',
+imageExt+'I3.jpg',
+imageExt+'J3.jpg',
+imageExt+'K3.jpg',
+imageExt+'L3.jpg',
 imageExt+'jupiter.jpg',
 imageExt+'mars.jpg',
 imageExt+'mercury.jpg',
@@ -367,9 +447,9 @@ imageExt+'numpad-keys.jpg',
 imageExt+'dot.jpg']
 
 
-function startExperiment(data, phono, tabletop) {
+function startExperiment(data, phono, visuo, tabletop) {
 	// createTrials(data,tabletop);
-  createTrials(data,phono);
+  createTrials(data,phono,visuo);
 jsPsych.init({
   timeline: timeline,
   // preload_audio:audio,
