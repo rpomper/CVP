@@ -336,6 +336,7 @@ function createTrials(data, phono, visuo, tabletop) {
 
   }
 
+// ASSEMBLE SHIP
 
   var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
 
@@ -351,6 +352,8 @@ function createTrials(data, phono, visuo, tabletop) {
   };
 
   timeline.push(assemble_ship)
+
+// KEYPAD ENTRY
 
   for (var i = 1; i <= 6; i++) {
     var num_pad = {
@@ -383,6 +386,8 @@ function createTrials(data, phono, visuo, tabletop) {
   }
 
   timeline.push(num_pad_end)
+
+// END EXPERIMENT
 
   var fullscreen_exit = {
     type: 'fullscreen',
