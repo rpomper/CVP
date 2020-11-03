@@ -323,12 +323,12 @@ function createTrials(data, phono, visuo, tabletop) {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: null,
       response_ends_trial: true,
-      margin_top: ['300px','300px','300px'],
+      margin_top: ['200px','200px','200px'],
       margin_bottom: ['0px','0px','0px'],
-      margin_left: ['0px','200px','200px'],
+      margin_left: ['0px','150px','150px'],
       margin_right: ['0px','0px','0px'],
       // stimulus: audioExt+data[i]['audio1']+".wav",
-      stimulus: audioExt+phono[i]['audio']+".wav",
+      stimulus: audioExt+visuo[i]['audio']+".wav",
       choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
     }
 
