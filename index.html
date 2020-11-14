@@ -277,6 +277,34 @@ function createTrials(data, phono, visuo, tabletop) {
 
         timeline.push(show_trial_num)
 
+        var test_phono_1 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: 1000,
+          response_ends_trial: false,
+          margin_top: ['300px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          stimulus: audioExt+phono[i]['sound1']+".wav",
+          choices: [imageStart+'dot'+dotStop],
+        }
+
+        timeline.push(test_phono_1)
+
+        var test_phono_2 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: 1000,
+          response_ends_trial: false,
+          margin_top: ['300px','300px'],
+          margin_bottom: ['0px','0px'],
+          margin_left: ['0px','200px'],
+          margin_right: ['0px','0px'],
+          stimulus: audioExt+phono[i]['sound2']+".wav",
+          choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+        }
+
+        timeline.push(test_phono_2)
+
 
         var test_phono = {
           type: 'audio-button-response-flexiblelocations',
@@ -286,8 +314,7 @@ function createTrials(data, phono, visuo, tabletop) {
           margin_bottom: ['0px','0px','0px'],
           margin_left: ['0px','200px','200px'],
           margin_right: ['0px','0px','0px'],
-          // stimulus: audioExt+data[i]['audio1']+".wav",
-          stimulus: audioExt+phono[i]['audio']+".wav",
+          stimulus: audioExt+phono[i]['sound3']+".wav",
           choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
         }
 

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PreFam</title>
+  <meta charset="utf-8"/>
+  <script src="jspsych-6.1.0/jspsych.js"> </script>
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-free-sort.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+  <!-- <script src="jspsych-6.1.0/papaparse.min.js"></script>  -->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script> -->
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response-flexiblelocations.js"></script>
+  <!--<script src="jspsych-6.1.0/google-spreadsheet.js"></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
+  <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css",type="text/css"> </link>
+  <link href="css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  <style>
+  div.absolute {
+    position: absolute;
+    left: 10px;
+    right:0px;
+    top:10px;
+    border: 3px solid #73AD21;
+  }
+  </style>
+</head>
+<body>
+  <div id="PreFam"></div>
+</body>
+
+<script>
+
+
+// $('body,html').addClass('stop-scrolling');
+//$('body').bind('touchmove', function(e){e.preventDefault()})
+
+
+//Enter subject id
+//var subject_id = prompt("Enter subject id", "test");
+//var trial_order = prompt("Order (1-2)","1");
+var subject_id = jsPsych.data.getURLVariable('sub')
+var trial_order = jsPsych.data.getURLVariable('order')
+
+// var input = prompt("Enter input type (touch or click)","touch");
+
+// jsPsych.data.addProperties({
+// 	subject: subject_id,
+// 	order: trial_order
+// });
+
+// choose csv file
+if (trial_order == "1") {
+  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv';
+  var visuoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Visuo.csv';
+  var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
+} else if (trial_order == "2") {
+  var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
+}
+
+
+
+Papa.parse(phonoURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var phono = results.data
+	            console.log(phono)
+              loadVisuo(phono);
+	          }
+	        })
+
+
+function loadVisuo(phono) {
+  Papa.parse(visuoURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var visuo = results.data
+	            console.log(visuo)
+              loadTraining(phono,visuo);
+	          }
+	        })
+        }
+
+
+function loadTraining(phono,visuo) {
+  Papa.parse(teachingURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var data = results.data
+	            console.log(data)
+              startExperiment(data,phono,visuo);
+	          }
+	        })
+        }
+
+
+
+
+// function showInfo(data, tabletop) {
+//   alert('Successfully processed!')
+//   console.log(data);
+// }
+
+// window.addEventListener('DOMContentLoaded', init)
+
+document.body.style.backgroundColor = "black";
+// document.body.style.backgroundImage = "url('stimuli/images/black-background.jpg')";
+document.body.style.backgroundSize = "100%";
+document.body.style.backgroundPosition = "top";
+document.body.style.backgroundRepeat = "no-repeat";
+
+
+var timeline = []
+
+function createTrials(data, phono, visuo, tabletop) {
+
+
+  var welcome = {
+    type: "fullscreen",
+    // fullscreen_mode: false,
+    message: "<br><br><br><p>Subject: "+subject_id.toString()+"</p><p>Order: "+trial_order.toString()+"</p><br>",
+    button_label: "Click Here",
+    delay_after: 250
+  }
+
+  // timeline.push(welcome);
+
+  // var audio_test = {
+  //   type: "audio-keyboard-response",
+  //   stimulus:"stimuli/sounds/audio_check.wav",
+  //   choices:['space'],
+  //   prompt: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> Please adjust the volume on your computer <br> so that your child can comfortably hear the sounds being played. <br> Sounds should be as loud as a person's voice in the room. <br><br><br> Please tell the experimenter when you are ready.</br> </p>"
+  // }
+  //
+  // timeline.push(audio_test);
+
+  var wait_to_start = {
+    type: "html-keyboard-response",
+    // fullscreen_mode: false,
+    choices:['space'],
+    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, press the space bar to begin.</br> </p>"
+  }
+
+  timeline.push(wait_to_start);
+
+  var expLength = data.length;
+  var phonoLength = phono.length;
+  var visuoLength = visuo.length;
+  var audioExt="stimuli/sounds/"
+  var imageStart='<img src= "stimuli/images/'
+  var imageStop= '.jpg"  title = "" width="300" height="300">'
+  var numStop= '.jpg"  title = "" width="350" height="450">'
+  var dotStop= '.jpg"  title = "" width="100" height="100">'
+
+
+  var intro_teddy = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 10000,
+    response_ends_trial: false,
+    margin_top: ['0px','0px'],
+    margin_bottom: ['0px','0px'],
+    margin_left: ['0px','250px'],
+    margin_right: ['250px','0px'],
+    // stimulus: audioExt+data[i]['audio1']+".wav",
+    stimulus: audioExt+"intro.wav",
+    choices: [imageStart+"bear"+imageStop, imageStart+"earth"+imageStop],
+  }
+
+  timeline.push(intro_teddy)
+
+// BLOCK PROCEDURE
+
+  function presentBlock(block_num) {
+
+    teachingStart = 0 + 5*block_num
+    teachingStop = 5 + 5*block_num
+    testStart = 0 + 1*block_num
+    testStop = 1 + 1*block_num
+
+    // TEACHING TRIALS
+
+      for (var i = teachingStart; i < teachingStop; i++) {
+        // lwl_stimuli.push(
+        // {stimulus: audioExt+data[i]['stimulus']+".wav",
+        // choices:[imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
+        // set_background:data[i]['background'],
+        // data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
+        // iti_tr_num: "Trial"
+        // })
+
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+data[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
+
+        timeline.push(show_trial_num)
+
+
+        var part_1 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: data[i]['audio1_dur'],
+          response_ends_trial: false,
+          margin_top: ['0px','0px'],
+          margin_bottom: ['0px','0px'],
+          margin_left: ['0px','250px'],
+          margin_right: ['250px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+data[i]['audio1']+".wav",
+          choices: [imageStart+data[i]['left_image1']+imageStop, imageStart+data[i]['right_image1']+imageStop],
+        }
+
+        timeline.push(part_1)
+
+
+        var part_2 = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: data[i]['audio2_dur'],
+          // response_ends_trial: false,
+          response_ends_trial: true,
+          margin_top: ['0px','0px'],
+          margin_bottom: ['0px','0px'],
+          margin_left: ['0px','250px'],
+          margin_right: ['250px','0px'],
+          stimulus: audioExt+data[i]['audio2']+".wav",
+          choices: [imageStart+data[i]['left_image2']+imageStop, imageStart+data[i]['right_image2']+imageStop],
+          set_background:data[i]['background'],
+          data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
+          post_trial_gap: 500,
+          on_finish: function(data) {
+            data.correct = data.button_pressed == data.correct_response;
+          }
+        }
+
+        timeline.push(part_2)
+
+      }
+
+    // TEST PHONO
+
+      var phono_instr = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 10000,
+        response_ends_trial: false,
+        margin_top: ['100px'],
+        margin_bottom: ['0px'],
+        margin_left: ['300'],
+        margin_right: ['0px'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
+        stimulus: audioExt+"test-phono-instr.wav",
+        choices: [imageStart+"bear"+imageStop],
+      }
+
+      timeline.push(phono_instr)
+
+
+      for (var i = testStart; i < testStop; i++) {
+
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+phono[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
+
+        timeline.push(show_trial_num)
+
+
+        var test_phono = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['300px','300px','300px'],
+          margin_bottom: ['0px','0px','0px'],
+          margin_left: ['0px','200px','200px'],
+          margin_right: ['0px','0px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+phono[i]['audio']+".wav",
+          choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+        }
+
+        timeline.push(test_phono)
+
+      }
+
+
+    // TEST VISUO
+
+      var visuo_instr = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 10000,
+        response_ends_trial: false,
+        margin_top: ['100px'],
+        margin_bottom: ['0px'],
+        margin_left: ['300'],
+        margin_right: ['0px'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
+        stimulus: audioExt+"test-visuo-instr.wav",
+        choices: [imageStart+"bear"+imageStop],
+      }
+
+      timeline.push(visuo_instr)
+
+
+      for (var i = testStart; i < testStop; i++) {
+
+        var show_trial_num = {
+          type:'html-keyboard-response',
+          stimulus: "<p style='font-size:90px;'>"+visuo[i]['tr_num']+"</p>",
+          choices: jsPsych.NO_KEYS,
+          set_background:'black-background',
+          trial_duration: 500
+        }
+
+        timeline.push(show_trial_num)
+
+
+        var test_visuo = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['200px','200px','200px'],
+          margin_bottom: ['0px','0px','0px'],
+          margin_left: ['0px','150px','150px'],
+          margin_right: ['0px','0px','0px'],
+          // stimulus: audioExt+data[i]['audio1']+".wav",
+          stimulus: audioExt+visuo[i]['audio']+".wav",
+          choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
+        }
+
+        timeline.push(test_visuo)
+
+      }
+
+
+  }
+
+// ITERATE THROUGH BLOCKS
+
+  for (var block_num = 0; block_num < 2; block_num++) {
+    presentBlock(block_num)
+  }
+
+
+// ASSEMBLE SHIP
+
+  var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
+
+  var assemble_ship = {
+    type: 'free-sort',
+    stimuli: spaceship_parts,
+    stim_height: 150,
+    stim_width: 150,
+    sort_area_height: 500,
+    sort_area_width: 800,
+    set_background:'launch-pad-background',
+    prompt: "<p>Help Bear build their space ship. Click and drag the pieces of the ship to the launch pad.</p>"
+  };
+
+  timeline.push(assemble_ship)
+
+// KEYPAD ENTRY
+
+  for (var i = 1; i <= 6; i++) {
+    var num_pad = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'numpad-'+i.toString(),
+      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad)
+  }
+
+  var num_pad_end = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 500,
+    response_ends_trial: false,
+    margin_top: ['100px'],
+    margin_bottom: ['0px'],
+    margin_left: ['300'],
+    margin_right: ['0px'],
+    set_background: 'numpad-6',
+    stimulus: 'stimuli/sounds/key-7.wav',
+    choices: [imageStart+'numpad-keys'+numStop],
+  }
+
+  timeline.push(num_pad_end)
+
+// END EXPERIMENT
+
+  var fullscreen_exit = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+  }
+  timeline.push(fullscreen_exit)
+};
+
+
+var imageExt = 'stimuli/images/'
+
+var images = [imageExt+'B1.jpg',
+imageExt+'C1.jpg',
+imageExt+'D1.jpg',
+imageExt+'H1.jpg',
+imageExt+'J1.jpg',
+imageExt+'A1.jpg',
+imageExt+'E1.jpg',
+imageExt+'I1.jpg',
+imageExt+'K1.jpg',
+imageExt+'L1.jpg',
+imageExt+'B2.jpg',
+imageExt+'C2.jpg',
+imageExt+'D2.jpg',
+imageExt+'E2.jpg',
+imageExt+'F2.jpg',
+imageExt+'G2.jpg',
+imageExt+'H2.jpg',
+imageExt+'I2.jpg',
+imageExt+'J2.jpg',
+imageExt+'K2.jpg',
+imageExt+'A3.jpg',
+imageExt+'B3.jpg',
+imageExt+'D3.jpg',
+imageExt+'E3.jpg',
+imageExt+'F3.jpg',
+imageExt+'G3.jpg',
+imageExt+'I3.jpg',
+imageExt+'J3.jpg',
+imageExt+'K3.jpg',
+imageExt+'L3.jpg',
+imageExt+'jupiter.jpg',
+imageExt+'mars.jpg',
+imageExt+'mercury.jpg',
+imageExt+'neptune.jpg',
+imageExt+'saturn.jpg',
+imageExt+'venus.jpg',
+imageExt+'black.jpg',
+imageExt+'black-background.jpg',
+imageExt+'launch-pad-background.jpg',
+imageExt+'launch-pad-ship-background.jpg',
+imageExt+'spaceship-1.jpg',
+imageExt+'spaceship-2.jpg',
+imageExt+'spaceship-3.jpg',
+imageExt+'numpad-1.jpg',
+imageExt+'numpad-2.jpg',
+imageExt+'numpad-3.jpg',
+imageExt+'numpad-4.jpg',
+imageExt+'numpad-5.jpg',
+imageExt+'numpad-6.jpg',
+imageExt+'numpad-keys.jpg',
+imageExt+'dot.jpg']
+
+
+function startExperiment(data, phono, visuo, tabletop) {
+	// createTrials(data,tabletop);
+  createTrials(data,phono,visuo);
+jsPsych.init({
+  timeline: timeline,
+  // preload_audio:audio,
+  preload_images:images,
+  default_iti:0,
+  on_finish: function() {
+    //jsPsych.data.displayData();
+    // save_data('yumME','V1',subject_id, jsPsych.data.dataAsCSV());
+  }
+});
+};
+
+// function save_data(experiment, version,identifier, data){
+// 	$.ajax({
+// 		type: 'post',
+// 		cache: false,
+// 		url: 'https://data.infantlearning.waisman.wisc.edu/infantdb/datastore/save/',
+// 		data: {
+// 			experiment: experiment,
+// 	version: version,
+// 			identifier: identifier,
+// 			data: data
+// 		}
+// 	})
+// };
+
+
+</script>
+
+</html>
