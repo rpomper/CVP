@@ -179,6 +179,22 @@ function createTrials(data, phono, visuo, tabletop) {
 
   timeline.push(intro_teddy)
 
+
+  var lever = {
+    type: 'html-slider-response',
+    stimulus: '<p>Running</p>',
+    labels: ['1', '2','3','4','5'],
+    slider_start: 1,
+    min:1,
+    max:5,
+    step:1,
+    button_label: 'OK',
+    slider_width: 400,
+    prompt: "<p>                    ^        </p>"
+  };
+
+  timeline.push(lever)
+
 // BLOCK PROCEDURE
 
   function presentBlock(block_num) {
