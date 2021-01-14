@@ -13,6 +13,7 @@
   <!-- <script src="jspsych-6.1.0/papaparse.min.js"></script>  -->
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script> -->
   <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response-flexiblelocations.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
   <!--<script src="jspsych-6.1.0/google-spreadsheet.js"></script> -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
@@ -164,22 +165,6 @@ function createTrials(data, phono, visuo, tabletop) {
   var dotStop= '.jpg"  title = "" width="100" height="100">'
 
 
-  var intro_teddy = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 10000,
-    response_ends_trial: false,
-    margin_top: ['0px','0px'],
-    margin_bottom: ['0px','0px'],
-    margin_left: ['0px','250px'],
-    margin_right: ['250px','0px'],
-    // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"intro.wav",
-    choices: [imageStart+"bear"+imageStop, imageStart+"earth"+imageStop],
-  }
-
-  timeline.push(intro_teddy)
-
-
   var lever = {
     type: 'html-slider-response',
     stimulus: '<p>Running</p>',
@@ -194,6 +179,22 @@ function createTrials(data, phono, visuo, tabletop) {
   };
 
   timeline.push(lever)
+
+
+  var intro_teddy = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 10000,
+    response_ends_trial: false,
+    margin_top: ['0px','0px'],
+    margin_bottom: ['0px','0px'],
+    margin_left: ['0px','250px'],
+    margin_right: ['250px','0px'],
+    // stimulus: audioExt+data[i]['audio1']+".wav",
+    stimulus: audioExt+"intro.wav",
+    choices: [imageStart+"bear"+imageStop, imageStart+"earth"+imageStop],
+  }
+
+  timeline.push(intro_teddy)
 
 // BLOCK PROCEDURE
 
