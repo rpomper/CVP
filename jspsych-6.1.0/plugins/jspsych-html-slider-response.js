@@ -109,6 +109,7 @@ jsPsych.plugins['html-slider-response'] = (function() {
   plugin.trial = function(display_element, trial) {
 
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+    document.body.style.backgroundSize = "auto";
 
     var html = '<div id="jspsych-html-slider-response-wrapper" style="margin: 100px 0px;">';
     html += '<div id="jspsych-html-slider-response-stimulus">' + trial.stimulus + '</div>';
