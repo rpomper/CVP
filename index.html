@@ -167,7 +167,7 @@ function createTrials(data, phono, visuo, tabletop) {
 
   var lever = {
     type: 'html-slider-response',
-    stimulus: '<p>Running</p>',
+    stimulus: '',
     labels: ['1', '2','3','4','5'],
     slider_start: 1,
     min:1,
@@ -175,7 +175,8 @@ function createTrials(data, phono, visuo, tabletop) {
     step:1,
     button_label: 'OK',
     slider_width: 400,
-    prompt: "<p>                    ^        </p>"
+    set_background: "control-panel",
+    prompt: " "
   };
 
   timeline.push(lever)

@@ -91,12 +91,6 @@ jsPsych.plugins['html-slider-response'] = (function() {
         default: null,
         description: 'How long to show the trial.'
       },
-      set_background: {
-        type: jsPsych.plugins.parameterType.STRING,
-        pretty_name: 'Assign background image',
-        default: 'black-background',
-        description: 'The path and file name for images to be displayed as background'
-      },
       response_ends_trial: {
         type: jsPsych.plugins.parameterType.BOOL,
         pretty_name: 'Response ends trial',
@@ -107,8 +101,6 @@ jsPsych.plugins['html-slider-response'] = (function() {
   }
 
   plugin.trial = function(display_element, trial) {
-
-    document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
 
     var html = '<div id="jspsych-html-slider-response-wrapper" style="margin: 100px 0px;">';
     html += '<div id="jspsych-html-slider-response-stimulus">' + trial.stimulus + '</div>';
@@ -143,7 +135,7 @@ jsPsych.plugins['html-slider-response'] = (function() {
       rt: null,
       response: null
     };
-
+    
     if(trial.require_movement){
       display_element.querySelector('#jspsych-html-slider-response-response').addEventListener('change', function(){
         display_element.querySelector('#jspsych-html-slider-response-next').disabled = false;
