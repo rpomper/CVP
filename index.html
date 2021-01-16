@@ -209,9 +209,9 @@ function createTrials(data, phono, visuo, tabletop) {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: null,
       response_ends_trial: true,
-      margin_top: ['100px'],
+      margin_top: ['150px'],
       margin_bottom: ['0px'],
-      margin_left: ['300'],
+      margin_left: ['0px'],
       margin_right: ['0px'],
       set_background: 'control-panel-route',
       stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
@@ -237,26 +237,7 @@ function createTrials(data, phono, visuo, tabletop) {
 
   timeline.push(route_stop)
 
-
-
-    var num_pad_end = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: 500,
-      response_ends_trial: false,
-      margin_top: ['100px'],
-      margin_bottom: ['0px'],
-      margin_left: ['300'],
-      margin_right: ['0px'],
-      set_background: 'numpad-6',
-      stimulus: 'stimuli/sounds/key-7.wav',
-      choices: [imageStart+'numpad-keys'+numStop],
-    }
-
-    timeline.push(num_pad_end)
-
-
-
-  var intro_teddy = {
+  var intro_mae = {
     type: 'audio-button-response-flexiblelocations',
     trial_duration: 10000,
     response_ends_trial: false,
@@ -265,8 +246,8 @@ function createTrials(data, phono, visuo, tabletop) {
     margin_left: ['0px','250px'],
     margin_right: ['250px','0px'],
     // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"intro.wav",
-    choices: [imageStart+"bear"+imageStop, imageStart+"earth"+imageStop],
+    stimulus: audioExt+"instruct-start.wav",
+    choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
   }
 
   timeline.push(intro_teddy)
