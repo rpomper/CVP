@@ -63,6 +63,13 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         default: false,
         description: 'If true, the participant will have to move the slider before continuing.'
       },
+			// RON
+			top_prompt: {
+				type: jsPsych.plugins.parameterType.HTML_STRING,
+				pretty_name: 'Top prompt',
+				default: undefined,
+				description: 'The HTML string to be displayed aboe the slider'
+			},
       prompt: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Prompt',
@@ -75,6 +82,13 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         default: null,
         description: 'How long to show the trial.'
       },
+			// RON
+			set_background: {
+				type: jsPsych.plugins.parameterType.STRING,
+				pretty_name: 'Assign background image',
+				default: 'black-background',
+				description: 'The path and file name for images to be displayed as background'
+			},
       response_ends_trial: {
         type: jsPsych.plugins.parameterType.BOOL,
         pretty_name: 'Response ends trial',
@@ -85,6 +99,10 @@ jsPsych.plugins['audio-slider-response'] = (function() {
   }
 
   plugin.trial = function(display_element, trial) {
+
+		// RON
+		document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+		document.body.style.backgroundSize = "auto";
 
     // setup stimulus
     var context = jsPsych.pluginAPI.audioContext();
@@ -109,7 +127,9 @@ jsPsych.plugins['audio-slider-response'] = (function() {
     }
 
     var html = '<div id="jspsych-audio-slider-response-wrapper" style="margin: 100px 0px;">';
-  	html += '<div class="jspsych-audio-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
+		// RON
+		html += '<div id="jspsych-html-slider-response-topprompt">' + trial.top_prompt + '</div>';
+		html += '<div class="jspsych-audio-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
     if(trial.slider_width !== null){
       html += 'width:'+trial.slider_width+'px;';
     }

@@ -13,7 +13,7 @@
   <!-- <script src="jspsych-6.1.0/papaparse.min.js"></script>  -->
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script> -->
   <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response-flexiblelocations.js"></script>
-  <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-slider-response.js"></script>
   <!--<script src="jspsych-6.1.0/google-spreadsheet.js"></script> -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
@@ -163,11 +163,15 @@ function createTrials(data, phono, visuo, tabletop) {
   var imageStop= '.jpg"  title = "" width="300" height="300">'
   var numStop= '.jpg"  title = "" width="350" height="450">'
   var dotStop= '.jpg"  title = "" width="100" height="100">'
+  var spaceStop= '.jpg"  title = "" width="800" height="218">'
 
+
+  // LEVER MINI-GAME
 
   var lever = {
-    type: 'html-slider-response',
-    stimulus: '<br><br> </br>',
+    type: 'audio-slider-response',
+    top_prompt: '<br><br> </br>',
+    stimulus: 'stimuli/sounds/instruct-4-turnon'
     labels: ['1', '2','3','4','5'],
     slider_start: 1,
     min:1,
@@ -180,6 +184,76 @@ function createTrials(data, phono, visuo, tabletop) {
   };
 
   timeline.push(lever)
+
+
+
+  // PLOT ROUTE MINI-GAME
+
+  var route_start = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: null,
+    response_ends_trial: true,
+    margin_top: ['150px'],
+    margin_bottom: ['0px'],
+    margin_left: ['0px'],
+    margin_right: ['0px'],
+    set_background: 'control-panel-route',
+    stimulus: 'stimuli/sounds/instruct-5-route.wav',
+    choices: [imageStart+'space-1'+spaceStop],
+  }
+
+  timeline.push(route_start)
+
+  for (var i = 2; i <= 3; i++) {
+    var route = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'control-panel-route',
+      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      choices: [imageStart+'space-'+i.toString()+spaceStop],
+    }
+
+    timeline.push(route)
+  }
+
+
+  var route_stop = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 1000,
+    response_ends_trial: true,
+    margin_top: ['150px'],
+    margin_bottom: ['0px'],
+    margin_left: ['0px'],
+    margin_right: ['0px'],
+    set_background: 'control-panel-route',
+    stimulus: 'stimuli/sounds/key-4.wav',
+    choices: [imageStart+'space-4'+spaceStop],
+  }
+
+  timeline.push(route_stop)
+
+
+
+    var num_pad_end = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 500,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'numpad-6',
+      stimulus: 'stimuli/sounds/key-7.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad_end)
+
 
 
   var intro_teddy = {
