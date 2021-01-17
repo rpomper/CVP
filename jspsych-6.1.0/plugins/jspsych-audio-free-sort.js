@@ -96,10 +96,10 @@ jsPsych.plugins['audio-free-sort'] = (function() {
     var context = jsPsych.pluginAPI.audioContext();
     if(context !== null){
       var source = context.createBufferSource();
-      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.audio);
+      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.sound);
       source.connect(context.destination);
     } else {
-      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.audio);
+      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.sound);
       audio.currentTime = 0;
     }
 
