@@ -221,7 +221,6 @@ function createTrials(data, phono, visuo, tabletop) {
     timeline.push(route)
   }
 
-
   var route_stop = {
     type: 'audio-button-response-flexiblelocations',
     trial_duration: 1000,
@@ -232,6 +231,38 @@ function createTrials(data, phono, visuo, tabletop) {
     margin_right: ['0px'],
     set_background: 'control-panel-route',
     stimulus: 'stimuli/sounds/key-4.wav',
+    choices: [imageStart+'space-4'+spaceStop],
+  }
+
+  timeline.push(route_stop)
+
+  for (var i = 5; i <= 7; i++) {
+    var route = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: null,
+      response_ends_trial: true,
+      margin_top: ['150px'],
+      margin_bottom: ['0px'],
+      margin_left: ['0px'],
+      margin_right: ['0px'],
+      set_background: 'control-panel-route',
+      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      choices: [imageStart+'space-'+i.toString()+spaceStop],
+    }
+
+    timeline.push(route)
+  }
+
+  var route_stop = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: 1000,
+    response_ends_trial: true,
+    margin_top: ['150px'],
+    margin_bottom: ['0px'],
+    margin_left: ['0px'],
+    margin_right: ['0px'],
+    set_background: 'control-panel-route',
+    stimulus: 'stimuli/sounds/key-8.wav',
     choices: [imageStart+'space-4'+spaceStop],
   }
 
