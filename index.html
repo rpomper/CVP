@@ -166,6 +166,76 @@ function createTrials(data, phono, visuo, tabletop) {
   var spaceStop= '.jpg"  title = "" width="800" height="218">'
 
 
+
+  // ASSEMBLE SHIP
+
+    var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
+
+    var assemble_ship = {
+      type: 'free-sort',
+      stimuli: spaceship_parts,
+      stim_height: 150,
+      stim_width: 150,
+      sort_area_height: 500,
+      sort_area_width: 800,
+      set_background:'launch-pad-background',
+      prompt: "<p>Help Bear build their space ship. Click and drag the pieces of the ship to the launch pad.</p>"
+    };
+
+    timeline.push(assemble_ship)
+
+  // KEYPAD ENTRY
+
+    for (var i = 1; i <= 6; i++) {
+      var num_pad = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['100px'],
+        margin_bottom: ['0px'],
+        margin_left: ['300'],
+        margin_right: ['0px'],
+        set_background: 'numpad-'+i.toString(),
+        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+        choices: [imageStart+'numpad-keys'+numStop],
+      }
+
+      timeline.push(num_pad)
+    }
+
+    var num_pad_end = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 500,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'numpad-6',
+      stimulus: 'stimuli/sounds/key-7.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad_end)
+
+
+  // LUGGAGE MINI-GAME
+
+    var items = ['stimuli/images/luggage-1.jpg','stimuli/images/luggage-2.jpg','stimuli/images/luggage-3.jpg','stimuli/images/newspaper.jpg','stimuli/images/plastic-bag.jpg']
+
+    var load_ship = {
+      type: 'free-sort',
+      stimuli: items,
+      // stim_height: 150,
+      // stim_width: 150,
+      sort_area_height: 500,
+      sort_area_width: 800,
+      set_background:'launch-pad-background',
+      prompt: "<p>Help Mae load her space ship. Click and drag the pieces of the ship to the launch pad.</p>"
+    };
+
+    timeline.push(load_ship)
+
   // LEVER MINI-GAME
 
   var lever = {
@@ -207,7 +277,6 @@ function createTrials(data, phono, visuo, tabletop) {
   }
 
 
-
   // PLOT ROUTE MINI-GAME
 
   var route_start = {
@@ -235,7 +304,7 @@ function createTrials(data, phono, visuo, tabletop) {
       margin_left: ['0px'],
       margin_right: ['0px'],
       set_background: 'control-panel-route',
-      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      stimulus: 'stimuli/sounds/key-2.wav',
       choices: [imageStart+'space-'+i.toString()+spaceStop],
     }
 
@@ -251,7 +320,7 @@ function createTrials(data, phono, visuo, tabletop) {
     margin_left: ['0px'],
     margin_right: ['0px'],
     set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/key-4.wav',
+    stimulus: 'stimuli/sounds/key-2.wav',
     choices: [imageStart+'space-4'+spaceStop],
   }
 
@@ -282,7 +351,7 @@ function createTrials(data, phono, visuo, tabletop) {
       margin_left: ['0px'],
       margin_right: ['0px'],
       set_background: 'control-panel-route',
-      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      stimulus: 'stimuli/sounds/key-2.wav',
       choices: [imageStart+'space-'+i.toString()+spaceStop],
     }
 
@@ -298,7 +367,7 @@ function createTrials(data, phono, visuo, tabletop) {
     margin_left: ['0px'],
     margin_right: ['0px'],
     set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/key-7.wav',
+    stimulus: 'stimuli/sounds/key-2.wav',
     choices: [imageStart+'space-8'+spaceStop],
   }
 
@@ -528,58 +597,6 @@ function createTrials(data, phono, visuo, tabletop) {
     presentBlock(block_num)
   }
 
-
-// ASSEMBLE SHIP
-
-  var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
-
-  var assemble_ship = {
-    type: 'free-sort',
-    stimuli: spaceship_parts,
-    stim_height: 150,
-    stim_width: 150,
-    sort_area_height: 500,
-    sort_area_width: 800,
-    set_background:'launch-pad-background',
-    prompt: "<p>Help Bear build their space ship. Click and drag the pieces of the ship to the launch pad.</p>"
-  };
-
-  timeline.push(assemble_ship)
-
-// KEYPAD ENTRY
-
-  for (var i = 1; i <= 6; i++) {
-    var num_pad = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: null,
-      response_ends_trial: true,
-      margin_top: ['100px'],
-      margin_bottom: ['0px'],
-      margin_left: ['300'],
-      margin_right: ['0px'],
-      set_background: 'numpad-'+i.toString(),
-      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
-      choices: [imageStart+'numpad-keys'+numStop],
-    }
-
-    timeline.push(num_pad)
-  }
-
-  var num_pad_end = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 500,
-    response_ends_trial: false,
-    margin_top: ['100px'],
-    margin_bottom: ['0px'],
-    margin_left: ['300'],
-    margin_right: ['0px'],
-    set_background: 'numpad-6',
-    stimulus: 'stimuli/sounds/key-7.wav',
-    choices: [imageStart+'numpad-keys'+numStop],
-  }
-
-  timeline.push(num_pad_end)
-
 // END EXPERIMENT
 
   var fullscreen_exit = {
@@ -622,12 +639,14 @@ imageExt+'I3.jpg',
 imageExt+'J3.jpg',
 imageExt+'K3.jpg',
 imageExt+'L3.jpg',
-imageExt+'jupiter.jpg',
-imageExt+'mars.jpg',
 imageExt+'mercury.jpg',
-imageExt+'neptune.jpg',
-imageExt+'saturn.jpg',
 imageExt+'venus.jpg',
+imageExt+'earth.jpg',
+imageExt+'mars.jpg',
+imageExt+'jupiter.jpg',
+imageExt+'saturn.jpg',
+imageExt+'neptune.jpg',
+imageExt+'mae.jpg',
 imageExt+'black.jpg',
 imageExt+'black-background.jpg',
 imageExt+'launch-pad-background.jpg',
@@ -635,6 +654,11 @@ imageExt+'launch-pad-ship-background.jpg',
 imageExt+'spaceship-1.jpg',
 imageExt+'spaceship-2.jpg',
 imageExt+'spaceship-3.jpg',
+imageExt+'luggage-1.jpg',
+imageExt+'luggage-2.jpg',
+imageExt+'luggage-3.jpg',
+imageExt+'newspaper.jpg',
+imageExt+'plastic-bag.jpg',
 imageExt+'numpad-1.jpg',
 imageExt+'numpad-2.jpg',
 imageExt+'numpad-3.jpg',
@@ -642,7 +666,21 @@ imageExt+'numpad-4.jpg',
 imageExt+'numpad-5.jpg',
 imageExt+'numpad-6.jpg',
 imageExt+'numpad-keys.jpg',
-imageExt+'dot.jpg']
+imageExt+'dot.jpg',
+imageExt+'space-1.jpg',
+imageExt+'space-2.jpg',
+imageExt+'space-3.jpg',
+imageExt+'space-4.jpg',
+imageExt+'space-5.jpg',
+imageExt+'space-6.jpg',
+imageExt+'space-7.jpg',
+imageExt+'space-8.jpg',
+imageExt+'space-1.jpg',
+imageExt+'control-panel-1.jpg',
+imageExt+'control-panel-2.jpg',
+imageExt+'control-panel-3.jpg',
+imageExt+'control-panel-4.jpg',
+imageExt+'control-panel-5.jpg']
 
 
 function startExperiment(data, phono, visuo, tabletop) {
