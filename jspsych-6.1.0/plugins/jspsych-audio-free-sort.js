@@ -75,6 +75,12 @@ jsPsych.plugins['audio-free-sort'] = (function() {
         description: 'The text that appears on the button to continue to the next trial.'
       },
       // ron
+      trial_ends_after_audio: {
+        type: jsPsych.plugins.parameterType.BOOL,
+        pretty_name: 'Trial ends after audio',
+        default: false,
+        description: 'If true, then the trial will end as soon as the audio file finishes playing.'
+      },
       set_background: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Assign background image',
