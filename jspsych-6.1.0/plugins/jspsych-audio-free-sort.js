@@ -156,14 +156,6 @@ jsPsych.plugins['audio-free-sort'] = (function() {
 
     display_element.innerHTML += '<button id="jspsych-free-sort-done-btn" class="jspsych-btn">'+trial.button_label+'</button>';
 
-    // start audio - RON
-    if(context !== null){
-      startTime = context.currentTime;
-      source.start(startTime);
-    } else {
-      audio.play();
-    }
-
     var maxz = 1;
 
     var moves = [];
@@ -198,6 +190,9 @@ jsPsych.plugins['audio-free-sort'] = (function() {
 
     display_element.querySelector('#jspsych-free-sort-done-btn').addEventListener('click', function(){
 
+      // kill any remaining setTimeout handlers
+      jsPsych.pluginAPI.clearAllTimeouts();
+
       // RON
       // stop the audio file if it is playing
       // remove end event listeners if they exist
@@ -208,9 +203,6 @@ jsPsych.plugins['audio-free-sort'] = (function() {
         audio.pause();
         audio.removeEventListener('ended', end_trial);
       }
-
-      // kill any remaining setTimeout handlers
-      jsPsych.pluginAPI.clearAllTimeouts();
 
 
       var end_time = performance.now();
@@ -238,6 +230,17 @@ jsPsych.plugins['audio-free-sort'] = (function() {
       display_element.innerHTML = '';
       jsPsych.finishTrial(trial_data);
     });
+
+
+    // start audio - RON
+    var startTime = performance.now();
+
+    if(context !== null){
+      startTime = context.currentTime;
+      source.start(startTime);
+    } else {
+      audio.play();
+    }
 
   };
 
