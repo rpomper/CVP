@@ -188,6 +188,21 @@ function createTrials(data, phono, visuo, tabletop) {
 
   // KEYPAD ENTRY
 
+    var num_pad_start = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 6500,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      set_background: 'numpad-1',
+      stimulus: 'stimuli/sounds/instruct-2-unlock.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad_start)
+
     for (var i = 1; i <= 6; i++) {
       var num_pad = {
         type: 'audio-button-response-flexiblelocations',
