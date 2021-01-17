@@ -179,11 +179,32 @@ function createTrials(data, phono, visuo, tabletop) {
     step:1,
     button_label: 'OK',
     slider_width: 400,
-    set_background: "control-panel",
+    set_background: "control-panel-1",
     prompt: " "
   };
 
   timeline.push(lever)
+
+  for (var i = 2; i <= 5; i++) {
+
+    var lever = {
+      type: 'audio-slider-response',
+      top_prompt: '<br><br> </br>',
+      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      labels: ['1', '2','3','4','5'],
+      slider_start: 1,
+      min:1,
+      max:5,
+      step:1,
+      button_label: 'OK',
+      slider_width: 400,
+      set_background: "control-panel-"+i.toString(),
+      prompt: " "
+    };
+
+    timeline.push(lever)
+
+  }
 
 
 
