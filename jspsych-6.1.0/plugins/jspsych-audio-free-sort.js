@@ -11,7 +11,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image');
+  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image','audio');
 
   plugin.info = {
     name: 'audio-free-sort',
@@ -25,7 +25,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
         description: 'Images to be displayed.'
       },
       // RON
-      sound: {
+      sound_stim: {
         type: jsPsych.plugins.parameterType.AUDIO,
         pretty_name: 'Sound',
         default: undefined,
@@ -102,10 +102,10 @@ jsPsych.plugins['audio-free-sort'] = (function() {
     var context = jsPsych.pluginAPI.audioContext();
     if(context !== null){
       var source = context.createBufferSource();
-      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.sound);
+      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.sound_stim);
       source.connect(context.destination);
     } else {
-      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.sound);
+      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.sound_stim);
       audio.currentTime = 0;
     }
 
@@ -127,8 +127,8 @@ jsPsych.plugins['audio-free-sort'] = (function() {
     }
 
     html += '<div '+
-      'id="jspsych-free-sort-arena" '+
-      'class="jspsych-free-sort-arena" '+
+      'id="jspsych-audio-free-sort-arena" '+
+      'class="jspsych-audio-free-sort-arena" '+
       'style="position: relative; width:'+trial.sort_area_width+'px; height:'+trial.sort_area_height+'px; border:2px solid #444;"'+
       '></div>';
 
@@ -145,10 +145,10 @@ jsPsych.plugins['audio-free-sort'] = (function() {
     for (var i = 0; i < trial.stimuli.length; i++) {
       var coords = random_coordinate(trial.sort_area_width - trial.stim_width, trial.sort_area_height - trial.stim_height);
 
-      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<img '+
+      display_element.querySelector("#jspsych-audio-free-sort-arena").innerHTML += '<img '+
         'src="'+trial.stimuli[i]+'" '+
         'data-src="'+trial.stimuli[i]+'" '+
-        'class="jspsych-free-sort-draggable" '+
+        'class="jspsych-audio-free-sort-draggable" '+
         'draggable="false" '+
         'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:'+coords.y+'px; left:'+coords.x+'px;">'+
         '</img>';
@@ -160,13 +160,13 @@ jsPsych.plugins['audio-free-sort'] = (function() {
       });
     }
 
-    display_element.innerHTML += '<button id="jspsych-free-sort-done-btn" class="jspsych-btn">'+trial.button_label+'</button>';
+    display_element.innerHTML += '<button id="jspsych-audio-free-sort-done-btn" class="jspsych-btn">'+trial.button_label+'</button>';
 
     var maxz = 1;
 
     var moves = [];
 
-    var draggables = display_element.querySelectorAll('.jspsych-free-sort-draggable');
+    var draggables = display_element.querySelectorAll('.jspsych-audio-free-sort-draggable');
 
     for(var i=0;i<draggables.length; i++){
       draggables[i].addEventListener('mousedown', function(event){
@@ -194,7 +194,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
       });
     }
 
-    display_element.querySelector('#jspsych-free-sort-done-btn').addEventListener('click', function(){
+    display_element.querySelector('#jspsych-audio-free-sort-done-btn').addEventListener('click', function(){
 
       // kill any remaining setTimeout handlers
       jsPsych.pluginAPI.clearAllTimeouts();
@@ -216,7 +216,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
       // gather data
       // get final position of all objects
       var final_locations = [];
-      var matches = display_element.querySelectorAll('.jspsych-free-sort-draggable');
+      var matches = display_element.querySelectorAll('.jspsych-audio-free-sort-draggable');
       for(var i=0; i<matches.length; i++){
         final_locations.push({
           "src": matches[i].dataset.src,
