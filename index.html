@@ -9,6 +9,7 @@
   <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-free-sort.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-free-sort.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
   <!-- <script src="jspsych-6.1.0/papaparse.min.js"></script>  -->
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script> -->
@@ -172,7 +173,8 @@ function createTrials(data, phono, visuo, tabletop) {
     var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
 
     var assemble_ship = {
-      type: 'free-sort',
+      type: 'audio-free-sort',
+      audio: 'stimuli/sounds/instruct-1-build.wav',
       stimuli: spaceship_parts,
       stim_height: 150,
       stim_width: 150,

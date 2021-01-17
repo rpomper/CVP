@@ -11,7 +11,7 @@ jsPsych.plugins['audio-slider-response'] = (function() {
         type: jsPsych.plugins.parameterType.AUDIO,
         pretty_name: 'Stimulus',
         default: undefined,
-        description: 'The image to be displayed'
+        description: 'Sound file to be played'
       },
       min: {
         type: jsPsych.plugins.parameterType.INT,

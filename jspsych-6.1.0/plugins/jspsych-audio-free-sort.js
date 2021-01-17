@@ -7,14 +7,14 @@
  */
 
 
-jsPsych.plugins['free-sort'] = (function() {
+jsPsych.plugins['audio-free-sort'] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('free-sort', 'stimuli', 'image');
+  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image');
 
   plugin.info = {
-    name: 'free-sort',
+    name: 'audio-free-sort',
     description: '',
     parameters: {
       stimuli: {
@@ -24,12 +24,12 @@ jsPsych.plugins['free-sort'] = (function() {
         array: true,
         description: 'Images to be displayed.'
       },
-      // RON 
+      // RON
       sound: {
         type: jsPsych.plugins.parameterType.AUDIO,
         pretty_name: 'Sound',
         default: undefined,
-        description: 'The image to be displayed'
+        description: 'Sound file to be played'
       },
       stim_height: {
         type: jsPsych.plugins.parameterType.INT,
@@ -88,10 +88,31 @@ jsPsych.plugins['free-sort'] = (function() {
 
     var start_time = performance.now();
 
-    // set background image
-    // ${'html'}.css("background-image",trial.set_background) // ron
+    // set background image - RON
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+    document.body.style.backgroundSize = "100%";
 
+    // setup audio - RON
+    var context = jsPsych.pluginAPI.audioContext();
+    if(context !== null){
+      var source = context.createBufferSource();
+      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.audio);
+      source.connect(context.destination);
+    } else {
+      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.audio);
+      audio.currentTime = 0;
+    }
+
+    // set up end event if trial needs it
+    if(trial.trial_ends_after_audio){
+      if(context !== null){
+        source.onended = function() {
+          end_trial();
+        }
+      } else {
+        audio.addEventListener('ended', end_trial);
+      }
+    }
 
     var html = "";
     // check if there is a prompt and if it is shown above
@@ -135,6 +156,14 @@ jsPsych.plugins['free-sort'] = (function() {
 
     display_element.innerHTML += '<button id="jspsych-free-sort-done-btn" class="jspsych-btn">'+trial.button_label+'</button>';
 
+    // start audio - RON
+    if(context !== null){
+      startTime = context.currentTime;
+      source.start(startTime);
+    } else {
+      audio.play();
+    }
+
     var maxz = 1;
 
     var moves = [];
@@ -168,6 +197,21 @@ jsPsych.plugins['free-sort'] = (function() {
     }
 
     display_element.querySelector('#jspsych-free-sort-done-btn').addEventListener('click', function(){
+
+      // RON
+      // stop the audio file if it is playing
+      // remove end event listeners if they exist
+      if(context !== null){
+        source.stop();
+        source.onended = function() { }
+      } else {
+        audio.pause();
+        audio.removeEventListener('ended', end_trial);
+      }
+
+      // kill any remaining setTimeout handlers
+      jsPsych.pluginAPI.clearAllTimeouts();
+
 
       var end_time = performance.now();
       var rt = end_time - start_time;
