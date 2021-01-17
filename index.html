@@ -236,7 +236,22 @@ function createTrials(data, phono, visuo, tabletop) {
 
   timeline.push(route_stop)
 
-  for (var i = 5; i <= 7; i++) {
+  var route_start = {
+    type: 'audio-button-response-flexiblelocations',
+    trial_duration: null,
+    response_ends_trial: true,
+    margin_top: ['150px'],
+    margin_bottom: ['0px'],
+    margin_left: ['0px'],
+    margin_right: ['0px'],
+    set_background: 'control-panel-route',
+    stimulus: NULL,
+    choices: [imageStart+'space-5'+spaceStop],
+  }
+
+  timeline.push(route_start)
+
+  for (var i = 6; i <= 7; i++) {
     var route = {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: null,
