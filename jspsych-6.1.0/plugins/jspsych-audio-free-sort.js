@@ -11,7 +11,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image', 'audio');
+  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image');
 
   plugin.info = {
     name: 'audio-free-sort',
