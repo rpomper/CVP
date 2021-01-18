@@ -27,9 +27,9 @@ jsPsych.plugins['audio-free-sort'] = (function() {
       // RON
       stimulus: {
         type: jsPsych.plugins.parameterType.AUDIO,
-        pretty_name: 'Sound',
+        pretty_name: 'Stimulus',
         default: undefined,
-        description: 'Sound file to be played'
+        description: 'The audio to be played'
       },
       stim_height: {
         type: jsPsych.plugins.parameterType.INT,
