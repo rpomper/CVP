@@ -11,7 +11,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
 
   var plugin = {};
 
-  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image');
+  jsPsych.pluginAPI.registerPreload('audio-free-sort', 'stimuli', 'image','stimulus');
 
   plugin.info = {
     name: 'audio-free-sort',
@@ -25,7 +25,7 @@ jsPsych.plugins['audio-free-sort'] = (function() {
         description: 'Images to be displayed.'
       },
       // RON
-      sound_stim: {
+      stimulus: {
         type: jsPsych.plugins.parameterType.AUDIO,
         pretty_name: 'Sound',
         default: undefined,
@@ -102,10 +102,10 @@ jsPsych.plugins['audio-free-sort'] = (function() {
     var context = jsPsych.pluginAPI.audioContext();
     if(context !== null){
       var source = context.createBufferSource();
-      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.sound_stim);
+      source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
       source.connect(context.destination);
     } else {
-      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.sound_stim);
+      var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
       audio.currentTime = 0;
     }
 
