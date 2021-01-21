@@ -108,7 +108,7 @@ function loadTeaching(test_Sound,test_Link) {
 
 
 
-// window.addEventListener('DOMContentLoaded', init)
+// window.addEventListener('DOMxContentLoaded', init)
 
 document.body.style.backgroundColor = "black";
 // document.body.style.backgroundImage = "url('stimuli/images/black-background.jpg')";
@@ -499,7 +499,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
       var part_1 = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: data[i]['audio1_dur'],
+        trial_duration: teaching[i]['audio1_dur'],
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
@@ -515,7 +515,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
       var part_2 = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: data[i]['audio2_dur'],
+        trial_duration: teaching[i]['audio2_dur'],
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
@@ -777,9 +777,9 @@ imageExt+'control-panel-4.jpg',
 imageExt+'control-panel-5.jpg']
 
 
-function startExperiment(data, phono, visuo, tabletop) {
+function startExperiment(teaching, test_Sound, test_Link, tabletop) {
 	// createTrials(data,tabletop);
-  createTrials(data,phono,visuo);
+  createTrials(teaching,test_Sound,test_Link);
 jsPsych.init({
   timeline: timeline,
   // preload_audio:audio,
