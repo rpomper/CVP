@@ -439,6 +439,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
   function presentBlock(block_num) {
 
+    console.log(block_num)
+
     teachingStart = 0 + 5*block_num
     teachingStop = 5 + 5*block_num
     testStart = 0 + 5*block_num
@@ -682,7 +684,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
 // ITERATE THROUGH BLOCKS
 
-  for (var block_num = 0; block_num < 1; block_num++) {
+  for (var block_num = 0; block_num < 0; block_num++) {
   // for (var block_num = 0; block_num <= 5; block_num++) {
     if(block_num==1){build_ship()}
     if(block_num==2){unlock_ship()}
@@ -787,8 +789,8 @@ jsPsych.init({
   preload_images:images,
   default_iti:0,
   on_finish: function() {
-    jsPsych.data.filter({phase: 'test_sound'}).displayData();
-    jsPsych.data.filter({phase: 'test_link'}).displayData();
+    // jsPsych.data.filter({phase: 'test_sound'}).displayData();
+    // jsPsych.data.filter({phase: 'test_link'}).displayData();
     jsPsych.data.displayData();
     // save_data('yumME','V1',subject_id, jsPsych.data.dataAsCSV());
   }
