@@ -55,10 +55,22 @@ jsPsych.plugins["audio-keyboard-response"] = (function() {
         default: false,
         description: 'If true, then the trial will end as soon as the audio file finishes playing.'
       },
+      // ron
+      set_background: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image',
+        default: 'black-background',
+        description: 'The path and file name for images to be displayed as background'
+      },
     }
   }
 
   plugin.trial = function(display_element, trial) {
+
+    // ron
+    document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+    document.body.style.backgroundSize = "100%";
+
 
     // setup stimulus
     var context = jsPsych.pluginAPI.audioContext();

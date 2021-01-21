@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>PreFam</title>
+  <title>PreExp</title>
   <meta charset="utf-8"/>
   <script src="jspsych-6.1.0/jspsych.js"> </script>
   <script src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
@@ -31,7 +31,7 @@
   </style>
 </head>
 <body>
-  <div id="PreFam"></div>
+  <div id="PreExp"></div>
 </body>
 
 <script>
@@ -56,63 +56,57 @@ var trial_order = jsPsych.data.getURLVariable('order')
 
 // choose csv file
 if (trial_order == "1") {
-  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Phono.csv';
-  var visuoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Visuo.csv';
+  var soundURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv';
+  var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv';
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
 } else if (trial_order == "2") {
-  var phonoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Phono.csv';
-  var visuoURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Visuo.csv';
+  var soundURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Sound.csv';
+  var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Link.csv';
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 }
 
 
 
-Papa.parse(phonoURL, {
+Papa.parse(soundURL, {
 	          download: true,
 	          header: true,
             dynamicTyping: true,
 	          complete: function(results) {
-	            var phono = results.data
-	            console.log(phono)
-              loadVisuo(phono);
+	            var test_Sound = results.data
+	            console.log(test_Sound)
+              loadLinkTrials(test_Sound);
 	          }
 	        })
 
 
-function loadVisuo(phono) {
-  Papa.parse(visuoURL, {
+function loadLinkTrials(test_Sound) {
+  Papa.parse(linkURL, {
 	          download: true,
 	          header: true,
             dynamicTyping: true,
 	          complete: function(results) {
-	            var visuo = results.data
-	            console.log(visuo)
-              loadTraining(phono,visuo);
+	            var test_Link = results.data
+	            console.log(test_Link)
+              loadTeaching(test_Sound,test_Link);
 	          }
 	        })
         }
 
 
-function loadTraining(phono,visuo) {
+function loadTeaching(test_Sound,test_Link) {
   Papa.parse(teachingURL, {
 	          download: true,
 	          header: true,
             dynamicTyping: true,
 	          complete: function(results) {
-	            var data = results.data
-	            console.log(data)
-              startExperiment(data,phono,visuo);
+	            var teaching = results.data
+	            console.log(teaching)
+              startExperiment(teaching,test_Sound,test_Link);
 	          }
 	        })
         }
 
 
-
-
-// function showInfo(data, tabletop) {
-//   alert('Successfully processed!')
-//   console.log(data);
-// }
 
 // window.addEventListener('DOMContentLoaded', init)
 
@@ -125,7 +119,7 @@ document.body.style.backgroundRepeat = "no-repeat";
 
 var timeline = []
 
-function createTrials(data, phono, visuo, tabletop) {
+function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
 
   var welcome = {
@@ -156,9 +150,9 @@ function createTrials(data, phono, visuo, tabletop) {
 
   timeline.push(wait_to_start);
 
-  var expLength = data.length;
-  var phonoLength = phono.length;
-  var visuoLength = visuo.length;
+  var expLength = teaching.length;
+  var soundLength = test_Sound.length;
+  var linkLength = test_Link.length;
   var audioExt="stimuli/sounds/"
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
@@ -167,26 +161,46 @@ function createTrials(data, phono, visuo, tabletop) {
   var spaceStop= '.jpg"  title = "" width="800" height="218">'
 
 
+  // MINI-GAME 1: BUILD SHIP
 
-  // ASSEMBLE SHIP
+  function build_ship() {
+
+    var build_instructions = {
+      type: "audio-keyboard-response",
+      stimulus: audioExt+"instruct-1-build.wav",
+      trial_duration: 7000,
+      response_ends_trial: false,
+      choices:jsPsych.NO_KEYS,
+      set_background: 'launch-pad-background',
+      prompt: " "
+    }
+
+    timeline.push(build_instructions);
+
 
     var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
 
     var assemble_ship = {
-      type: 'audio-free-sort',
-      stimulus: 'stimuli/sounds/instruct-1-build.wav',
+      type: 'free-sort',
       stimuli: spaceship_parts,
       stim_height: 150,
       stim_width: 150,
       sort_area_height: 500,
       sort_area_width: 800,
       set_background:'launch-pad-background',
-      prompt: "<p>Help Bear build their space ship. Click and drag the pieces of the ship to the launch pad.</p>"
+      prompt: " ",
+      button_label: "OK"
     };
 
     timeline.push(assemble_ship)
 
-  // KEYPAD ENTRY
+  }
+
+
+
+  // MINI-GAME 2: UNLOCK SHIP (KEYPAD)
+
+  function unlock_ship() {
 
     var num_pad_start = {
       type: 'audio-button-response-flexiblelocations',
@@ -235,16 +249,33 @@ function createTrials(data, phono, visuo, tabletop) {
 
     timeline.push(num_pad_end)
 
+  }
 
-  // LUGGAGE MINI-GAME
+
+
+
+  // MINI-GAME 3: LOAD SHIP (LUGGAGE)
+
+  function load_ship() {
+
+    var load_instructions = {
+      type: "audio-keyboard-response",
+      stimulus: audioExt+"instruct-3-load.wav",
+      trial_duration: 8650,
+      response_ends_trial: false,
+      choices:jsPsych.NO_KEYS,
+      set_background: 'launch-pad-ship-mae-background',
+      prompt: " "
+    }
+
+    timeline.push(load_instructions);
+
 
     var items = ['stimuli/images/luggage-1.jpg','stimuli/images/luggage-2.jpg','stimuli/images/luggage-3.jpg','stimuli/images/newspaper.jpg','stimuli/images/plastic-bag.jpg']
 
     var load_ship = {
       type: 'free-sort',
       stimuli: items,
-      // stim_height: 150,
-      // stim_width: 150,
       sort_area_height: 500,
       sort_area_width: 800,
       set_background:'launch-pad-ship-mae-background',
@@ -253,31 +284,19 @@ function createTrials(data, phono, visuo, tabletop) {
 
     timeline.push(load_ship)
 
-  // LEVER MINI-GAME
+  }
 
-  var lever = {
-    type: 'audio-slider-response',
-    top_prompt: '<br><br> </br>',
-    stimulus: 'stimuli/sounds/instruct-4-turnon.wav',
-    labels: ['1', '2','3','4','5'],
-    slider_start: 1,
-    min:1,
-    max:5,
-    step:1,
-    button_label: 'OK',
-    slider_width: 400,
-    set_background: "control-panel-1",
-    prompt: " "
-  };
 
-  timeline.push(lever)
 
-  for (var i = 2; i <= 5; i++) {
+
+  // MINI-GAME 4: START SHIP (LEVER)
+
+  function start_ship() {
 
     var lever = {
       type: 'audio-slider-response',
       top_prompt: '<br><br> </br>',
-      stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+      stimulus: 'stimuli/sounds/instruct-4-turnon.wav',
       labels: ['1', '2','3','4','5'],
       slider_start: 1,
       min:1,
@@ -285,325 +304,376 @@ function createTrials(data, phono, visuo, tabletop) {
       step:1,
       button_label: 'OK',
       slider_width: 400,
-      set_background: "control-panel-"+i.toString(),
+      set_background: "control-panel-1",
       prompt: " "
     };
 
     timeline.push(lever)
 
-  }
+    for (var i = 2; i <= 5; i++) {
 
+      var lever = {
+        type: 'audio-slider-response',
+        top_prompt: '<br><br> </br>',
+        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+        labels: ['1', '2','3','4','5'],
+        slider_start: 1,
+        min:1,
+        max:5,
+        step:1,
+        button_label: 'OK',
+        slider_width: 400,
+        set_background: "control-panel-"+i.toString(),
+        prompt: " "
+      };
 
-  // PLOT ROUTE MINI-GAME
+      timeline.push(lever)
 
-  var route_start = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: null,
-    response_ends_trial: true,
-    margin_top: ['150px'],
-    margin_bottom: ['0px'],
-    margin_left: ['0px'],
-    margin_right: ['0px'],
-    set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/instruct-5-route.wav',
-    choices: [imageStart+'space-1'+spaceStop],
-  }
-
-  timeline.push(route_start)
-
-  for (var i = 2; i <= 3; i++) {
-    var route = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: null,
-      response_ends_trial: true,
-      margin_top: ['150px'],
-      margin_bottom: ['0px'],
-      margin_left: ['0px'],
-      margin_right: ['0px'],
-      set_background: 'control-panel-route',
-      stimulus: 'stimuli/sounds/key-2.wav',
-      choices: [imageStart+'space-'+i.toString()+spaceStop],
     }
 
-    timeline.push(route)
   }
 
-  var route_stop = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 500,
-    response_ends_trial: true,
-    margin_top: ['150px'],
-    margin_bottom: ['0px'],
-    margin_left: ['0px'],
-    margin_right: ['0px'],
-    set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/key-2.wav',
-    choices: [imageStart+'space-4'+spaceStop],
+  // MINI-GAME 5: PLOT ROUTE
+
+  function plot_route() {
+
+      var route_start = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['150px'],
+        margin_bottom: ['0px'],
+        margin_left: ['0px'],
+        margin_right: ['0px'],
+        set_background: 'control-panel-route',
+        stimulus: 'stimuli/sounds/instruct-5-route.wav',
+        choices: [imageStart+'space-1'+spaceStop],
+      }
+
+      timeline.push(route_start)
+
+      for (var i = 2; i <= 3; i++) {
+        var route = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          set_background: 'control-panel-route',
+          stimulus: 'stimuli/sounds/key-2.wav',
+          choices: [imageStart+'space-'+i.toString()+spaceStop],
+        }
+
+        timeline.push(route)
+      }
+
+      var route_stop = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 500,
+        response_ends_trial: true,
+        margin_top: ['150px'],
+        margin_bottom: ['0px'],
+        margin_left: ['0px'],
+        margin_right: ['0px'],
+        set_background: 'control-panel-route',
+        stimulus: 'stimuli/sounds/key-2.wav',
+        choices: [imageStart+'space-4'+spaceStop],
+      }
+
+      timeline.push(route_stop)
+
+      var route_start = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['150px'],
+        margin_bottom: ['0px'],
+        margin_left: ['0px'],
+        margin_right: ['0px'],
+        set_background: 'control-panel-route',
+        stimulus: 'stimuli/sounds/key-1.wav', //silence
+        choices: [imageStart+'space-5'+spaceStop],
+      }
+
+      timeline.push(route_start)
+
+      for (var i = 6; i <= 7; i++) {
+        var route = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          set_background: 'control-panel-route',
+          stimulus: 'stimuli/sounds/key-2.wav',
+          choices: [imageStart+'space-'+i.toString()+spaceStop],
+        }
+
+        timeline.push(route)
+      }
+
+      var route_stop = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 500,
+        response_ends_trial: false,
+        margin_top: ['150px'],
+        margin_bottom: ['0px'],
+        margin_left: ['0px'],
+        margin_right: ['0px'],
+        set_background: 'control-panel-route',
+        stimulus: 'stimuli/sounds/key-2.wav',
+        choices: [imageStart+'space-8'+spaceStop],
+      }
+
+      timeline.push(route_stop)
+
+
   }
 
-  timeline.push(route_stop)
-
-  var route_start = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: null,
-    response_ends_trial: true,
-    margin_top: ['150px'],
-    margin_bottom: ['0px'],
-    margin_left: ['0px'],
-    margin_right: ['0px'],
-    set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/key-1.wav', //silence
-    choices: [imageStart+'space-5'+spaceStop],
-  }
-
-  timeline.push(route_start)
-
-  for (var i = 6; i <= 7; i++) {
-    var route = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: null,
-      response_ends_trial: true,
-      margin_top: ['150px'],
-      margin_bottom: ['0px'],
-      margin_left: ['0px'],
-      margin_right: ['0px'],
-      set_background: 'control-panel-route',
-      stimulus: 'stimuli/sounds/key-2.wav',
-      choices: [imageStart+'space-'+i.toString()+spaceStop],
-    }
-
-    timeline.push(route)
-  }
-
-  var route_stop = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 500,
-    response_ends_trial: false,
-    margin_top: ['150px'],
-    margin_bottom: ['0px'],
-    margin_left: ['0px'],
-    margin_right: ['0px'],
-    set_background: 'control-panel-route',
-    stimulus: 'stimuli/sounds/key-2.wav',
-    choices: [imageStart+'space-8'+spaceStop],
-  }
-
-  timeline.push(route_stop)
-
-  var intro_mae = {
-    type: 'audio-button-response-flexiblelocations',
-    trial_duration: 10000,
-    response_ends_trial: false,
-    margin_top: ['0px','0px'],
-    margin_bottom: ['0px','0px'],
-    margin_left: ['0px','250px'],
-    margin_right: ['250px','0px'],
-    // stimulus: audioExt+data[i]['audio1']+".wav",
-    stimulus: audioExt+"instruct-start.wav",
-    choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
-  }
-
-  timeline.push(intro_mae)
 
 // BLOCK PROCEDURE
 
   function presentBlock(block_num) {
 
-    // teachingStart = 0 + 5*block_num
-    // teachingStop = 5 + 5*block_num
+    teachingStart = 0 + 5*block_num
+    teachingStop = 5 + 5*block_num
+    testStart = 0 + 5*block_num
+    testStop = 5 + 5*block_num
+
+    // teachingStart = 0 + 2*block_num
+    // teachingStop = 2 + 2*block_num
     // testStart = 0 + 1*block_num
     // testStop = 1 + 1*block_num
-
-    teachingStart = 0 + 2*block_num
-    teachingStop = 2 + 2*block_num
-    testStart = 0 + 1*block_num
-    testStop = 1 + 1*block_num
 
 
     // TEACHING TRIALS
 
-      for (var i = teachingStart; i < teachingStop; i++) {
-        // lwl_stimuli.push(
-        // {stimulus: audioExt+data[i]['stimulus']+".wav",
-        // choices:[imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop],
-        // set_background:data[i]['background'],
-        // data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
-        // iti_tr_num: "Trial"
-        // })
+    if(block_num==1) {
 
-        var show_trial_num = {
-          type:'html-keyboard-response',
-          stimulus: "<p style='font-size:90px;'>"+data[i]['tr_num']+"</p>",
-          choices: jsPsych.NO_KEYS,
-          set_background:'black-background',
-          trial_duration: 500
-        }
-
-        timeline.push(show_trial_num)
-
-
-        var part_1 = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: data[i]['audio1_dur'],
-          response_ends_trial: false,
-          margin_top: ['0px','0px'],
-          margin_bottom: ['0px','0px'],
-          margin_left: ['0px','250px'],
-          margin_right: ['250px','0px'],
-          // stimulus: audioExt+data[i]['audio1']+".wav",
-          stimulus: audioExt+data[i]['audio1']+".wav",
-          choices: [imageStart+data[i]['left_image1']+imageStop, imageStart+data[i]['right_image1']+imageStop],
-        }
-
-        timeline.push(part_1)
-
-
-        var part_2 = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: data[i]['audio2_dur'],
-          // response_ends_trial: false,
-          response_ends_trial: true,
-          margin_top: ['0px','0px'],
-          margin_bottom: ['0px','0px'],
-          margin_left: ['0px','250px'],
-          margin_right: ['250px','0px'],
-          stimulus: audioExt+data[i]['audio2']+".wav",
-          choices: [imageStart+data[i]['left_image2']+imageStop, imageStart+data[i]['right_image2']+imageStop],
-          set_background:data[i]['background'],
-          data:{condition:data[i]['condition'],target_side:data[i]['target_side'],correct_response:data[i]['correct_response'],background:data[i]['background']},
-          post_trial_gap: 500,
-          on_finish: function(data) {
-            data.correct = data.button_pressed == data.correct_response;
-          }
-        }
-
-        timeline.push(part_2)
-
-      }
-
-    // TEST PHONO
-
-      var phono_instr = {
+      var intro_mae = {
         type: 'audio-button-response-flexiblelocations',
         trial_duration: 10000,
         response_ends_trial: false,
-        margin_top: ['100px'],
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','250px'],
+        margin_right: ['250px','0px'],
+        stimulus: audioExt+"instruct-start.wav",
+        choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
+      }
+      timeline.push(intro_mae)
+
+    } else {
+
+      var more_friends = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 10000,
+        response_ends_trial: false,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','250px'],
+        margin_right: ['250px','0px'],
+        stimulus: audioExt+"instruct-more.wav",
+        choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
+      }
+      timeline.push(more_friends)
+
+    }
+
+    for (var i = teachingStart; i < teachingStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+teaching[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+
+      var part_1 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: data[i]['audio1_dur'],
+        response_ends_trial: false,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','250px'],
+        margin_right: ['250px','0px'],
+        set_background:teaching[i]['background'],
+        stimulus: audioExt+"teaching/"+teaching[i]['audio1']+".wav",
+        choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
+      }
+
+      timeline.push(part_1)
+
+
+      var part_2 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: data[i]['audio2_dur'],
+        response_ends_trial: false,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','250px'],
+        margin_right: ['250px','0px'],
+        stimulus: audioExt+"teaching/"+teaching[i]['audio2']+".wav",
+        choices: [imageStart+teaching[i]['left_image2']+imageStop, imageStart+teaching[i]['right_image2']+imageStop],
+        data:{phase:'teaching',block:teaching[i]['block'],trial:teaching[i]['phase_num'],condition:teaching[i]['condition'],alien:teaching[i]['alien'],name:teaching[i]['name'],target_side:teaching[i]['target_side'],correct_response:teaching[i]['correct_response']},
+        post_trial_gap: 500,
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+
+      timeline.push(part_2)
+
+    }
+
+    // TEST PHONO
+
+    var phono_instr = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 10000,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
+      stimulus: audioExt+"instruct-sound.wav",
+      choices: [imageStart+"mae"+imageStop],
+    }
+
+    timeline.push(phono_instr)
+
+
+    for (var i = testStart; i < testStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+test_Sound[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+      var test_phono_1 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 1000,
+        response_ends_trial: false,
+        margin_top: ['300px'],
         margin_bottom: ['0px'],
-        margin_left: ['300'],
-        margin_right: ['0px'],
-        // stimulus: audioExt+data[i]['audio1']+".wav",
-        stimulus: audioExt+"test-phono-instr.wav",
-        choices: [imageStart+"bear"+imageStop],
+        margin_left: ['0px'],
+        margin_right: ['680px'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound1']+".wav",
+        choices: [imageStart+'dot'+dotStop],
       }
 
-      timeline.push(phono_instr)
+      timeline.push(test_phono_1)
 
-
-      for (var i = testStart; i < testStop; i++) {
-
-        var show_trial_num = {
-          type:'html-keyboard-response',
-          stimulus: "<p style='font-size:90px;'>"+phono[i]['tr_num']+"</p>",
-          choices: jsPsych.NO_KEYS,
-          set_background:'black-background',
-          trial_duration: 500
-        }
-
-        timeline.push(show_trial_num)
-
-        var test_phono_1 = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: 1000,
-          response_ends_trial: false,
-          margin_top: ['300px'],
-          margin_bottom: ['0px'],
-          margin_left: ['0px'],
-          margin_right: ['680px'],
-          stimulus: audioExt+phono[i]['sound1']+".wav",
-          choices: [imageStart+'dot'+dotStop],
-        }
-
-        timeline.push(test_phono_1)
-
-        var test_phono_2 = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: 1000,
-          response_ends_trial: false,
-          margin_top: ['300px','300px'],
-          margin_bottom: ['0px','0px'],
-          margin_left: ['0px','200px'],
-          margin_right: ['0px','340px'],
-          stimulus: audioExt+phono[i]['sound2']+".wav",
-          choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
-        }
-
-        timeline.push(test_phono_2)
-
-
-        var test_phono_3 = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: null,
-          response_ends_trial: true,
-          margin_top: ['300px','300px','300px'],
-          margin_bottom: ['0px','0px','0px'],
-          margin_left: ['0px','200px','200px'],
-          margin_right: ['0px','0px','0px'],
-          stimulus: audioExt+phono[i]['sound3']+".wav",
-          choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
-        }
-
-        timeline.push(test_phono_3)
-
+      var test_phono_2 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 1000,
+        response_ends_trial: false,
+        margin_top: ['300px','300px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['0px','340px'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound2']+".wav",
+        choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
       }
+
+      timeline.push(test_phono_2)
+
+
+      var test_phono_3 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['300px','300px','300px'],
+        margin_bottom: ['0px','0px','0px'],
+        margin_left: ['0px','200px','200px'],
+        margin_right: ['0px','0px','0px'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound3']+".wav",
+        choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+        data:{phase:'test_sound',block:test_Sound[i]['block'],trial:test_Sound[i]['phase_num'],condition:test_Sound[i]['condition'],name:test_Sound[i]['name'],target_side:teaching[i]['target_side'],correct_response:teaching[i]['correct_response']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+      }
+
+      timeline.push(test_phono_3)
+
+    }
 
 
     // TEST VISUO
 
-      var visuo_instr = {
+    var visuo_instr = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 10000,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
+      stimulus: audioExt+"instruct-link.wav",
+      choices: [imageStart+"mae"+imageStop],
+    }
+
+    timeline.push(visuo_instr)
+
+
+    for (var i = testStart; i < testStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+test_Link[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+
+      var test_visuo = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: 10000,
-        response_ends_trial: false,
-        margin_top: ['100px'],
-        margin_bottom: ['0px'],
-        margin_left: ['300'],
-        margin_right: ['0px'],
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['200px','200px','200px'],
+        margin_bottom: ['0px','0px','0px'],
+        margin_left: ['0px','150px','150px'],
+        margin_right: ['0px','0px','0px'],
         // stimulus: audioExt+data[i]['audio1']+".wav",
-        stimulus: audioExt+"test-visuo-instr.wav",
-        choices: [imageStart+"bear"+imageStop],
-      }
-
-      timeline.push(visuo_instr)
-
-
-      for (var i = testStart; i < testStop; i++) {
-
-        var show_trial_num = {
-          type:'html-keyboard-response',
-          stimulus: "<p style='font-size:90px;'>"+visuo[i]['tr_num']+"</p>",
-          choices: jsPsych.NO_KEYS,
-          set_background:'black-background',
-          trial_duration: 500
-        }
-
-        timeline.push(show_trial_num)
-
-
-        var test_visuo = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: null,
-          response_ends_trial: true,
-          margin_top: ['200px','200px','200px'],
-          margin_bottom: ['0px','0px','0px'],
-          margin_left: ['0px','150px','150px'],
-          margin_right: ['0px','0px','0px'],
-          // stimulus: audioExt+data[i]['audio1']+".wav",
-          stimulus: audioExt+visuo[i]['audio']+".wav",
-          choices: [imageStart+visuo[i]['left_image']+imageStop, imageStart+visuo[i]['center_image']+imageStop, imageStart+visuo[i]['right_image']+imageStop],
-        }
-
-        timeline.push(test_visuo)
+        stimulus: audioExt+"testing/"+test_Link[i]['audio']+".wav",
+        choices: [imageStart+test_Link[i]['left_image']+imageStop, imageStart+test_Link[i]['center_image']+imageStop, imageStart+test_Link[i]['right_image']+imageStop],
+        data:{phase:'test_link',block:test_Link[i]['block'],trial:test_Link[i]['phase_num'],condition:test_Link[i]['condition'],alien:test_Link[i]['alien'],name:test_Link[i]['audio'],target_side:test_Link[i]['target'],correct_response:test_Link[i]['correct_response']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
 
       }
+
+      timeline.push(test_visuo)
+
+    }
+
+    var pause_between_blocks = {
+      type: "fullscreen",
+      fullscreen_mode: false,
+      message: "<br><br><br><p> You're doing great! Let's take a break. When you are ready to keep going. Click OK below. </p><br>",
+      button_label: "OK",
+      delay_after: 250
+    }
+
+    timeline.push(pause_between_blocks);
 
 
   }
@@ -611,6 +681,11 @@ function createTrials(data, phono, visuo, tabletop) {
 // ITERATE THROUGH BLOCKS
 
   for (var block_num = 0; block_num < 2; block_num++) {
+    if(block_num==1){build_ship()},
+    if(block_num==2){unlock_ship()},
+    if(block_num==3){load_ship()},
+    if(block_num==4){start_ship()},
+    if(block_num==5){plot_route()},
     presentBlock(block_num)
   }
 
@@ -709,7 +784,9 @@ jsPsych.init({
   preload_images:images,
   default_iti:0,
   on_finish: function() {
-    //jsPsych.data.displayData();
+    jsPsych.data.filter({phase: 'test_sound'}).displayData();
+    jsPsych.data.filter({phase: 'test_link'}).displayData();
+    jsPsych.data.displayData();
     // save_data('yumME','V1',subject_id, jsPsych.data.dataAsCSV());
   }
 });

@@ -1,0 +1,31 @@
+block,condition,tr_num,phase_num,sound1,sound2,sound3,target,name,correct_response,background
+1,name first,6,1,gazzer,gavver,gabber,L,gazzer,0,black-background
+1,name first,7,2,mofi,moki,mothi,R,mothi,2,black-background
+1,name first,8,3,brooft,broost,brookt,C,broost,1,black-background
+1,name first,9,4,akar,akag,akal,L,akar,0,black-background
+1,name first,10,5,tran,trag,trad,C,trag,1,black-background
+2,name first,21,6,koba,kora,koga,L,koba,0,black-background
+2,name first,22,7,egef,egep,eget,R,eget,2,black-background
+2,name first,23,8,heag,hean,heab,R,heab,2,black-background
+2,name first,24,9,glark,glarp,glarch,L,glark,0,black-background
+2,name first,25,10,tulner,tulver,tulzer,C,tulver,1,black-background
+3,referent first,36,11,virbex,virmex,virdex,R,virdex,2,black-background
+3,referent first,37,12,darg,darb,darv,L,darg,0,black-background
+3,referent first,38,13,nema,nela,nera,R,nera,2,black-background
+3,referent first,39,14,upof,upos,upok,C,upos,1,black-background
+3,referent first,40,15,lep,leche,lef,C,leche,1,black-background
+4,referent first,51,16,sizu,sidu,sibu,R,sibu,2,black-background
+4,referent first,52,17,foom,foon,fooj,L,foom,0,black-background
+4,referent first,53,18,osig,osid,osiv,C,osid,1,black-background
+4,referent first,54,19,chatten,chafen,chaken,L,chatten,0,black-background
+4,referent first,55,20,yop,yoth,yok,R,yok,2,black-background
+5,simultaneous,66,21,edob,edoz,edov,C,edoz,1,black-background
+5,simultaneous,67,22,corat,colat,cogat,C,colat,1,black-background
+5,simultaneous,68,23,wiso,wiko,wifo,L,wiso,0,black-background
+5,simultaneous,69,24,zeb,zeg,zer,L,zeb,0,black-background
+5,simultaneous,70,25,jup,juff,juss,R,juss,2,black-background
+6,simultaneous,81,26,smop,smosh,smof,C,smosh,1,black-background
+6,simultaneous,82,27,isof,isop,isot,R,isot,2,black-background
+6,simultaneous,83,28,rebli,remli,regli,R,regli,2,black-background
+6,simultaneous,84,29,wilp,wilch,wilk,L,wilp,0,black-background
+6,simultaneous,85,30,piver,pizer,piger,C,pizer,1,black-background
