@@ -69,7 +69,7 @@ jsPsych.plugins["audio-keyboard-response"] = (function() {
 
     // ron
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
-    document.body.style.backgroundSize = "100%";
+    // document.body.style.backgroundSize = "100%";
 
 
     // setup stimulus
