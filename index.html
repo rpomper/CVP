@@ -885,11 +885,11 @@ jsPsych.init({
     console.log(results_link)
     console.log(results_link.mean())
 
-    jsPsych.data.displayData()
-
     uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")
-    
+
     display_results(results_sound,results_link)
+
+    jsPsych.data.displayData()
   }
 });
 };
