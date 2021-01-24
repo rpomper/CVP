@@ -456,7 +456,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
   function presentBlock(block_num) {
 
-    console.log(block_num)
+    // console.log(block_num)
 
     teachingStart = 0 + 5*block_num
     teachingStop = 5 + 5*block_num
@@ -686,30 +686,33 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     }
 
+  }
+
+
+  function pause_between_blocks() {
+
     var pause_between_blocks = {
       type: "html-button-response",
       stimulus: "<br><br><br><p> You're doing great! Let's take a break. When you are ready to keep going. Click OK below. </p><br>",
-      choices: "OK",
+      choices: ["OK"],
       trial_duration: null
     }
 
     timeline.push(pause_between_blocks);
 
-
   }
 
 // ITERATE THROUGH BLOCKS
 
-  // presentBlock(1)
-
   for (var block_num = 0; block_num <= 1; block_num++) {
-    console.log(block_num)
-    if(block_num==1){build_ship()}
-    if(block_num==2){unlock_ship()}
-    if(block_num==3){load_ship()}
-    if(block_num==4){start_ship()}
-    if(block_num==5){plot_route()}
+    // console.log(block_num)
     presentBlock(block_num)
+    if(block_num==0){build_ship()}
+    if(block_num==1){unlock_ship()}
+    if(block_num==2){load_ship()}
+    if(block_num==3){start_ship()}
+    if(block_num==4){plot_route()}
+    pause_between_blocks()
   }
 
 // END EXPERIMENT
@@ -845,10 +848,12 @@ jsPsych.init({
     // jsPsych.data.filter({phase: 'test_sound'}).displayData();
     // jsPsych.data.filter({phase: 'test_link'}).displayData();
     var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
-    console.log(results_sound)
+    console.log("form recognition accuracy:")
+    console.log(results_sound.values())
     console.log(results_sound.mean())
     var results_link = jsPsych.data.get().filter({phase: 'test_link'}).select('correct')
-    console.log(results_link)
+console.log("link recognition accuracy:")
+    console.log(results_link.values())
     console.log(results_link.mean())
     jsPsych.data.displayData();
     uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")
