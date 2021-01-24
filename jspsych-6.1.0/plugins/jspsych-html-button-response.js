@@ -72,10 +72,28 @@ jsPsych.plugins["html-button-response"] = (function() {
         default: true,
         description: 'If true, then trial will end when user responds.'
       },
+      // ron
+      set_background: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image',
+        default: 'black-background',
+        description: 'The path and file name for images to be displayed as background'
+      },
+      background_size: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image size',
+        default: '100%',
+        description: 'The percentage of screen size or raw size of the background image'
+      },
     }
   }
 
   plugin.trial = function(display_element, trial) {
+
+    // RON - set background image
+    document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
+    document.body.style.backgroundSize = trial.background_size;
+
 
     // display stimulus
     var html = '<div id="jspsych-html-button-response-stimulus">'+trial.stimulus+'</div>';

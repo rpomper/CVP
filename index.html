@@ -146,10 +146,11 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
   // timeline.push(audio_test);
 
   var wait_to_start = {
-    type: "html-keyboard-response",
-    // fullscreen_mode: false,
-    choices:['space'],
-    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, press the space bar to begin.</br> </p>"
+    type: "html-button-response",
+    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the OK button to begin.</br> </p>",
+    choices: ["OK"],
+    trial_duration: null,
+    set_background: "black-background"
   }
 
   timeline.push(wait_to_start);
@@ -513,7 +514,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         trial_duration: 500
       }
 
-      timeline.push(show_trial_num)
+      // unblock
+      // timeline.push(show_trial_num)
 
 
       var part_1 = {
@@ -529,7 +531,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
       }
 
-      timeline.push(part_1)
+      // unblock
+      // timeline.push(part_1)
 
 
       var part_2 = {
@@ -549,7 +552,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         }
       }
 
-      timeline.push(part_2)
+      // unblock
+      // timeline.push(part_2)
 
     }
 
@@ -693,12 +697,31 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     var pause_between_blocks = {
       type: "html-button-response",
-      stimulus: "<br><br><br><p> You're doing great! Let's take a break. When you are ready to keep going. Click OK below. </p><br>",
+      stimulus: "<br><br><br><p style='font-size:30px;'> You're doing great! Let's take a break. When you are ready to keep going, click OK below. </p><br>",
       choices: ["OK"],
-      trial_duration: null
+      trial_duration: null,
+      set_background: "black-background"
     }
 
     timeline.push(pause_between_blocks);
+
+  }
+
+
+  function display_results() {
+
+    var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
+    var results_link = jsPsych.data.get().filter({phase: 'test_link'}).select('correct')
+
+    var display_acc = {
+      type: "html-button-response",
+      stimulus: "<br><br><br><p style='font-size:30px;'> Great Job! <br>Your accuracy on sound recognition:"+results_sound.mean()+"<br>Your accuracy on link recognition:"+results_link.mean()+"</p><br>",
+      choices: ["Exit & Save"],
+      trial_duration: null,
+      set_background: "black-background"
+    }
+
+    timeline.push(display_acc)
 
   }
 
@@ -712,8 +735,10 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
     if(block_num==2){load_ship()}
     if(block_num==3){start_ship()}
     if(block_num==4){plot_route()}
-    pause_between_blocks()
+    if(block_num < 5) {pause_between_blocks()}
+    if (block_num==1) {display_results()}
   }
+
 
 // END EXPERIMENT
 
@@ -849,11 +874,11 @@ jsPsych.init({
     // jsPsych.data.filter({phase: 'test_link'}).displayData();
     var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
     console.log("form recognition accuracy:")
-    console.log(results_sound.values())
+    console.log(results_sound)
     console.log(results_sound.mean())
     var results_link = jsPsych.data.get().filter({phase: 'test_link'}).select('correct')
 console.log("link recognition accuracy:")
-    console.log(results_link.values())
+    console.log(results_link)
     console.log(results_link.mean())
     jsPsych.data.displayData();
     uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")

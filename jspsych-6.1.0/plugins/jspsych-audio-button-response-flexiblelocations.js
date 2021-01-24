@@ -115,7 +115,6 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
     }
 
     // set background image
-    // ${'html'}.css("background-image",trial.set_background) // ron
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
     document.body.style.backgroundSize = trial.background_size;
 
