@@ -147,8 +147,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
   var wait_to_start = {
     type: "html-button-response",
-    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the OK button to begin.</br> </p>",
-    choices: ["OK"],
+    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the START button to begin the experiment.</br> </p>",
+    choices: ["START"],
     trial_duration: null,
     set_background: "black-background"
   }
@@ -697,7 +697,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     var pause_between_blocks = {
       type: "html-button-response",
-      stimulus: "<br><br><br><p style='font-size:30px;'> You're doing great! Let's take a break. When you are ready to keep going, click OK below. </p><br>",
+      stimulus: "<br><br><br><p style='font-size:30px;'> You're doing great!<br>Let's take a break.<br>When you are ready to keep going, click OK below. </p><br>",
       choices: ["OK"],
       trial_duration: null,
       set_background: "black-background"
@@ -715,7 +715,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     var display_acc = {
       type: "html-button-response",
-      stimulus: "<br><br><br><p style='font-size:30px;'> Great Job! <br>Your accuracy on sound recognition:"+results_sound.mean()+"<br>Your accuracy on link recognition:"+results_link.mean()+"</p><br>",
+      stimulus: "<br><br><br><p style='font-size:30px;'> Great Job! <br>Your accuracy on sound recognition:"+results_sound.mean().toString()+"<br>Your accuracy on link recognition:"+results_link.mean().toString()+"</p><br>",
       choices: ["Exit & Save"],
       trial_duration: null,
       set_background: "black-background"
@@ -729,7 +729,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
   for (var block_num = 0; block_num <= 1; block_num++) {
     // console.log(block_num)
-    presentBlock(block_num)
+    // presentBlock(block_num)
+    if(block_num==0){presentBlock(block_num)}
     if(block_num==0){build_ship()}
     if(block_num==1){unlock_ship()}
     if(block_num==2){load_ship()}
@@ -870,8 +871,6 @@ jsPsych.init({
   preload_images:images,
   default_iti:0,
   on_finish: function() {
-    // jsPsych.data.filter({phase: 'test_sound'}).displayData();
-    // jsPsych.data.filter({phase: 'test_link'}).displayData();
     var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
     console.log("form recognition accuracy:")
     console.log(results_sound)
