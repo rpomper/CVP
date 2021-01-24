@@ -62,6 +62,12 @@ jsPsych.plugins["audio-keyboard-response"] = (function() {
         default: 'black-background',
         description: 'The path and file name for images to be displayed as background'
       },
+      background_size: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image size',
+        default: '100%',
+        description: 'The percentage of screen size or raw size of the background image'
+      },
     }
   }
 
@@ -69,7 +75,7 @@ jsPsych.plugins["audio-keyboard-response"] = (function() {
 
     // ron
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
-    // document.body.style.backgroundSize = "100%";
+    document.body.style.backgroundSize = trial.background_size;
 
 
     // setup stimulus

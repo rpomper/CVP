@@ -7,6 +7,7 @@
   <script src="jspsych-6.1.0/jspsych.js"> </script>
   <script src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-free-sort.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-audio-free-sort.js"></script>
@@ -167,8 +168,6 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
   // MINI-GAME 1: BUILD SHIP
 
   function build_ship() {
-
-    document.body.style.backgroundSize = "auto";
 
     var build_instructions = {
       type: "audio-keyboard-response",
@@ -358,6 +357,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         margin_left: ['0px'],
         margin_right: ['0px'],
         set_background: 'control-panel-route',
+        background_size: 'auto',
         stimulus: 'stimuli/sounds/instruct-5-route.wav',
         choices: [imageStart+'space-1'+spaceStop],
       }
@@ -374,6 +374,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
           margin_left: ['0px'],
           margin_right: ['0px'],
           set_background: 'control-panel-route',
+          background_size: 'auto',
           stimulus: 'stimuli/sounds/key-2.wav',
           choices: [imageStart+'space-'+i.toString()+spaceStop],
         }
@@ -390,6 +391,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         margin_left: ['0px'],
         margin_right: ['0px'],
         set_background: 'control-panel-route',
+        background_size: 'auto',
         stimulus: 'stimuli/sounds/key-2.wav',
         choices: [imageStart+'space-4'+spaceStop],
       }
@@ -405,6 +407,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         margin_left: ['0px'],
         margin_right: ['0px'],
         set_background: 'control-panel-route',
+        background_size: 'auto',
         stimulus: 'stimuli/sounds/key-1.wav', //silence
         choices: [imageStart+'space-5'+spaceStop],
       }
@@ -421,6 +424,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
           margin_left: ['0px'],
           margin_right: ['0px'],
           set_background: 'control-panel-route',
+          background_size: 'auto',
           stimulus: 'stimuli/sounds/key-2.wav',
           choices: [imageStart+'space-'+i.toString()+spaceStop],
         }
@@ -437,6 +441,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         margin_left: ['0px'],
         margin_right: ['0px'],
         set_background: 'control-panel-route',
+        background_size: 'auto',
         stimulus: 'stimuli/sounds/key-2.wav',
         choices: [imageStart+'space-8'+spaceStop],
       }
@@ -485,7 +490,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
       var more_friends = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: 10000,
+        trial_duration: 9500,
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
@@ -552,7 +557,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     var phono_instr = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 10000,
+      trial_duration: 8000,
       response_ends_trial: false,
       margin_top: ['100px'],
       margin_bottom: ['0px'],
@@ -632,7 +637,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
     var visuo_instr = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 10000,
+      trial_duration: 7000,
       response_ends_trial: false,
       margin_top: ['100px'],
       margin_bottom: ['0px'],
@@ -682,11 +687,10 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
     }
 
     var pause_between_blocks = {
-      type: "fullscreen",
-      fullscreen_mode: false,
-      message: "<br><br><br><p> You're doing great! Let's take a break. When you are ready to keep going. Click OK below. </p><br>",
-      button_label: "OK",
-      delay_after: 250
+      type: "html-button-response",
+      stimulus: "<br><br><br><p> You're doing great! Let's take a break. When you are ready to keep going. Click OK below. </p><br>",
+      choices: "OK",
+      trial_duration: null
     }
 
     timeline.push(pause_between_blocks);
@@ -698,14 +702,14 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
   // presentBlock(1)
 
-  for (var block_num = 0; block_num <= 5; block_num++) {
+  for (var block_num = 0; block_num <= 1; block_num++) {
     console.log(block_num)
     if(block_num==1){build_ship()}
     if(block_num==2){unlock_ship()}
     if(block_num==3){load_ship()}
     if(block_num==4){start_ship()}
     if(block_num==5){plot_route()}
-    // presentBlock(block_num)
+    presentBlock(block_num)
   }
 
 // END EXPERIMENT
@@ -840,6 +844,12 @@ jsPsych.init({
   on_finish: function() {
     // jsPsych.data.filter({phase: 'test_sound'}).displayData();
     // jsPsych.data.filter({phase: 'test_link'}).displayData();
+    var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
+    console.log(results_sound)
+    console.log(results_sound.mean())
+    var results_link = jsPsych.data.get().filter({phase: 'test_link'}).select('correct')
+    console.log(results_link)
+    console.log(results_link.mean())
     jsPsych.data.displayData();
     uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")
   }

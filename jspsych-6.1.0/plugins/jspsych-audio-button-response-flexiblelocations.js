@@ -80,6 +80,12 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
         default: 'black-background',
         description: 'The path and file name for images to be displayed as background'
       },
+      background_size: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Assign background image size',
+        default: '100%',
+        description: 'The percentage of screen size or raw size of the background image'
+      },
       response_ends_trial: {
         type: jsPsych.plugins.parameterType.BOOL,
         pretty_name: 'Response ends trial',
@@ -111,7 +117,7 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
     // set background image
     // ${'html'}.css("background-image",trial.set_background) // ron
     document.body.style.backgroundImage = "url('stimuli/images/"+trial.set_background+".jpg')"
-    document.body.style.backgroundSize = "100%";
+    document.body.style.backgroundSize = trial.background_size;
 
     // set up end event if trial needs it
     if(trial.trial_ends_after_audio){
