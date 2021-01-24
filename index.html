@@ -710,16 +710,23 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
   }
 
 
-  function display_results(results_sound,results_link) {
-
-    // var results_sound = jsPsych.data.get().filter({phase: 'test_sound'}).select('correct')
-    // console.log(results_sound.mean())
-    // var results_link = jsPsych.data.get().filter({phase: 'test_link'}).select('correct')
-    // console.log(results_link.mean())
+  function display_results(data) {
 
     var display_acc = {
       type: "html-button-response",
-      stimulus: "<br><br><br><p style='font-size:30px;'> Great Job! <br><br>Your accuracy on sound recognition: "+results_sound.mean().toString()+"<br><br>Your accuracy on link recognition: "+results_link.mean().toString()+"</p><br>",
+      stimulus: function() {
+
+        var trials_sound = jsPsych.data.get().filter({phase: 'test_sound'});
+        var correct_trials_sound = trials_sound.filter({correct: true});
+        var accuracy_sound = Math.round(correct_trials_sound.count() / trials_sound.count() * 100);
+
+        var trials_link = jsPsych.data.get().filter({phase: 'test_link'});
+        var correct_trials_link = trials_link.filter({correct: true});
+        var accuracy_link = Math.round(correct_trials_link.count() / trials_link.count() * 100);
+        return "<p>You correctly identified the names (form recognition) on "+accuracy_sound+"% of the trials.</p>"+
+        "<p>You correctly identified the aliens (link recognition) on "+accuracy_link+"% of the trials.</p>"
+        "<p>Click the button below to end the experiment and upload your data to REDCap. Thank you!</p>";
+      },
       choices: ["Exit & Save"],
       trial_duration: null,
       set_background: "black-background"
@@ -741,7 +748,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
     if(block_num==3){start_ship()}
     if(block_num==4){plot_route()}
     if(block_num < 5) {pause_between_blocks()}
-    // if (block_num==1) {display_results()}
+    if (block_num==1) {display_results()}
   }
 
 
@@ -887,9 +894,8 @@ jsPsych.init({
 
     uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")
 
-    display_results(results_sound,results_link)
-
     jsPsych.data.displayData()
+
   }
 });
 };
