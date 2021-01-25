@@ -516,8 +516,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         trial_duration: 500
       }
 
-      // unblock
-      // timeline.push(show_trial_num)
+      timeline.push(show_trial_num)
 
 
       var part_1 = {
@@ -533,8 +532,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
       }
 
-      // unblock
-      // timeline.push(part_1)
+      timeline.push(part_1)
 
 
       var part_2 = {
@@ -554,8 +552,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         }
       }
 
-      // unblock
-      // timeline.push(part_2)
+      timeline.push(part_2)
 
     }
 
@@ -738,7 +735,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
 
 // ITERATE THROUGH BLOCKS
 
-  for (var block_num = 0; block_num <= 1; block_num++) {
+  for (var block_num = 0; block_num <= 5; block_num++) {
     // console.log(block_num)
     // presentBlock(block_num)
     if(block_num==0){presentBlock(block_num)}
@@ -748,7 +745,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
     if(block_num==3){start_ship()}
     if(block_num==4){plot_route()}
     if(block_num < 5) {pause_between_blocks()}
-    if (block_num==1) {display_results()}
+    if (block_num==5) {display_results()}
   }
 
 
