@@ -130,11 +130,11 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
     type: "fullscreen",
     // fullscreen_mode: false,
     message: "<br><br><br><p>Subject: "+subject_id.toString()+"</p><p>Order: "+trial_order.toString()+"</p><br>",
-    button_label: "Click Here",
+    button_label: "Next",
     delay_after: 250
   }
 
-  // timeline.push(welcome);
+  timeline.push(welcome);
 
   // var audio_test = {
   //   type: "audio-keyboard-response",
@@ -482,8 +482,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
-        margin_left: ['0px','250px'],
-        margin_right: ['250px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['200px','0px'],
         stimulus: audioExt+"instruct-start.wav",
         choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
       }
@@ -497,8 +497,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
-        margin_left: ['0px','250px'],
-        margin_right: ['250px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['200px','0px'],
         stimulus: audioExt+"instruct-more.wav",
         choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
       }
@@ -525,8 +525,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
-        margin_left: ['0px','250px'],
-        margin_right: ['250px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['200px','0px'],
         set_background:teaching[i]['background'],
         stimulus: audioExt+"teaching/"+teaching[i]['audio1']+".wav",
         choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
@@ -541,8 +541,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
-        margin_left: ['0px','250px'],
-        margin_right: ['250px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['200px','0px'],
         stimulus: audioExt+"teaching/"+teaching[i]['audio2']+".wav",
         choices: [imageStart+teaching[i]['left_image2']+imageStop, imageStart+teaching[i]['right_image2']+imageStop],
         data:{phase:'teaching',block:teaching[i]['block'],trial:teaching[i]['phase_num'],condition:teaching[i]['condition'],alien:teaching[i]['alien'],name:teaching[i]['name'],target_side:teaching[i]['target_side'],correct_response:teaching[i]['correct_response']},
