@@ -129,7 +129,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><br><p>Subject: "+subject_id.toString()+"</p><p>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br> Version: 1.2.1 <br><br><br><p>Subject: "+subject_id.toString()+"</p><p>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -482,8 +482,8 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
-        margin_left: ['0px','200px'],
-        margin_right: ['200px','0px'],
+        margin_left: ['0px','50px'],
+        margin_right: ['50px','0px'],
         stimulus: audioExt+"instruct-start.wav",
         choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
       }
