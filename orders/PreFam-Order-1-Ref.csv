@@ -1,0 +1,31 @@
+block,condition,tr_num,phase_num,left_image,center_image,right_image,target,correct_response,alien,background
+1,name first,11,1,A2,I1,C35,C,1,I1,black-background
+1,name first,12,2,D4,J3,H1,C,1,J3,black-background
+1,name first,13,3,A1,B1,A34,L,0,A1,black-background
+1,name first,14,4,L4,A22,C1,R,2,C1,black-background
+1,name first,15,5,A33,B22,E2,L,0,A33,black-background
+2,name first,31,6,H2,B21,C31,R,2,C31,black-background
+2,name first,32,7,C21,E1,C22,C,1,E1,black-background
+2,name first,33,8,B2,C29,C23,L,0,B2,black-background
+2,name first,34,9,J4,A30,E3,R,2,E3,black-background
+2,name first,35,10,C24,H4,E4,L,0,C24,black-background
+3,referent first,51,11,B30,A25,A21,C,1,A25,black-background
+3,referent first,52,12,H3,F2,A4,L,0,H3,black-background
+3,referent first,53,13,K2,B4,I2,C,1,B4,black-background
+3,referent first,54,14,A26,C32,D3,R,2,D3,black-background
+3,referent first,55,15,B24,L3,B34,R,2,B34,black-background
+4,referent first,71,16,C33,K3,A3,R,2,A3,black-background
+4,referent first,72,17,A23,A28,A31,C,1,A28,black-background
+4,referent first,73,18,B23,F1,B35,L,0,B23,black-background
+4,referent first,74,19,C28,J2,I3,C,1,J2,black-background
+4,referent first,75,20,I4,B3,F4,L,0,I4,black-background
+5,simultaneous,91,21,C2,D2,G3,R,2,G3,black-background
+5,simultaneous,92,22,G2,J1,D1,R,2,D1,black-background
+5,simultaneous,93,23,C30,B29,L2,L,0,C30,black-background
+5,simultaneous,94,24,C3,C26,C34,C,1,C26,black-background
+5,simultaneous,95,25,B26,A32,C25,L,0,B26,black-background
+6,simultaneous,111,26,K1,A24,A27,L,0,K1,black-background
+6,simultaneous,112,27,F3,B32,C27,R,2,C27,black-background
+6,simultaneous,113,28,G4,B28,B25,C,1,B28,black-background
+6,simultaneous,114,29,B31,A35,K4,C,1,A35,black-background
+6,simultaneous,115,30,C36,G1,L1,R,2,L1,black-background

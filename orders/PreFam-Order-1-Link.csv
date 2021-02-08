@@ -1,31 +1,31 @@
 block,condition,tr_num,phase_num,left_image,center_image,right_image,target,correct_response,alien,audio,background
-1,name first,11,1,C1,J1,D1,R,2,D1,trag,black-background
-1,name first,12,2,B1,H1,C1,L,0,B1,akar,black-background
-1,name first,13,3,D1,B1,J1,R,2,J1,broost,black-background
-1,name first,14,4,J1,C1,H1,C,1,C1,mothi,black-background
-1,name first,15,5,H1,D1,B1,L,0,H1,gazzer,black-background
-2,name first,26,6,E1,I1,K1,L,0,E1,glark,black-background
-2,name first,27,7,L1,E1,A1,L,0,L1,koba,black-background
-2,name first,28,8,K1,L1,I1,R,2,I1,tulver,black-background
-2,name first,29,9,A1,K1,E1,C,1,K1,eget,black-background
-2,name first,30,10,I1,A1,L1,C,1,A1,heab,black-background
-3,referent first,41,11,B2,G2,F2,R,2,F2,leche,black-background
-3,referent first,42,12,I2,F2,K2,R,2,K2,upos,black-background
-3,referent first,43,13,G2,K2,B2,L,0,G2,darg,black-background
-3,referent first,44,14,F2,B2,I2,C,1,B2,virdex,black-background
-3,referent first,45,15,K2,I2,G2,C,1,I2,nera,black-background
-4,referent first,56,16,J2,E2,D2,C,1,E2,sibu,black-background
-4,referent first,57,17,E2,H2,C2,R,2,C2,osid,black-background
-4,referent first,58,18,D2,C2,J2,L,0,D2,chatten,black-background
-4,referent first,59,19,H2,D2,E2,L,0,H2,foom,black-background
-4,referent first,60,20,C2,J2,H2,C,1,J2,yok,black-background
-5,simultaneous,71,21,A3,G3,L3,L,0,G3,colat,black-background
-5,simultaneous,72,22,K3,L3,E3,C,1,L3,juss,black-background
-5,simultaneous,73,23,G3,A3,K3,R,2,K3,zeb,black-background
-5,simultaneous,74,24,L3,E3,A3,C,1,E3,edoz,black-background
-5,simultaneous,75,25,E3,K3,G3,R,2,A3,wiso,black-background
-6,simultaneous,86,26,F3,I3,J3,L,0,F3,wilp,black-background
-6,simultaneous,87,27,J3,B3,D3,R,2,D3,isot,black-background
-6,simultaneous,88,28,I3,D3,F3,L,0,I3,pizer,black-background
-6,simultaneous,89,29,B3,J3,I3,C,1,J3,regli,black-background
-6,simultaneous,90,30,D3,F3,B3,R,2,B3,smosh,black-background
+1,name first,16,1,A33,J3,C1,R,2,C1,trag,black-background
+1,name first,17,2,A1,I1,A33,L,0,A1,akar,black-background
+1,name first,18,3,C1,A1,J3,R,2,J3,broost,black-background
+1,name first,19,4,J3,A33,I1,C,1,A33,mothi,black-background
+1,name first,20,5,I1,C1,A1,L,0,I1,gazzer,black-background
+2,name first,36,6,C24,C31,E1,L,0,C24,glark,black-background
+2,name first,37,7,E3,C24,B2,L,0,E3,koba,black-background
+2,name first,38,8,E1,E3,C31,R,2,C31,tulver,black-background
+2,name first,39,9,B2,E1,C24,C,1,E1,eget,black-background
+2,name first,40,10,C31,B2,E3,C,1,B2,heab,black-background
+3,referent first,56,11,A25,B34,B4,R,2,B4,leche,black-background
+3,referent first,57,12,D3,B4,H3,R,2,H3,upos,black-background
+3,referent first,58,13,B34,H3,A25,L,0,B34,darg,black-background
+3,referent first,59,14,B4,A25,D3,C,1,A25,virdex,black-background
+3,referent first,60,15,H3,D3,B34,C,1,D3,nera,black-background
+4,referent first,76,16,J2,B23,A28,C,1,B23,sibu,black-background
+4,referent first,77,17,B23,I4,A3,R,2,A3,osid,black-background
+4,referent first,78,18,A28,A3,J2,L,0,A28,chatten,black-background
+4,referent first,79,19,I4,A28,B23,L,0,I4,foom,black-background
+4,referent first,80,20,A3,J2,I4,C,1,J2,yok,black-background
+5,simultaneous,96,21,B26,C30,G3,L,0,C30,colat,black-background
+5,simultaneous,97,22,D1,G3,C26,C,1,G3,juss,black-background
+5,simultaneous,98,23,C30,B26,D1,R,2,D1,zeb,black-background
+5,simultaneous,99,24,G3,C26,B26,C,1,C26,edoz,black-background
+5,simultaneous,100,25,C26,D1,C30,R,2,B26,wiso,black-background
+6,simultaneous,116,26,C27,K1,L1,L,0,C27,wilp,black-background
+6,simultaneous,117,27,L1,A35,B28,R,2,B28,isot,black-background
+6,simultaneous,118,28,K1,B28,C27,L,0,K1,pizer,black-background
+6,simultaneous,119,29,A35,L1,K1,C,1,L1,regli,black-background
+6,simultaneous,120,30,B28,C27,A35,R,2,A35,smosh,black-background
