@@ -139,7 +139,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.3.12 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.4 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -577,7 +577,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     //
     // }
 
-    // TEST PHONO
+    // TEST FORM REC
 
     // var phono_instr = {
     //   type: 'audio-button-response-flexiblelocations',
@@ -657,7 +657,62 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     // }
 
 
-    // TEST VISUO
+    // TEST REF REC
+
+
+    var ref_instr = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 7000,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      display_attribute: ['inline-block'],
+      stimulus: audioExt+"instruct-link.wav",
+      choices: [imageStart+"mae"+imageStop],
+    }
+
+    // timeline.push(visuo_instr)
+
+
+    for (var i = testStart; i < testStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+test_Ref[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+
+      var test_referent = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['0px','0px','0px'],
+        margin_bottom: ['0px','0px','0px'],
+        margin_left: ['0px','150px','0px'],
+        margin_right: ['0px','0px','0px'],
+        display_attribute:['inline-block','inline-block','block'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
+        stimulus: null,
+        choices: [imageStart+test_Ref[i]['left_image']+imageStop, imageStart+test_Ref[i]['center_image']+imageStop, imageStart+test_Ref[i]['right_image']+imageStop],
+        data:{phase:'test_Ref',block:test_Ref[i]['block'],trial:test_Ref[i]['phase_num'],condition:test_Ref[i]['condition'],alien:test_Ref[i]['alien'],target_side:test_Ref[i]['target'],correct_response:test_Ref[i]['correct_response']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+
+      }
+    }
+
+      timeline.push(test_referent)
+
+    }
+
+    // TEST LINK
 
     var visuo_instr = {
       type: 'audio-button-response-flexiblelocations',
