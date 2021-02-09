@@ -139,7 +139,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.4 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.4.1 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -527,134 +527,141 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     }
 
-    // for (var i = teachingStart; i < teachingStop; i++) {
-    //
-    //   var show_trial_num = {
-    //     type:'html-keyboard-response',
-    //     stimulus: "<p style='font-size:90px;'>"+teaching[i]['tr_num']+"</p>",
-    //     choices: jsPsych.NO_KEYS,
-    //     set_background:'black-background',
-    //     trial_duration: 500
-    //   }
-    //
-    //   timeline.push(show_trial_num)
-    //
-    //
-    //   var part_1 = {
-    //     type: 'audio-button-response-flexiblelocations',
-    //     trial_duration: teaching[i]['audio1_dur'],
-    //     response_ends_trial: false,
-    //     margin_top: ['0px','0px'],
-    //     margin_bottom: ['0px','0px'],
-    //     margin_left: ['0px','75px'],
-    //     margin_right: ['75px','0px'],
-    //     set_background:teaching[i]['background'],
-    //     stimulus: audioExt+"teaching/"+teaching[i]['audio1']+".wav",
-    //     choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
-    //   }
-    //
-    //   timeline.push(part_1)
-    //
-    //
-    //   var part_2 = {
-    //     type: 'audio-button-response-flexiblelocations',
-    //     trial_duration: teaching[i]['audio2_dur'],
-    //     response_ends_trial: false,
-    //     margin_top: ['0px','0px'],
-    //     margin_bottom: ['0px','0px'],
-    //     margin_left: ['0px','75px'],
-    //     margin_right: ['75px','0px'],
-    //     stimulus: audioExt+"teaching/"+teaching[i]['audio2']+".wav",
-    //     choices: [imageStart+teaching[i]['left_image2']+imageStop, imageStart+teaching[i]['right_image2']+imageStop],
-    //     data:{phase:'teaching',block:teaching[i]['block'],trial:teaching[i]['phase_num'],condition:teaching[i]['condition'],alien:teaching[i]['alien'],name:teaching[i]['name'],target_side:teaching[i]['target_side'],correct_response:teaching[i]['correct_response']},
-    //     post_trial_gap: 500,
-    //     on_finish: function(data) {
-    //       data.correct = data.button_pressed == data.correct_response;
-    //     }
-    //   }
-    //
-    //   timeline.push(part_2)
-    //
-    // }
+    for (var i = teachingStart; i < teachingStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+teaching[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+
+      var part_1 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: teaching[i]['audio1_dur'],
+        response_ends_trial: false,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','75px'],
+        margin_right: ['75px','0px'],
+        display_attribute: ['inline-block','inline-block'],
+        set_background:teaching[i]['background'],
+        stimulus: audioExt+"teaching/"+teaching[i]['audio1']+".wav",
+        choices: [imageStart+teaching[i]['left_image1']+imageStop, imageStart+teaching[i]['right_image1']+imageStop],
+      }
+
+      timeline.push(part_1)
+
+
+      var part_2 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: teaching[i]['audio2_dur'],
+        response_ends_trial: false,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','75px'],
+        margin_right: ['75px','0px'],
+        display_attribute: ['inline-block','inline-block'],
+        stimulus: audioExt+"teaching/"+teaching[i]['audio2']+".wav",
+        choices: [imageStart+teaching[i]['left_image2']+imageStop, imageStart+teaching[i]['right_image2']+imageStop],
+        data:{phase:'teaching',block:teaching[i]['block'],trial:teaching[i]['phase_num'],condition:teaching[i]['condition'],alien:teaching[i]['alien'],name:teaching[i]['name'],target_side:teaching[i]['target_side'],correct_response:teaching[i]['correct_response']},
+        post_trial_gap: 500,
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+
+      timeline.push(part_2)
+
+    }
 
     // TEST FORM REC
 
-    // var phono_instr = {
-    //   type: 'audio-button-response-flexiblelocations',
-    //   trial_duration: 8000,
-    //   response_ends_trial: false,
-    //   margin_top: ['100px'],
-    //   margin_bottom: ['0px'],
-    //   margin_left: ['300'],
-    //   margin_right: ['0px'],
-    //   // stimulus: audioExt+data[i]['audio1']+".wav",
-    //   stimulus: audioExt+"instruct-sound.wav",
-    //   choices: [imageStart+"mae"+imageStop],
-    // }
-    //
-    // timeline.push(phono_instr)
-    //
-    //
-    // for (var i = testStart; i < testStop; i++) {
-    //
-    //   var show_trial_num = {
-    //     type:'html-keyboard-response',
-    //     stimulus: "<p style='font-size:90px;'>"+test_Sound[i]['tr_num']+"</p>",
-    //     choices: jsPsych.NO_KEYS,
-    //     set_background:'black-background',
-    //     trial_duration: 500
-    //   }
-    //
-    //   timeline.push(show_trial_num)
-    //
-    //   var test_phono_1 = {
-    //     type: 'audio-button-response-flexiblelocations',
-    //     trial_duration: 1000,
-    //     response_ends_trial: false,
-    //     margin_top: ['300px'],
-    //     margin_bottom: ['0px'],
-    //     margin_left: ['0px'],
-    //     margin_right: ['680px'],
-    //     stimulus: audioExt+"testing/"+test_Sound[i]['sound1']+".wav",
-    //     choices: [imageStart+'dot'+dotStop],
-    //   }
-    //
-    //   timeline.push(test_phono_1)
-    //
-    //   var test_phono_2 = {
-    //     type: 'audio-button-response-flexiblelocations',
-    //     trial_duration: 1000,
-    //     response_ends_trial: false,
-    //     margin_top: ['300px','300px'],
-    //     margin_bottom: ['0px','0px'],
-    //     margin_left: ['0px','200px'],
-    //     margin_right: ['0px','340px'],
-    //     stimulus: audioExt+"testing/"+test_Sound[i]['sound2']+".wav",
-    //     choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
-    //   }
-    //
-    //   timeline.push(test_phono_2)
-    //
-    //
-    //   var test_phono_3 = {
-    //     type: 'audio-button-response-flexiblelocations',
-    //     trial_duration: null,
-    //     response_ends_trial: true,
-    //     margin_top: ['300px','300px','300px'],
-    //     margin_bottom: ['0px','0px','0px'],
-    //     margin_left: ['0px','200px','200px'],
-    //     margin_right: ['0px','0px','0px'],
-    //     stimulus: audioExt+"testing/"+test_Sound[i]['sound3']+".wav",
-    //     choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
-    //     data:{phase:'test_sound',block:test_Sound[i]['block'],trial:test_Sound[i]['phase_num'],condition:test_Sound[i]['condition'],name:test_Sound[i]['name'],target_side:test_Sound[i]['target_side'],correct_response:test_Sound[i]['correct_response']},
-    //     on_finish: function(data) {
-    //       data.correct = data.button_pressed == data.correct_response;
-    //   }
-    // }
-    //
-    //   timeline.push(test_phono_3)
-    //
-    // }
+    var phono_instr = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 8000,
+      response_ends_trial: false,
+      margin_top: ['100px'],
+      margin_bottom: ['0px'],
+      margin_left: ['300'],
+      margin_right: ['0px'],
+      display_attribute: ['inline-block'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
+      stimulus: audioExt+"instruct-sound.wav",
+      choices: [imageStart+"mae"+imageStop],
+    }
+
+    timeline.push(phono_instr)
+
+
+    for (var i = testStart; i < testStop; i++) {
+
+      var show_trial_num = {
+        type:'html-keyboard-response',
+        stimulus: "<p style='font-size:90px;'>"+test_Sound[i]['tr_num']+"</p>",
+        choices: jsPsych.NO_KEYS,
+        set_background:'black-background',
+        trial_duration: 500
+      }
+
+      timeline.push(show_trial_num)
+
+      var test_phono_1 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 1000,
+        response_ends_trial: false,
+        margin_top: ['300px'],
+        margin_bottom: ['0px'],
+        margin_left: ['0px'],
+        margin_right: ['680px'],
+        display_attribute: ['inline-block'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound1']+".wav",
+        choices: [imageStart+'dot'+dotStop],
+      }
+
+      timeline.push(test_phono_1)
+
+      var test_phono_2 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: 1000,
+        response_ends_trial: false,
+        margin_top: ['300px','300px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','200px'],
+        margin_right: ['0px','340px'],
+        display_attribute: ['inline-block','inline-block'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound2']+".wav",
+        choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+      }
+
+      timeline.push(test_phono_2)
+
+
+      var test_phono_3 = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['300px','300px','300px'],
+        margin_bottom: ['0px','0px','0px'],
+        margin_left: ['0px','200px','200px'],
+        margin_right: ['0px','0px','0px'],
+        display_attribute: ['inline-block','inline-block','inline-block'],
+        stimulus: audioExt+"testing/"+test_Sound[i]['sound3']+".wav",
+        choices: [imageStart+'dot'+dotStop,imageStart+'dot'+dotStop,imageStart+'dot'+dotStop],
+        data:{phase:'test_sound',block:test_Sound[i]['block'],trial:test_Sound[i]['phase_num'],condition:test_Sound[i]['condition'],name:test_Sound[i]['name'],target_side:test_Sound[i]['target_side'],correct_response:test_Sound[i]['correct_response']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+      }
+    }
+
+      timeline.push(test_phono_3)
+
+    }
+
 
 
     // TEST REF REC
@@ -701,7 +708,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         // stimulus: audioExt+data[i]['audio1']+".wav",
         stimulus: null,
         choices: [imageStart+test_Ref[i]['left_image']+imageStop, imageStart+test_Ref[i]['center_image']+imageStop, imageStart+test_Ref[i]['right_image']+imageStop],
-        data:{phase:'test_Ref',block:test_Ref[i]['block'],trial:test_Ref[i]['phase_num'],condition:test_Ref[i]['condition'],alien:test_Ref[i]['alien'],target_side:test_Ref[i]['target'],correct_response:test_Ref[i]['correct_response']},
+        data:{phase:'test_ref',block:test_Ref[i]['block'],trial:test_Ref[i]['phase_num'],condition:test_Ref[i]['condition'],alien:test_Ref[i]['alien'],target_side:test_Ref[i]['target'],correct_response:test_Ref[i]['correct_response']},
         on_finish: function(data) {
           data.correct = data.button_pressed == data.correct_response;
 
@@ -795,11 +802,16 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         var correct_trials_sound = trials_sound.filter({correct: true});
         var accuracy_sound = Math.round(correct_trials_sound.count() / trials_sound.count() * 100);
 
+        var trials_ref = jsPsych.data.get().filter({phase: 'test_ref'});
+        var correct_trials_ref = trials_ref.filter({correct: true});
+        var accuracy_ref = Math.round(correct_trials_ref.count() / trials_ref.count() * 100);
+
         var trials_link = jsPsych.data.get().filter({phase: 'test_link'});
         var correct_trials_link = trials_link.filter({correct: true});
         var accuracy_link = Math.round(correct_trials_link.count() / trials_link.count() * 100);
         return "<p>You correctly identified the names (form recognition) on "+accuracy_sound+"% of the trials.</p>"+
-        "<p>You correctly identified the aliens (link recognition) on "+accuracy_link+"% of the trials.</p>"
+        "<p>You correctly identified the aliens (referent recognition) on "+accuracy_ref+"% of the trials.</p>"+
+        "<p>You correctly identified the alien-name pairs (link recognition) on "+accuracy_link+"% of the trials.</p>"
         "<p>Click the button below to end the experiment and upload your data to REDCap. Thank you!</p>";
       },
       choices: ["Exit & Save"],
@@ -813,7 +825,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
 // ITERATE THROUGH BLOCKS
 
-  for (var block_num = 0; block_num <= 5; block_num++) {
+  // for (var block_num = 0; block_num <= 5; block_num++) {
+  for (var block_num = 0; block_num <= 1; block_num++) {
     // console.log(block_num)
     // presentBlock(block_num)
     presentBlock(block_num)
@@ -1000,6 +1013,7 @@ function uploadToRedcap(token) {
           "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
           JSON.stringify({record_id: id, subject_num: subject_id, order: trial_order, date: JSON.stringify(DoT),
             results_sound:jsPsych.data.get().filter({phase: 'test_sound'}).json(),
+            results_ref:jsPsych.data.get().filter({phase: 'test_ref'}).json(),
             results_link:jsPsych.data.get().filter({phase: 'test_link'}).json()
           }) +
           // data_export+
