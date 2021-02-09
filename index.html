@@ -83,32 +83,6 @@ Papa.parse(soundURL, {
 	          }
 	        })
 
-// function loadRefTrials(test_Sound) {
-//   Papa.parse(refURL, {
-// 	          download: true,
-// 	          header: true,
-//             dynamicTyping: true,
-// 	          complete: function(results) {
-// 	            var test_Ref = results.data
-// 	            console.log(test_Ref)
-//               loadLinkTrials(test_Sound,test_Ref);
-// 	          }
-// 	        })
-//         }
-//
-// function loadLinkTrials(test_Sound,test_Ref) {
-//   Papa.parse(linkURL, {
-// 	          download: true,
-// 	          header: true,
-//             dynamicTyping: true,
-// 	          complete: function(results) {
-// 	            var test_Link = results.data
-// 	            console.log(test_Link)
-//               loadTeaching(test_Sound,test_Ref,test_Link);
-// 	          }
-// 	        })
-//         }
-
 function loadLinkTrials(test_Sound) {
   Papa.parse(linkURL, {
 	          download: true,
@@ -130,12 +104,23 @@ function loadTeaching(test_Sound,test_Link) {
 	          complete: function(results) {
 	            var teaching = results.data
 	            console.log(teaching)
-              startExperiment(teaching,test_Sound,test_Link);
+              loadRefTrials(teaching,test_Sound,test_Link);
 	          }
 	        })
         }
 
-
+function loadRefTrials(teaching,test_Sound,test_Link) {
+  Papa.parse(refURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var test_Ref = results.data
+	            console.log(test_Ref)
+              startExperiment(teaching,test_Sound,test_Ref,test_Link);
+	          }
+	        })
+        }
 
 // window.addEventListener('DOMxContentLoaded', init)
 
@@ -148,7 +133,7 @@ document.body.style.backgroundRepeat = "no-repeat";
 
 var timeline = []
 
-function createTrials(teaching, test_Sound, test_Link, tabletop) {
+function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
 
   var welcome = {
@@ -968,9 +953,9 @@ function uploadToRedcap(token) {
 }
 
 
-function startExperiment(teaching, test_Sound, test_Link, tabletop) {
+function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 	// createTrials(data,tabletop);
-  createTrials(teaching,test_Sound,test_Link);
+  createTrials(teaching,test_Sound,test_Ref,test_Link);
 jsPsych.init({
   timeline: timeline,
   // preload_audio:audio,
