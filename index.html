@@ -79,12 +79,24 @@ Papa.parse(soundURL, {
 	          complete: function(results) {
 	            var test_Sound = results.data
 	            console.log(test_Sound)
-              loadLinkTrials(test_Sound);
+              loadRefTrials(test_Sound);
 	          }
 	        })
 
+function loadRefTrials(test_Sound) {
+  Papa.parse(refURL, {
+	          download: true,
+	          header: true,
+            dynamicTyping: true,
+	          complete: function(results) {
+	            var test_Ref = results.data
+	            console.log(test_Ref)
+              loadLinkTrials(test_Sound,test_Ref);
+	          }
+	        })
+        }
 
-function loadLinkTrials(test_Sound) {
+function loadLinkTrials(test_Sound,test_Ref) {
   Papa.parse(linkURL, {
 	          download: true,
 	          header: true,
@@ -92,13 +104,13 @@ function loadLinkTrials(test_Sound) {
 	          complete: function(results) {
 	            var test_Link = results.data
 	            console.log(test_Link)
-              loadTeaching(test_Sound,test_Link);
+              loadTeaching(test_Sound,test_Ref,test_Link);
 	          }
 	        })
         }
 
 
-function loadTeaching(test_Sound,test_Link) {
+function loadTeaching(test_Sound,test_Ref,test_Link) {
   Papa.parse(teachingURL, {
 	          download: true,
 	          header: true,
@@ -106,7 +118,7 @@ function loadTeaching(test_Sound,test_Link) {
 	          complete: function(results) {
 	            var teaching = results.data
 	            console.log(teaching)
-              startExperiment(teaching,test_Sound,test_Link);
+              startExperiment(teaching,test_Sound,test_Ref,test_Link);
 	          }
 	        })
         }
