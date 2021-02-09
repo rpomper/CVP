@@ -79,24 +79,37 @@ Papa.parse(soundURL, {
 	          complete: function(results) {
 	            var test_Sound = results.data
 	            console.log(test_Sound)
-              loadRefTrials(test_Sound);
+              loadLinkTrials(test_Sound);
 	          }
 	        })
 
-function loadRefTrials(test_Sound) {
-  Papa.parse(refURL, {
-	          download: true,
-	          header: true,
-            dynamicTyping: true,
-	          complete: function(results) {
-	            var test_Ref = results.data
-	            console.log(test_Ref)
-              loadLinkTrials(test_Sound,test_Ref);
-	          }
-	        })
-        }
+// function loadRefTrials(test_Sound) {
+//   Papa.parse(refURL, {
+// 	          download: true,
+// 	          header: true,
+//             dynamicTyping: true,
+// 	          complete: function(results) {
+// 	            var test_Ref = results.data
+// 	            console.log(test_Ref)
+//               loadLinkTrials(test_Sound,test_Ref);
+// 	          }
+// 	        })
+//         }
+//
+// function loadLinkTrials(test_Sound,test_Ref) {
+//   Papa.parse(linkURL, {
+// 	          download: true,
+// 	          header: true,
+//             dynamicTyping: true,
+// 	          complete: function(results) {
+// 	            var test_Link = results.data
+// 	            console.log(test_Link)
+//               loadTeaching(test_Sound,test_Ref,test_Link);
+// 	          }
+// 	        })
+//         }
 
-function loadLinkTrials(test_Sound,test_Ref) {
+function loadLinkTrials(test_Sound) {
   Papa.parse(linkURL, {
 	          download: true,
 	          header: true,
@@ -104,11 +117,10 @@ function loadLinkTrials(test_Sound,test_Ref) {
 	          complete: function(results) {
 	            var test_Link = results.data
 	            console.log(test_Link)
-              loadTeaching(test_Sound,test_Ref,test_Link);
+              loadTeaching(test_Sound,test_Link);
 	          }
 	        })
         }
-
 
 function loadTeaching(test_Sound,test_Ref,test_Link) {
   Papa.parse(teachingURL, {
@@ -118,7 +130,7 @@ function loadTeaching(test_Sound,test_Ref,test_Link) {
 	          complete: function(results) {
 	            var teaching = results.data
 	            console.log(teaching)
-              startExperiment(teaching,test_Sound,test_Ref,test_Link);
+              startExperiment(teaching,test_Sound,test_Link);
 	          }
 	        })
         }
@@ -142,7 +154,7 @@ function createTrials(teaching, test_Sound, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.3.8 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.3.9 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
