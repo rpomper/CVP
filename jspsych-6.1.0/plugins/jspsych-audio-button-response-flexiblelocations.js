@@ -89,7 +89,7 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
       display_attribute: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Display',
-        default: 'inline-block%',
+        default: ['inline-block'],
         description: 'Set the display attribute for each button'
       },
       response_ends_trial: {
