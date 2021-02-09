@@ -86,6 +86,12 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
         default: '100%',
         description: 'The percentage of screen size or raw size of the background image'
       },
+      display_attribute: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Display',
+        default: 'inline-block',
+        description: 'How to position button'
+      },
       response_ends_trial: {
         type: jsPsych.plugins.parameterType.BOOL,
         pretty_name: 'Response ends trial',
@@ -147,7 +153,8 @@ jsPsych.plugins["audio-button-response-flexiblelocations"] = (function() {
     for (var i = 0; i < trial.choices.length; i++) {
       var str = buttons[i].replace(/%choice%/g, trial.choices[i]);
       //html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display: inline-block; margin:'+trial.margin_vertical+' '+trial.margin_horizontal+'" id="jspsych-audio-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
-	  html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display: inline-block; margin-top:'+ trial.margin_top[i]+'; margin-bottom:'+ trial.margin_bottom[i]+'; margin-right:'+ trial.margin_right[i]+';margin-left:' + trial.margin_left[i]+'; '+'" id="jspsych-audio-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
+	  // html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display: inline-block; margin-top:'+ trial.margin_top[i]+'; margin-bottom:'+ trial.margin_bottom[i]+'; margin-right:'+ trial.margin_right[i]+';margin-left:' + trial.margin_left[i]+'; '+'" id="jspsych-audio-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
+    html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display:'+ trial.display_attribute[i]+'; margin-top:'+ trial.margin_top[i]+'; margin-bottom:'+ trial.margin_bottom[i]+'; margin-right:'+ trial.margin_right[i]+';margin-left:' + trial.margin_left[i]+'; '+'" id="jspsych-audio-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
     }
 		html += '</div>';
 
