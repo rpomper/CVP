@@ -139,7 +139,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.5.4 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.5.5 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -158,7 +158,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var wait_to_start = {
     type: "html-button-response",
     stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the START button to begin the experiment.</br> </p>",
-    choices: ["START"],
+    // choices: ["START"],
+    choices: [imageStart+"start-button.jpg"],
     trial_duration: null,
     set_background: "black-background"
   }
@@ -807,9 +808,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       // stimulus: audioExt+data[i]['audio1']+".wav",
       stimulus: audioExt+"between-block.wav",
       prompt: "<p style='font-size:30px;'>Great Job! You have "+blocks_left.toString()+" groups left.",
-      choices: ["<p style='font-size:30px;'>OK"],
+      // choices: ["<p style='font-size:30px;'>OK"],
+      choices: [imageStart+'ok-button.jpg'],
       set_background: "end-block-"+block_num.toString(),
-      background_size: "75%"
+      background_size: "100%"
     }
 
     timeline.push(progress_between_block)
