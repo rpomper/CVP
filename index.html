@@ -130,6 +130,16 @@ document.body.style.backgroundSize = "100%";
 document.body.style.backgroundPosition = "top";
 document.body.style.backgroundRepeat = "no-repeat";
 
+var expLength = teaching.length;
+var soundLength = test_Sound.length;
+var linkLength = test_Link.length;
+var audioExt="stimuli/sounds/"
+var imageStart='<img src= "stimuli/images/'
+var imageStop= '.jpg"  title = "" width="300" height="300">'
+var numStop= '.jpg"  title = "" width="350" height="450">'
+var dotStop= '.jpg"  title = "" width="100" height="100">'
+var spaceStop= '.jpg"  title = "" width="800" height="218">'
+
 
 var timeline = []
 
@@ -139,7 +149,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.5.6 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.5.7 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -159,22 +169,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     type: "html-button-response",
     stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the START button to begin the experiment.</br> </p>",
     // choices: ["START"],
-    choices: [imageStart+'start-button.jpg title = "" width="200" height="100">'],
+    choices: ['<img src= "stimuli/images/start-button.jpg" title = "" width="200" height="100">'],
     trial_duration: null,
     set_background: "black-background"
   }
 
   timeline.push(wait_to_start);
 
-  var expLength = teaching.length;
-  var soundLength = test_Sound.length;
-  var linkLength = test_Link.length;
-  var audioExt="stimuli/sounds/"
-  var imageStart='<img src= "stimuli/images/'
-  var imageStop= '.jpg"  title = "" width="300" height="300">'
-  var numStop= '.jpg"  title = "" width="350" height="450">'
-  var dotStop= '.jpg"  title = "" width="100" height="100">'
-  var spaceStop= '.jpg"  title = "" width="800" height="218">'
+
 
 
   // MINI-GAME 1: BUILD SHIP
@@ -809,7 +811,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       stimulus: audioExt+"between-block.wav",
       prompt: "<p style='font-size:30px;'>Great Job! You have "+blocks_left.toString()+" groups left.",
       // choices: ["<p style='font-size:30px;'>OK"],
-      choices: [imageStart+'ok-button.jpg title = "" width="200" height="100">'],
+      choices: ['<img src= "stimuli/images/ok-button.jpg" title = "" width="200" height="100">'],
       set_background: "end-block-"+block_num.toString(),
       background_size: "100%"
     }
