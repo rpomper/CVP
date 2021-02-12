@@ -141,7 +141,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var audioExt="stimuli/sounds/"
   var imageStart='<img src= "stimuli/images/'
   var imageStop= '.jpg"  title = "" width="300" height="300">'
-  var numStop= '.jpg"  title = "" width="350" height="450">'
+  var numStop= '.jpg"  title = "" width="250" height="300">'
   var dotStop= '.jpg"  title = "" width="100" height="100">'
   var spaceStop= '.jpg"  title = "" width="800" height="218">'
 
@@ -149,7 +149,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.5.8 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.5.9 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -219,7 +219,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
   // MINI-GAME 2: UNLOCK SHIP (KEYPAD)
 
-  function unlock_ship() {
+  function unlock_ship(code_type) {
 
     document.body.style.backgroundSize = "100%";
 
@@ -232,7 +232,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
-      set_background: 'numpad-1',
+      set_background: 'numpad-'+code_type.toString()+'-1',
+      background_size: "auto",
       stimulus: 'stimuli/sounds/instruct-2-unlock.wav',
       choices: [imageStart+'numpad-keys'+numStop],
     }
@@ -249,7 +250,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ['300'],
         margin_right: ['0px'],
         display_attribute: ['inline-block'],
-        set_background: 'numpad-'+i.toString(),
+        set_background: 'numpad-'+code_type.toString()+"-"+i.toString(),
+        background_size: "auto",
         stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
         choices: [imageStart+'numpad-keys'+numStop],
       }
@@ -266,7 +268,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
-      set_background: 'numpad-6',
+      set_background: 'numpad-'+code_type.toString()+'-6',
+      background_size: "auto",
       stimulus: 'stimuli/sounds/key-7.wav',
       choices: [imageStart+'numpad-keys'+numStop],
     }
@@ -858,10 +861,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   for (var block_num = 0; block_num <= 1; block_num++) {
     // console.log(block_num)
     // presentBlock(block_num)
-    if(block_num==0){build_ship()}
-    if(block_num==1){unlock_ship()}
-    if(block_num==2){load_ship()}
-    if(block_num==3){start_ship()}
+    if(block_num==0){unlock_ship("a")}
+    if(block_num==1){unlock_ship("b")}
+    if(block_num==2){start_ship()}
+    if(block_num==3){plot_route()}
     if(block_num==4){plot_route()}
     // if(block_num < 5) {pause_between_blocks()}
     if(block_num < 5) {show_progress(block_num+1)}
