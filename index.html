@@ -149,7 +149,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<br><br><p style='font-size:30px;'> Version: 1.6 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.6.1 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
@@ -515,7 +515,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       var intro_mae = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: 10000,
+        trial_duration: 26000,
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
@@ -531,7 +531,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       var more_friends = {
         type: 'audio-button-response-flexiblelocations',
-        trial_duration: 9500,
+        trial_duration: 10000,
         response_ends_trial: false,
         margin_top: ['0px','0px'],
         margin_bottom: ['0px','0px'],
@@ -601,7 +601,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     var phono_instr = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 8000,
+      trial_duration: 9000,
       response_ends_trial: false,
       margin_top: ['100px'],
       margin_bottom: ['0px'],
@@ -687,18 +687,18 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     var ref_instr = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 7000,
+      trial_duration: 9000,
       response_ends_trial: false,
       margin_top: ['100px'],
       margin_bottom: ['0px'],
       margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
-      stimulus: audioExt+"instruct-link.wav",
+      stimulus: audioExt+"instruct-ref.wav",
       choices: [imageStart+"mae"+imageStop],
     }
 
-    // timeline.push(visuo_instr)
+    timeline.push(ref_instr)
 
 
     for (var i = testStart; i < testStop; i++) {
@@ -741,7 +741,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     var visuo_instr = {
       type: 'audio-button-response-flexiblelocations',
-      trial_duration: 7000,
+      trial_duration: 8000,
       response_ends_trial: false,
       margin_top: ['100px'],
       margin_bottom: ['0px'],
