@@ -126,7 +126,9 @@ jsPsych.plugins['audio-slider-response'] = (function() {
       }
     }
 
-    var html = '<div id="jspsych-audio-slider-response-wrapper" style="margin: 100px 0px;">';
+    // var html = '<div id="jspsych-audio-slider-response-wrapper" style="margin: 100px 0px;">';
+		var html = '<div id="jspsych-audio-slider-response-wrapper" style="margin-top: 110px; margin-bottom:700px">'; // Ron added to make the slider top-aligned to be properly placed in background
+
 		// RON
 		html += '<div id="jspsych-html-slider-response-topprompt">' + trial.top_prompt + '</div>';
 		html += '<div class="jspsych-audio-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
@@ -145,7 +147,7 @@ jsPsych.plugins['audio-slider-response'] = (function() {
     }
     html += '</div>';
     html += '</div>';
-    html += '</div>';
+    // html += '</div>';
 
 		if (trial.prompt !== null){
 	    html += trial.prompt;
@@ -153,6 +155,7 @@ jsPsych.plugins['audio-slider-response'] = (function() {
 
     // add submit button
     html += '<button id="jspsych-audio-slider-response-next" class="jspsych-btn" '+ (trial.require_movement ? "disabled" : "") + '>'+trial.button_label+'</button>';
+		html += '</div>'; // Ron moved from higher to here
 
     display_element.innerHTML = html;
 

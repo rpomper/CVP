@@ -149,36 +149,367 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   var welcome = {
     type: "fullscreen",
     // fullscreen_mode: false,
-    message: "<p style='font-size:30px;'> Version: 1.6.2 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
+    message: "<br><br><p style='font-size:30px;'> Version: 1.6.1 <br><br><br>Subject: "+subject_id.toString()+"<br><br>Order: "+trial_order.toString()+"</p><br>",
     button_label: "Next",
     delay_after: 250
   }
 
   timeline.push(welcome);
 
+  // var audio_test = {
+  //   type: "audio-keyboard-response",
+  //   stimulus:"stimuli/sounds/audio_check.wav",
+  //   choices:['space'],
+  //   prompt: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> Please adjust the volume on your computer <br> so that your child can comfortably hear the sounds being played. <br> Sounds should be as loud as a person's voice in the room. <br><br><br> Please tell the experimenter when you are ready.</br> </p>"
+  // }
+  //
+  // timeline.push(audio_test);
 
-  var wait_for_instructions = {
+  var wait_to_start = {
     type: "html-button-response",
-    stimulus: "<p style='font-size:30px;'> When you are ready, click the NEXT button to hear the instructions.</br> </p>",
-    choices: ['Next'],
+    stimulus: "<br><br><br><br><br><br><br><br><p style='font-size:30px;'> When you are ready, click the START button to begin the experiment.</br> </p>",
+    // choices: ["START"],
+    choices: ['<img src= "stimuli/images/start-button.jpg" title = "" width="200" height="100">'],
     trial_duration: null,
     set_background: "black-background"
   }
 
-  timeline.push(wait_for_instructions);
+  timeline.push(wait_to_start);
 
+
+
+
+  // MINI-GAME 1: BUILD SHIP
+
+  function build_ship() {
+
+    var build_instructions = {
+      type: "audio-keyboard-response",
+      stimulus: audioExt+"instruct-1-build.wav",
+      trial_duration: 7000,
+      response_ends_trial: false,
+      choices:jsPsych.NO_KEYS,
+      set_background: 'launch-pad-background',
+      background_size: 'auto',
+      prompt: " "
+    }
+
+    timeline.push(build_instructions);
+
+
+    var spaceship_parts = ['stimuli/images/spaceship-1.jpg','stimuli/images/spaceship-2.jpg','stimuli/images/spaceship-3.jpg']
+
+    var assemble_ship = {
+      type: 'free-sort',
+      stimuli: spaceship_parts,
+      stim_height: 100,
+      stim_width: 150,
+      sort_area_height: 500,
+      sort_area_width: 600,
+      set_background:'launch-pad-background',
+      prompt: " ",
+      button_label: "OK"
+    };
+
+    timeline.push(assemble_ship)
+
+  }
+
+
+
+  // MINI-GAME 2: UNLOCK SHIP (KEYPAD)
+
+  function unlock_ship(code_type) {
+
+    document.body.style.backgroundSize = "100%";
+
+    var num_pad_start = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 6500,
+      response_ends_trial: false,
+      margin_top: ['25px'],
+      margin_bottom: ['0px'],
+      margin_left: ['20px'],
+      margin_right: ['0px'],
+      display_attribute: ['inline-block'],
+      set_background: 'numpad-'+code_type.toString()+'-1',
+      background_size: "auto",
+      stimulus: 'stimuli/sounds/instruct-2-unlock.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad_start)
+
+    for (var i = 1; i <= 6; i++) {
+      var num_pad = {
+        type: 'audio-button-response-flexiblelocations',
+        trial_duration: null,
+        response_ends_trial: true,
+        margin_top: ['25px'],
+        margin_bottom: ['0px'],
+        margin_left: ['20px'],
+        margin_right: ['0px'],
+        display_attribute: ['inline-block'],
+        set_background: 'numpad-'+code_type.toString()+"-"+i.toString(),
+        background_size: "auto",
+        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+        choices: [imageStart+'numpad-keys'+numStop],
+      }
+
+      timeline.push(num_pad)
+    }
+
+    var num_pad_end = {
+      type: 'audio-button-response-flexiblelocations',
+      trial_duration: 500,
+      response_ends_trial: false,
+      margin_top: ['25px'],
+      margin_bottom: ['0px'],
+      margin_left: ['20px'],
+      margin_right: ['0px'],
+      display_attribute: ['inline-block'],
+      set_background: 'numpad-'+code_type.toString()+'-6',
+      background_size: "auto",
+      stimulus: 'stimuli/sounds/key-7.wav',
+      choices: [imageStart+'numpad-keys'+numStop],
+    }
+
+    timeline.push(num_pad_end)
+
+  }
+
+
+
+
+  // MINI-GAME 3: LOAD SHIP (LUGGAGE)
+
+  function load_ship() {
+
+    document.body.style.backgroundSize = "auto";
+
+    var load_instructions = {
+      type: "audio-keyboard-response",
+      stimulus: audioExt+"instruct-3-load.wav",
+      trial_duration: 8650,
+      response_ends_trial: false,
+      choices:jsPsych.NO_KEYS,
+      set_background: 'launch-pad-ship-background',
+      background_size: 'auto',
+      prompt: " "
+    }
+
+    timeline.push(load_instructions);
+
+
+    var items = ['stimuli/images/luggage-1.jpg','stimuli/images/luggage-2.jpg','stimuli/images/luggage-3.jpg','stimuli/images/newspaper.jpg','stimuli/images/plastic-bag.jpg']
+
+    var load_ship = {
+      type: 'free-sort',
+      stimuli: items,
+      sort_area_height: 500,
+      sort_area_width: 600,
+      set_background:'launch-pad-ship-background',
+      prompt: " ",
+      button_label: "OK"
+    };
+
+    timeline.push(load_ship)
+
+  }
+
+
+
+
+  // MINI-GAME 4: START SHIP (LEVER)
+
+  function start_ship() {
+
+    var lever = {
+      type: 'audio-slider-response',
+      top_prompt: '<br><br> </br>',
+      stimulus: 'stimuli/sounds/instruct-4-turnon.wav',
+      labels: ['1', '2','3','4','5'],
+      slider_start: 1,
+      min:1,
+      max:5,
+      step:1,
+      button_label: 'OK',
+      slider_width: 400,
+      set_background: "control-panel-1",
+      prompt: " "
+    };
+
+    timeline.push(lever)
+
+    for (var i = 2; i <= 5; i++) {
+
+      var lever = {
+        type: 'audio-slider-response',
+        top_prompt: '<br><br> </br>',
+        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
+        labels: ['1', '2','3','4','5'],
+        slider_start: 1,
+        min:1,
+        max:5,
+        step:1,
+        button_label: 'OK',
+        slider_width: 400,
+        set_background: "control-panel-"+i.toString(),
+        prompt: " "
+      };
+
+      timeline.push(lever)
+
+    }
+
+  }
+
+  // MINI-GAME 5: PLOT ROUTE
+
+  function plot_route(plot_type) {
+
+      document.body.style.backgroundSize = "auto";
+
+      if(plot_type == "a") {
+
+        var route_start = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          display_attribute: ['inline-block'],
+          set_background: 'control-panel-route',
+          background_size: 'auto',
+          stimulus: 'stimuli/sounds/instruct-5-route.wav',
+          choices: [imageStart+'space-1'+spaceStop],
+        }
+
+        timeline.push(route_start)
+
+        for (var i = 2; i <= 3; i++) {
+          var route = {
+            type: 'audio-button-response-flexiblelocations',
+            trial_duration: null,
+            response_ends_trial: true,
+            margin_top: ['150px'],
+            margin_bottom: ['0px'],
+            margin_left: ['0px'],
+            margin_right: ['0px'],
+            display_attribute: ['inline-block'],
+            set_background: 'control-panel-route',
+            background_size: 'auto',
+            stimulus: 'stimuli/sounds/key-2.wav',
+            choices: [imageStart+'space-'+i.toString()+spaceStop],
+          }
+
+          timeline.push(route)
+        }
+
+        var route_stop = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: 500,
+          response_ends_trial: true,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          display_attribute: ['inline-block'],
+          set_background: 'control-panel-route',
+          background_size: 'auto',
+          stimulus: 'stimuli/sounds/key-2.wav',
+          choices: [imageStart+'space-4'+spaceStop],
+        }
+
+        timeline.push(route_stop)
+
+      }
+
+      if(plot_type == "b") {
+
+        var route_start = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: null,
+          response_ends_trial: true,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          display_attribute: ['inline-block'],
+          set_background: 'control-panel-route',
+          background_size: 'auto',
+          stimulus: 'stimuli/sounds/key-1.wav', //silence
+          choices: [imageStart+'space-5'+spaceStop],
+        }
+
+        timeline.push(route_start)
+
+        for (var i = 6; i <= 7; i++) {
+          var route = {
+            type: 'audio-button-response-flexiblelocations',
+            trial_duration: null,
+            response_ends_trial: true,
+            margin_top: ['150px'],
+            margin_bottom: ['0px'],
+            margin_left: ['0px'],
+            margin_right: ['0px'],
+            display_attribute: ['inline-block'],
+            set_background: 'control-panel-route',
+            background_size: 'auto',
+            stimulus: 'stimuli/sounds/key-2.wav',
+            choices: [imageStart+'space-'+i.toString()+spaceStop],
+          }
+
+          timeline.push(route)
+        }
+
+        var route_stop = {
+          type: 'audio-button-response-flexiblelocations',
+          trial_duration: 500,
+          response_ends_trial: false,
+          margin_top: ['150px'],
+          margin_bottom: ['0px'],
+          margin_left: ['0px'],
+          margin_right: ['0px'],
+          display_attribute: ['inline-block'],
+          set_background: 'control-panel-route',
+          background_size: 'auto',
+          stimulus: 'stimuli/sounds/key-2.wav',
+          choices: [imageStart+'space-8'+spaceStop],
+        }
+
+        timeline.push(route_stop)
+
+      }
+
+
+
+
+
+
+  }
+
+
+// BLOCK PROCEDURE
 
   function presentBlock(block_num) {
+
+    // console.log(block_num)
 
     teachingStart = 0 + 5*block_num
     teachingStop = 5 + 5*block_num
     testStart = 0 + 5*block_num
     testStop = 5 + 5*block_num
 
+    // teachingStart = 0 + 2*block_num
+    // teachingStop = 2 + 2*block_num
+    // testStart = 0 + 1*block_num
+    // testStop = 1 + 1*block_num
 
-/*
- *    TEACHING
-*/
+
+    // TEACHING TRIALS
 
     if(block_num==0) {
 
@@ -195,16 +526,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         choices: [imageStart+"mae"+imageStop, imageStart+"earth"+imageStop],
       }
       timeline.push(intro_mae)
-
-      var wait_to_start = {
-        type: "html-button-response",
-        stimulus: "<p style='font-size:30px;'> When you are ready to meet Mae's friends, click the START button below.</br> </p>",
-        choices: ['<img src= "stimuli/images/start-button.jpg" title = "" width="150" height="75">'],
-        trial_duration: null,
-        set_background: "black-background"
-      }
-
-      timeline.push(wait_to_start);
 
     } else {
 
@@ -276,19 +597,18 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     }
 
-/*
- *    TEST FORM REC
-*/
+    // TEST FORM REC
 
     var phono_instr = {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: 9000,
       response_ends_trial: false,
-      margin_top: ['0px'],
+      margin_top: ['100px'],
       margin_bottom: ['0px'],
-      margin_left: ['0px'],
+      margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
+      // stimulus: audioExt+data[i]['audio1']+".wav",
       stimulus: audioExt+"instruct-sound.wav",
       choices: [imageStart+"mae"+imageStop],
     }
@@ -312,7 +632,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         type: 'audio-button-response-flexiblelocations',
         trial_duration: 1000,
         response_ends_trial: false,
-        margin_top: ['0px'],
+        margin_top: ['300px'],
         margin_bottom: ['0px'],
         margin_left: ['0px'],
         margin_right: ['680px'],
@@ -327,7 +647,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         type: 'audio-button-response-flexiblelocations',
         trial_duration: 1000,
         response_ends_trial: false,
-        margin_top: ['0px','0px'],
+        margin_top: ['300px','300px'],
         margin_bottom: ['0px','0px'],
         margin_left: ['0px','200px'],
         margin_right: ['0px','340px'],
@@ -343,7 +663,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         type: 'audio-button-response-flexiblelocations',
         trial_duration: null,
         response_ends_trial: true,
-        margin_top: ['0px','0px','0px'],
+        margin_top: ['300px','300px','300px'],
         margin_bottom: ['0px','0px','0px'],
         margin_left: ['0px','200px','200px'],
         margin_right: ['0px','0px','0px'],
@@ -361,17 +681,17 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
 
 
-/*
- *    TEST REF REC
-*/
+
+    // TEST REF REC
+
 
     var ref_instr = {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: 9000,
       response_ends_trial: false,
-      margin_top: ['0px'],
+      margin_top: ['100px'],
       margin_bottom: ['0px'],
-      margin_left: ['0px'],
+      margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
       stimulus: audioExt+"instruct-ref.wav",
@@ -403,6 +723,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ['0px','150px','0px'],
         margin_right: ['0px','0px','0px'],
         display_attribute:['inline-block','inline-block','block'],
+        // stimulus: audioExt+data[i]['audio1']+".wav",
         stimulus: null,
         choices: [imageStart+test_Ref[i]['left_image']+imageStop, imageStart+test_Ref[i]['center_image']+imageStop, imageStart+test_Ref[i]['right_image']+imageStop],
         data:{phase:'test_ref',block:test_Ref[i]['block'],trial:test_Ref[i]['phase_num'],condition:test_Ref[i]['condition'],alien:test_Ref[i]['alien'],target_side:test_Ref[i]['target'],correct_response:test_Ref[i]['correct_response']},
@@ -416,18 +737,15 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     }
 
-
-/*
- *    TEST LINK REC
-*/
+    // TEST LINK
 
     var visuo_instr = {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: 8000,
       response_ends_trial: false,
-      margin_top: ['0px'],
+      margin_top: ['100px'],
       margin_bottom: ['0px'],
-      margin_left: ['0px'],
+      margin_left: ['300'],
       margin_right: ['0px'],
       display_attribute: ['inline-block'],
       // stimulus: audioExt+data[i]['audio1']+".wav",
@@ -477,17 +795,12 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   }
 
 
-  /*
-   *    BETWEEN BLOCKS
-  */
-
   function pause_between_blocks() {
 
     var pause_between_blocks = {
       type: "html-button-response",
-      stimulus: "<p style='font-size:30px;'> You're doing great!<br><br>Let's take a break.<br><br>When you are ready to keep going, click OK below. </p><br>",
-      // choices: ["OK"],
-      choices: ['<img src= "stimuli/images/ok-button.jpg" title = "" width="150" height="75">'],
+      stimulus: "<br><br><br><p style='font-size:30px;'> You're doing great!<br><br>Let's take a break.<br><br>When you are ready to keep going, click OK below. </p><br>",
+      choices: ["OK"],
       trial_duration: null,
       set_background: "black-background"
     }
@@ -504,7 +817,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       type: 'audio-button-response-flexiblelocations',
       trial_duration: null,
       response_ends_trial: true,
-      margin_top: ['0px'],
+      margin_top: ['400px'],
       margin_bottom: ['0px'],
       margin_left: ['0px'],
       margin_right: ['0px'],
@@ -520,242 +833,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(progress_between_block)
 
-  }
-
-
-/*
- *    KEYPAD MINI-GAME
-*/
-
-  function unlock_ship(code_type) {
-
-    document.body.style.backgroundSize = "100%";
-
-    var num_pad_start = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: 6500,
-      response_ends_trial: false,
-      margin_top: ['25px'],
-      margin_bottom: ['700px'],
-      margin_left: ['20px'],
-      margin_right: ['0px'],
-      display_attribute: ['inline-block'],
-      set_background: 'numpad-'+code_type.toString()+'-1',
-      background_size: "auto",
-      stimulus: 'stimuli/sounds/instruct-2-unlock.wav',
-      choices: [imageStart+'numpad-keys'+numStop],
-    }
-
-    timeline.push(num_pad_start)
-
-    for (var i = 1; i <= 6; i++) {
-      var num_pad = {
-        type: 'audio-button-response-flexiblelocations',
-        trial_duration: null,
-        response_ends_trial: true,
-        margin_top: ['25px'],
-        margin_bottom: ['700px'],
-        margin_left: ['20px'],
-        margin_right: ['0px'],
-        display_attribute: ['inline-block'],
-        set_background: 'numpad-'+code_type.toString()+"-"+i.toString(),
-        background_size: "auto",
-        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
-        choices: [imageStart+'numpad-keys'+numStop],
-      }
-
-      timeline.push(num_pad)
-    }
-
-    var num_pad_end = {
-      type: 'audio-button-response-flexiblelocations',
-      trial_duration: 500,
-      response_ends_trial: false,
-      margin_top: ['25px'],
-      margin_bottom: ['700px'],
-      margin_left: ['20px'],
-      margin_right: ['0px'],
-      display_attribute: ['inline-block'],
-      set_background: 'numpad-'+code_type.toString()+'-6',
-      background_size: "auto",
-      stimulus: 'stimuli/sounds/key-7.wav',
-      choices: [imageStart+'numpad-keys'+numStop],
-    }
-
-    timeline.push(num_pad_end)
-
-  }
-
-
-
-/*
- *    LEVER MINI-GAME
-*/
-
-  function start_ship() {
-
-    var lever = {
-      type: 'audio-slider-response',
-      top_prompt: '<br><br> </br>',
-      stimulus: 'stimuli/sounds/instruct-4-turnon.wav',
-      labels: ['1', '2','3','4','5'],
-      slider_start: 1,
-      min:1,
-      max:5,
-      step:1,
-      button_label: 'OK',
-      slider_width: 400,
-      set_background: "control-panel-1",
-      prompt: " "
-    };
-
-    timeline.push(lever)
-
-    for (var i = 2; i <= 5; i++) {
-
-      var lever = {
-        type: 'audio-slider-response',
-        top_prompt: '<br><br> </br>',
-        stimulus: 'stimuli/sounds/key-'+i.toString()+'.wav',
-        labels: ['1', '2','3','4','5'],
-        slider_start: 1,
-        min:1,
-        max:5,
-        step:1,
-        button_label: 'OK',
-        slider_width: 400,
-        set_background: "control-panel-"+i.toString(),
-        prompt: " "
-      };
-
-      timeline.push(lever)
-
-    }
-
-  }
-
-
-/*
- *    ROUTE MINI-GAME
-*/
-
-  function plot_route(plot_type) {
-
-      document.body.style.backgroundSize = "auto";
-
-      if(plot_type == "a") {
-
-        var route_start = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: null,
-          response_ends_trial: true,
-          margin_top: ['150px'],
-          margin_bottom: ['700px'],
-          margin_left: ['0px'],
-          margin_right: ['0px'],
-          display_attribute: ['inline-block'],
-          set_background: 'control-panel-route',
-          background_size: 'auto',
-          stimulus: 'stimuli/sounds/instruct-5-route.wav',
-          choices: [imageStart+'space-1'+spaceStop],
-        }
-
-        timeline.push(route_start)
-
-        for (var i = 2; i <= 3; i++) {
-          var route = {
-            type: 'audio-button-response-flexiblelocations',
-            trial_duration: null,
-            response_ends_trial: true,
-            margin_top: ['150px'],
-            margin_bottom: ['700px'],
-            margin_left: ['0px'],
-            margin_right: ['0px'],
-            display_attribute: ['inline-block'],
-            set_background: 'control-panel-route',
-            background_size: 'auto',
-            stimulus: 'stimuli/sounds/key-2.wav',
-            choices: [imageStart+'space-'+i.toString()+spaceStop],
-          }
-
-          timeline.push(route)
-        }
-
-        var route_stop = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: 500,
-          response_ends_trial: true,
-          margin_top: ['150px'],
-          margin_bottom: ['700px'],
-          margin_left: ['0px'],
-          margin_right: ['0px'],
-          display_attribute: ['inline-block'],
-          set_background: 'control-panel-route',
-          background_size: 'auto',
-          stimulus: 'stimuli/sounds/key-2.wav',
-          choices: [imageStart+'space-4'+spaceStop],
-        }
-
-        timeline.push(route_stop)
-
-      }
-
-      if(plot_type == "b") {
-
-        var route_start = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: null,
-          response_ends_trial: true,
-          margin_top: ['150px'],
-          margin_bottom: ['700px'],
-          margin_left: ['0px'],
-          margin_right: ['0px'],
-          display_attribute: ['inline-block'],
-          set_background: 'control-panel-route',
-          background_size: 'auto',
-          stimulus: 'stimuli/sounds/key-1.wav', //silence
-          choices: [imageStart+'space-5'+spaceStop],
-        }
-
-        timeline.push(route_start)
-
-        for (var i = 6; i <= 7; i++) {
-          var route = {
-            type: 'audio-button-response-flexiblelocations',
-            trial_duration: null,
-            response_ends_trial: true,
-            margin_top: ['150px'],
-            margin_bottom: ['700px'],
-            margin_left: ['0px'],
-            margin_right: ['0px'],
-            display_attribute: ['inline-block'],
-            set_background: 'control-panel-route',
-            background_size: 'auto',
-            stimulus: 'stimuli/sounds/key-2.wav',
-            choices: [imageStart+'space-'+i.toString()+spaceStop],
-          }
-
-          timeline.push(route)
-        }
-
-        var route_stop = {
-          type: 'audio-button-response-flexiblelocations',
-          trial_duration: 500,
-          response_ends_trial: false,
-          margin_top: ['150px'],
-          margin_bottom: ['700px'],
-          margin_left: ['0px'],
-          margin_right: ['0px'],
-          display_attribute: ['inline-block'],
-          set_background: 'control-panel-route',
-          background_size: 'auto',
-          stimulus: 'stimuli/sounds/key-2.wav',
-          choices: [imageStart+'space-8'+spaceStop],
-        }
-
-        timeline.push(route_stop)
-
-      }
   }
 
 
