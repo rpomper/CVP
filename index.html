@@ -58,16 +58,18 @@ var DoT = {"month":today.getMonth()+1,"day":today.getDate(),"year":today.getFull
 // 	order: trial_order
 // });
 
-// choose csv file
+// same trial orders used for all orders
+var soundURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv';
+var refURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Ref.csv';
+var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv';
+
+// choose csv file for teaching trials by order ID
 if (trial_order == "1") {
-  var soundURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv';
-  var refURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Ref.csv';
-  var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv';
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
 } else if (trial_order == "2") {
-  var soundURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Sound.csv';
-  var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2-Link.csv';
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
+} else if (trial_order == "3") {
+  var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-3.csv';
 }
 
 
