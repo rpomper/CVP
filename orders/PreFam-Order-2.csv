@@ -8,7 +8,7 @@ block,condition,tr_num,phase_num,left_image1,right_image1,left_image2,right_imag
 2,referent first,22,7,C24,neptune,mercury,neptune,next-her,glark-vis,6000,6000,L,0,C24,glark,black-background
 2,referent first,23,8,C31,jupiter,venus,jupiter,another-his,tulver-vis,6000,6000,L,0,C31,tulver,black-background
 2,referent first,24,9,saturn,B2,saturn,mars,next-his,heab-vis,6000,6000,R,1,B2,heab,black-background
-2,referent first,25,10,venus,E1,venus,saturn,finally-her,eget-vis,6000,6000,R,1,E1,eget,black-background
+2,referent first,25,10,venus,E1,venus,saturn,last-her,eget-vis,6000,6000,R,1,E1,eget,black-background
 3,simultaneous,41,11,jupiter,B34,jupiter,mars,darg-phono,where-she,6000,6000,R,1,B34,darg,black-background
 3,simultaneous,42,12,neptune,H3,neptune,mercury,upos-phono,where-he,6000,6000,R,1,H3,upos,black-background
 3,simultaneous,43,13,B4,jupiter,mercury,jupiter,leche-phono,where-she,6000,6000,L,0,B4,leche,black-background
