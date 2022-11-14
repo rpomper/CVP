@@ -1,9 +1,3 @@
-// $('body,html').addClass('stop-scrolling');
-//$('body').bind('touchmove', function(e){e.preventDefault()})
-
-//Enter subject id
-//var subject_id = prompt("Enter subject id", "test");
-//var trial_order = prompt("Order (1-2)","1");
 const subject_id = jsPsych.data.getURLVariable("sub");
 const trial_order = jsPsych.data.getURLVariable("order");
 const today = new Date();
@@ -15,16 +9,6 @@ const DoT = {
   "min": today.getMinutes(),
 };
 
-// if (day == "1" && session == "1") {var load_teaching = T}
-
-// var input = prompt("Enter input type (touch or click)","touch");
-
-// jsPsych.data.addProperties({
-// 	subject: subject_id,
-// 	order: trial_order
-// });
-
-// same trial orders used for all orders
 const soundURL =
   "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv";
 const refURL =
@@ -32,7 +16,6 @@ const refURL =
 const linkURL =
   "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv";
 
-// choose csv file for teaching trials by order ID
 const teachingURL =
   `https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-${trial_order}.csv`;
 
@@ -86,10 +69,7 @@ function loadRefTrials(teaching, test_Sound, test_Link) {
   });
 }
 
-// window.addEventListener('DOMxContentLoaded', init)
-
 document.body.style.backgroundColor = "black";
-// document.body.style.backgroundImage = "url('stimuli/images/black-background.jpg')";
 document.body.style.backgroundSize = "100%";
 document.body.style.backgroundPosition = "top";
 document.body.style.backgroundRepeat = "no-repeat";
@@ -97,9 +77,6 @@ document.body.style.backgroundRepeat = "no-repeat";
 const timeline = [];
 
 function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
-  const expLength = teaching.length;
-  const soundLength = test_Sound.length;
-  const linkLength = test_Link.length;
   const audioExt = "stimuli/sounds/";
   const imageStart = '<img src= "stimuli/images/';
   const imageStop = '.jpg"  title = "" width="300" height="300">';
@@ -109,7 +86,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
   const welcome = {
     type: "fullscreen",
-    // fullscreen_mode: false,
     message:
       "<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: " +
       subject_id.toString() + "<br><br>Order: " + trial_order.toString() +
@@ -136,10 +112,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     teachingStop = 5 + 5 * block_num;
     testStart = 0 + 5 * block_num;
     testStop = 5 + 5 * block_num;
-
-    /*
- *    TEACHING
-    */
 
     if (block_num == 0) {
       const intro_mae = {
@@ -190,7 +162,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       timeline.push(more_friends);
     }
 
-    for (var i = teachingStart; i < teachingStop; i++) {
+    for (let i = teachingStart; i < teachingStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
         stimulus: "<p style='font-size:90px;'>" + teaching[i]["tr_num"] +
@@ -254,10 +226,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       timeline.push(part_2);
     }
 
-    /*
- *    TEST FORM REC
-    */
-
     const phono_instr = {
       type: "audio-button-response-flexiblelocations",
       trial_duration: 9000,
@@ -273,7 +241,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(phono_instr);
 
-    for (var i = testStart; i < testStop; i++) {
+    for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
         stimulus: "<p style='font-size:90px;'>" + test_Sound[i]["tr_num"] +
@@ -347,10 +315,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       timeline.push(test_phono_3);
     }
 
-    /*
- *    TEST REF REC
-    */
-
     const ref_instr = {
       type: "audio-button-response-flexiblelocations",
       trial_duration: 9000,
@@ -366,7 +330,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(ref_instr);
 
-    for (var i = testStart; i < testStop; i++) {
+    for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
         stimulus: "<p style='font-size:90px;'>" + test_Ref[i]["tr_num"] +
@@ -410,10 +374,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       timeline.push(test_referent);
     }
 
-    /*
- *    TEST LINK REC
-    */
-
     const visuo_instr = {
       type: "audio-button-response-flexiblelocations",
       trial_duration: 8000,
@@ -423,14 +383,13 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      // stimulus: audioExt+data[i]['audio1']+".wav",
       stimulus: audioExt + "instruct-link.wav",
       choices: [imageStart + "mae" + imageStop],
     };
 
     timeline.push(visuo_instr);
 
-    for (var i = testStart; i < testStop; i++) {
+    for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
         stimulus: "<p style='font-size:90px;'>" + test_Link[i]["tr_num"] +
@@ -451,7 +410,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "150px", "0px"],
         margin_right: ["0px", "0px", "0px"],
         display_attribute: ["inline-block", "inline-block", "block"],
-        // stimulus: audioExt+data[i]['audio1']+".wav",
+
         stimulus: audioExt + "testing/" + test_Link[i]["audio"] + ".wav",
         choices: [
           imageStart + test_Link[i]["left_image"] + imageStop,
@@ -477,26 +436,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
   }
 
-  /*
-   *    BETWEEN BLOCKS
-  */
-
-  function pause_between_blocks() {
-    const pause_between_blocks = {
-      type: "html-button-response",
-      stimulus:
-        "<p style='font-size:30px;'> You're doing great!<br><br>Let's take a break.<br><br>When you are ready to keep going, click OK below. </p><br>",
-      // choices: ["OK"],
-      choices: [
-        '<img src= "stimuli/images/ok-button.jpg" title = "" width="150" height="75">',
-      ],
-      trial_duration: null,
-      set_background: "black-background",
-    };
-
-    timeline.push(pause_between_blocks);
-  }
-
   function show_progress(block_num) {
     blocks_left = 6 - block_num;
 
@@ -509,11 +448,9 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      // stimulus: audioExt+data[i]['audio1']+".wav",
       stimulus: audioExt + "between-block.wav",
       prompt: "<p style='font-size:30px;'>Great Job! You have " +
         blocks_left.toString() + " groups left.",
-      // choices: ["<p style='font-size:30px;'>OK"],
       choices: [
         '<img src= "stimuli/images/ok-button.jpg" title = "" width="200" height="100">',
       ],
@@ -523,10 +460,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(progress_between_block);
   }
-
-  /*
- *    KEYPAD MINI-GAME
-  */
 
   function unlock_ship(code_type) {
     document.body.style.backgroundSize = "100%";
@@ -548,7 +481,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(num_pad_start);
 
-    for (var i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 6; i++) {
       const num_pad = {
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
@@ -585,10 +518,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     timeline.push(num_pad_end);
   }
 
-  /*
- *    LEVER MINI-GAME
-  */
-
   function start_ship() {
     const lever = {
       type: "audio-slider-response",
@@ -607,7 +536,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     timeline.push(lever);
 
-    for (var i = 2; i <= 5; i++) {
+    for (let i = 2; i <= 5; i++) {
       const lever = {
         type: "audio-slider-response",
         top_prompt: "<br><br> </br>",
@@ -626,10 +555,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       timeline.push(lever);
     }
   }
-
-  /*
- *    ROUTE MINI-GAME
-  */
 
   function plot_route(plot_type) {
     document.body.style.backgroundSize = "auto";
@@ -652,7 +577,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       timeline.push(route_start);
 
-      for (var i = 2; i <= 3; i++) {
+      for (let i = 2; i <= 3; i++) {
         const route = {
           type: "audio-button-response-flexiblelocations",
           trial_duration: null,
@@ -701,13 +626,13 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         display_attribute: ["inline-block"],
         set_background: "control-panel-route",
         background_size: "auto",
-        stimulus: "stimuli/sounds/key-1.wav", //silence
+        stimulus: "stimuli/sounds/key-1.wav",
         choices: [imageStart + "space-5" + spaceStop],
       };
 
       timeline.push(route_start);
 
-      for (var i = 6; i <= 7; i++) {
+      for (let i = 6; i <= 7; i++) {
         const route = {
           type: "audio-button-response-flexiblelocations",
           trial_duration: null,
@@ -772,7 +697,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
           accuracy_ref + "% of the trials.</p>" +
           "<p>You correctly identified the alien-name pairs (link recognition) on " +
           accuracy_link + "% of the trials.</p>";
-        "<p>Click the button below to end the experiment and upload your data to REDCap. Thank you!</p>";
       },
       choices: ["Exit & Save"],
       trial_duration: null,
@@ -782,23 +706,16 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     timeline.push(display_acc);
   }
 
-  // ITERATE THROUGH BLOCKS
-
-  for (var block_num = 0; block_num <= 5; block_num++) {
-    // for (var block_num = 3; block_num <= 5; block_num++) {
+  for (let block_num = 0; block_num <= 5; block_num++) {
     presentBlock(block_num);
     if (block_num == 0) unlock_ship("a");
     if (block_num == 1) unlock_ship("b");
     if (block_num == 2) start_ship();
     if (block_num == 3) plot_route("a");
     if (block_num == 4) plot_route("b");
-    // if(block_num < 5) {pause_between_blocks()}
-    if (block_num < 5) show_progress(block_num + 1);
-    // if (block_num==5) {display_results()}
-    // if (block_num==1) {display_results()}
-  }
 
-  // END EXPERIMENT
+    if (block_num < 5) show_progress(block_num + 1);
+  }
 
   const fullscreen_exit = {
     type: "fullscreen",
@@ -988,18 +905,16 @@ function uploadToRedcap(token) {
             results_link: jsPsych.data.get().filter({ phase: "test_link" })
               .json(),
           }) +
-          // data_export+
           "]&returnContent=count&returnFormat=json",
       );
     });
 }
 
 function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
-  // createTrials(data,tabletop);
   createTrials(teaching, test_Sound, test_Ref, test_Link);
   jsPsych.init({
     timeline: timeline,
-    // preload_audio:audio,
+
     preload_images: images,
     default_iti: 0,
     on_finish: function () {
