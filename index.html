@@ -51,6 +51,8 @@ let today = new Date()
 var DoT = {"month":today.getMonth()+1,"day":today.getDate(),"year":today.getFullYear(),"hour":today.getHours(),"min":today.getMinutes()}
 
 
+// if (day == "1" && session == "1") {var load_teaching = T}
+
 // var input = prompt("Enter input type (touch or click)","touch");
 
 // jsPsych.data.addProperties({
@@ -66,6 +68,7 @@ var linkURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/Pr
 // choose csv file for teaching trials by order ID
 if (trial_order == "1") {
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1.csv';
+  // var teachingURLNew='https://raw.githubusercontent.com/rpomper/PreFam/master/orders/CPV-Order-'&subject_id&'-'&order&'.csv';
 } else if (trial_order == "2") {
   var teachingURL = 'https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-2.csv';
 } else if (trial_order == "3") {
@@ -1024,7 +1027,7 @@ jsPsych.init({
     console.log(results_link)
     console.log(results_link.mean())
 
-    // uploadToRedcap("EDC83C77C73B6BFCC7619D09AA133708")
+    uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685")
 
     jsPsych.data.displayData()
 
