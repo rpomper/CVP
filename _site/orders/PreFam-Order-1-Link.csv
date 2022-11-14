@@ -1,0 +1,31 @@
+block,condition,tr_num,phase_num,left_image,center_image,right_image,target,correct_response,alien,audio,background
+1,name first,16,1,A33,J3,C1,R,2,C1,trag-test,black-background
+1,name first,17,2,A1,I1,A33,L,0,A1,akar-test,black-background
+1,name first,18,3,C1,A1,J3,R,2,J3,broost-test,black-background
+1,name first,19,4,J3,A33,I1,C,1,A33,mothi-test,black-background
+1,name first,20,5,I1,C1,A1,L,0,I1,gazzer-test,black-background
+2,name first,36,6,C24,C31,E1,L,0,C24,glark-test,black-background
+2,name first,37,7,E3,C24,B2,L,0,E3,koba-test,black-background
+2,name first,38,8,E1,E3,C31,R,2,C31,tulver-test,black-background
+2,name first,39,9,B2,E1,C24,C,1,E1,eget-test,black-background
+2,name first,40,10,C31,B2,E3,C,1,B2,heab-test,black-background
+3,referent first,56,11,A25,B34,B4,R,2,B4,leche-test,black-background
+3,referent first,57,12,D3,B4,H3,R,2,H3,upos-test,black-background
+3,referent first,58,13,B34,H3,A25,L,0,B34,darg-test,black-background
+3,referent first,59,14,B4,A25,D3,C,1,A25,virdex-test,black-background
+3,referent first,60,15,H3,D3,B34,C,1,D3,nera-test,black-background
+4,referent first,76,16,J2,B23,A28,C,1,B23,sibu-test,black-background
+4,referent first,77,17,B23,I4,A3,R,2,A3,osid-test,black-background
+4,referent first,78,18,A28,A3,J2,L,0,A28,chatten-test,black-background
+4,referent first,79,19,I4,A28,B23,L,0,I4,foom-test,black-background
+4,referent first,80,20,A3,J2,I4,C,1,J2,yok-test,black-background
+5,simultaneous,96,21,B26,C30,G3,L,0,C30,colat-test,black-background
+5,simultaneous,97,22,D1,G3,C26,C,1,G3,juss-test,black-background
+5,simultaneous,98,23,C30,B26,D1,R,2,D1,zeb-test,black-background
+5,simultaneous,99,24,G3,C26,B26,C,1,C26,edoz-test,black-background
+5,simultaneous,100,25,C26,D1,C30,R,2,B26,wiso-test,black-background
+6,simultaneous,116,26,C27,K1,L1,L,0,C27,wilp-test,black-background
+6,simultaneous,117,27,L1,A35,B28,R,2,B28,isot-test,black-background
+6,simultaneous,118,28,K1,B28,C27,L,0,K1,pizer-test,black-background
+6,simultaneous,119,29,A35,L1,K1,C,1,L1,regli-test,black-background
+6,simultaneous,120,30,B28,C27,A35,R,2,A35,smosh-test,black-background

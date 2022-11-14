@@ -1,0 +1,31 @@
+block,condition,tr_num,phase_num,left_image1,right_image1,left_image2,right_image2,audio1,audio2,audio1_dur,audio2_dur,target_side,correct_response,alien,name,background
+1,name first,1,1,mercury,venus,mercury,A1,akar-phono,there-he,6000,6000,R,1,A1,akar,black-background
+1,name first,2,2,mars,jupiter,I1,jupiter,gazzer-phono,there-she,6000,6000,L,0,I1,gazzer,black-background
+1,name first,3,3,saturn,neptune,J3,neptune,broost-phono,there-he,6000,6000,L,0,J3,broost,black-background
+1,name first,4,4,neptune,venus,C1,venus,trag-phono,there-she,6000,6000,L,0,C1,trag,black-background
+1,name first,5,5,mars,mercury,mars,A33,mothi-phono,there-he,6000,6000,R,1,A33,mothi,black-background
+2,name first,21,6,jupiter,saturn,jupiter,E3,koba-phono,there-she,6000,6000,R,1,E3,koba,black-background
+2,name first,22,7,mercury,neptune,C24,neptune,glark-phono,there-she,6000,6000,L,0,C24,glark,black-background
+2,name first,23,8,venus,jupiter,C31,jupiter,tulver-phono,there-he,6000,6000,L,0,C31,tulver,black-background
+2,name first,24,9,saturn,mars,saturn,B2,heab-phono,there-he,6000,6000,R,1,B2,heab,black-background
+2,name first,25,10,venus,saturn,venus,E1,eget-phono,there-she,6000,6000,R,1,E1,eget,black-background
+3,referent first,41,11,jupiter,B34,jupiter,mars,first-her,darg-vis,6000,6000,R,1,B34,darg,black-background
+3,referent first,42,12,neptune,H3,neptune,mercury,next-his,upos-vis,6000,6000,R,1,H3,upos,black-background
+3,referent first,43,13,B4,jupiter,mercury,jupiter,another-her,leche-vis,6000,6000,L,0,B4,leche,black-background
+3,referent first,44,14,mars,D3,mars,venus,next-his,nera-vis,6000,6000,R,1,D3,nera,black-background
+3,referent first,45,15,A25,saturn,neptune,saturn,last-her,virdex-vis,6000,6000,L,0,A25,virdex,black-background
+4,referent first,61,16,A28,mercury,saturn,mercury,first-his,chatten-vis,6000,6000,L,0,A28,chatten,black-background
+4,referent first,62,17,jupiter,I4,jupiter,venus,next-his,foom-vis,6000,6000,R,1,I4,foom,black-background
+4,referent first,63,18,A3,neptune,mars,neptune,another-her,osid-vis,6000,6000,L,0,A3,osid,black-background
+4,referent first,64,19,J2,mars,mercury,mars,next-his,yok-vis,6000,6000,L,0,J2,yok,black-background
+4,referent first,65,20,venus,B23,venus,neptune,last-her,sibu-vis,6000,6000,R,1,B23,sibu,black-background
+5,simultaneous,81,21,saturn,B26,saturn,jupiter,wiso-phono,where-she,6000,6000,R,1,B26,wiso,black-background
+5,simultaneous,82,22,jupiter,D1,jupiter,mercury,zeb-phono,where-he,6000,6000,R,1,D1,zeb,black-background
+5,simultaneous,83,23,C30,mars,neptune,mars,colat-phono,where-he,6000,6000,L,0,C30,colat,black-background
+5,simultaneous,84,24,C26,venus,saturn,venus,edoz-phono,where-he,6000,6000,L,0,C26,edoz,black-background
+5,simultaneous,85,25,G3,mercury,venus,mercury,juss-phono,where-she,6000,6000,L,0,G3,juss,black-background
+6,simultaneous,101,26,C27,saturn,mars,saturn,wilp-phono,where-she,6000,6000,L,0,C27,wilp,black-background
+6,simultaneous,102,27,neptune,K1,neptune,jupiter,pizer-phono,where-he,6000,6000,R,1,K1,pizer,black-background
+6,simultaneous,103,28,mercury,A35,mercury,saturn,smosh-phono,where-she,6000,6000,R,1,A35,smosh,black-background
+6,simultaneous,104,29,venus,B28,venus,mars,isot-phono,where-she,6000,6000,R,1,B28,isot,black-background
+6,simultaneous,105,30,L1,neptune,jupiter,neptune,regli-phono,where-he,6000,6000,L,0,L1,regli,black-background
