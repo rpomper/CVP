@@ -871,36 +871,10 @@ function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   createTrials(teaching, test_Sound, test_Ref, test_Link);
   jsPsych.init({
     timeline,
-
     preload_images: images,
     default_iti: 0,
     on_finish() {
-      console.log("form recognition accuracy:");
-      const results_sound = jsPsych.data
-        .get()
-        .filter({ phase: "test_sound" })
-        .select("correct");
-      console.log(results_sound);
-      console.log(results_sound.mean());
-
-      console.log("referent recognition accuracy:");
-      const results_ref = jsPsych.data
-        .get()
-        .filter({ phase: "test_ref" })
-        .select("correct");
-      console.log(results_ref);
-      console.log(results_ref.mean());
-
-      console.log("link recognition accuracy:");
-      const results_link = jsPsych.data
-        .get()
-        .filter({ phase: "test_link" })
-        .select("correct");
-      console.log(results_link);
-      console.log(results_link.mean());
-
       uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
-
       jsPsych.data.displayData();
     },
   });
