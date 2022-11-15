@@ -208,32 +208,28 @@ const images = [
 ];
 
 function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
-  const audioExt = "stimuli/sounds/";
-  const imageStart = '<img src= "stimuli/images/';
-  const imageStop = '.jpg"  title = "" width="300" height="300">';
+  const audioDirectory = "stimuli/sounds/";
+  const imageTagPrefix = '<img src= "stimuli/images/';
+  const imageTagPostfix = '.jpg"  title = "" width="300" height="300">';
   const numStop = '.jpg"  title = "" width="250" height="300">';
   const dotStop = '.jpg"  title = "" width="100" height="100">';
   const spaceStop = '.jpg"  title = "" width="800" height="218">';
 
-  const welcome = {
+  timeline.push({
     type: "fullscreen",
     message: `<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: ${subject_id.toString()}<br><br>Order: ${trial_order.toString()}</p><br>`,
     button_label: "Next",
     delay_after: 250,
-  };
+  });
 
-  timeline.push(welcome);
-
-  const wait_for_instructions = {
+  timeline.push({
     type: "html-button-response",
     stimulus:
       "<p style='font-size:30px;'> When you are ready, click the NEXT button to hear the instructions.</br> </p>",
     choices: ["Next"],
     trial_duration: null,
     set_background: "black-background",
-  };
-
-  timeline.push(wait_for_instructions);
+  });
 
   function presentBlock(block_num) {
     const teachingStart = 0 + 5 * block_num;
@@ -242,7 +238,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     const testStop = 5 + 5 * block_num;
 
     if (block_num === 0) {
-      const intro_mae = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 26000,
         response_ends_trial: false,
@@ -251,15 +247,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: `${audioExt}instruct-start.wav`,
+        stimulus: `${audioDirectory}instruct-start.wav`,
         choices: [
-          `${imageStart}mae${imageStop}`,
-          `${imageStart}earth${imageStop}`,
+          `${imageTagPrefix}mae${imageTagPostfix}`,
+          `${imageTagPrefix}earth${imageTagPostfix}`,
         ],
-      };
-      timeline.push(intro_mae);
+      });
 
-      const wait_to_start = {
+      timeline.push({
         type: "html-button-response",
         stimulus:
           "<p style='font-size:30px;'> When you are ready to meet Mae's friends, click the START button below.</br> </p>",
@@ -268,11 +263,9 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         ],
         trial_duration: null,
         set_background: "black-background",
-      };
-
-      timeline.push(wait_to_start);
+      });
     } else {
-      const more_friends = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 10000,
         response_ends_trial: false,
@@ -281,27 +274,24 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: `${audioExt}instruct-more.wav`,
+        stimulus: `${audioDirectory}instruct-more.wav`,
         choices: [
-          `${imageStart}mae${imageStop}`,
-          `${imageStart}earth${imageStop}`,
+          `${imageTagPrefix}mae${imageTagPostfix}`,
+          `${imageTagPrefix}earth${imageTagPostfix}`,
         ],
-      };
-      timeline.push(more_friends);
+      });
     }
 
     for (let i = teachingStart; i < teachingStop; i += 1) {
-      const show_trial_num = {
+      timeline.push({
         type: "html-keyboard-response",
         stimulus: `<p style='font-size:90px;'>${teaching[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
-      };
+      });
 
-      timeline.push(show_trial_num);
-
-      const part_1 = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: teaching[i].audio1_dur,
         response_ends_trial: false,
@@ -311,16 +301,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
         set_background: teaching[i].background,
-        stimulus: `${audioExt}teaching/${teaching[i].audio1}.wav`,
+        stimulus: `${audioDirectory}teaching/${teaching[i].audio1}.wav`,
         choices: [
-          imageStart + teaching[i].left_image1 + imageStop,
-          imageStart + teaching[i].right_image1 + imageStop,
+          imageTagPrefix + teaching[i].left_image1 + imageTagPostfix,
+          imageTagPrefix + teaching[i].right_image1 + imageTagPostfix,
         ],
-      };
+      });
 
-      timeline.push(part_1);
-
-      const part_2 = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: teaching[i].audio2_dur,
         response_ends_trial: false,
@@ -329,10 +317,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: `${audioExt}teaching/${teaching[i].audio2}.wav`,
+        stimulus: `${audioDirectory}teaching/${teaching[i].audio2}.wav`,
         choices: [
-          imageStart + teaching[i].left_image2 + imageStop,
-          imageStart + teaching[i].right_image2 + imageStop,
+          imageTagPrefix + teaching[i].left_image2 + imageTagPostfix,
+          imageTagPrefix + teaching[i].right_image2 + imageTagPostfix,
         ],
         data: {
           phase: "teaching",
@@ -348,12 +336,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         on_finish(data) {
           data.correct = data.button_pressed === data.correct_response;
         },
-      };
-
-      timeline.push(part_2);
+      });
     }
 
-    const phono_instr = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: 9000,
       response_ends_trial: false,
@@ -362,24 +348,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: `${audioExt}instruct-sound.wav`,
-      choices: [`${imageStart}mae${imageStop}`],
-    };
-
-    timeline.push(phono_instr);
+      stimulus: `${audioDirectory}instruct-sound.wav`,
+      choices: [`${imageTagPrefix}mae${imageTagPostfix}`],
+    });
 
     for (let i = testStart; i < testStop; i += 1) {
-      const show_trial_num = {
+      timeline.push({
         type: "html-keyboard-response",
         stimulus: `<p style='font-size:90px;'>${test_Sound[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
-      };
+      });
 
-      timeline.push(show_trial_num);
-
-      const test_phono_1 = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 1000,
         response_ends_trial: false,
@@ -388,13 +370,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px"],
         margin_right: ["680px"],
         display_attribute: ["inline-block"],
-        stimulus: `${audioExt}testing/${test_Sound[i].sound1}.wav`,
-        choices: [`${imageStart}dot${dotStop}`],
-      };
+        stimulus: `${audioDirectory}testing/${test_Sound[i].sound1}.wav`,
+        choices: [`${imageTagPrefix}dot${dotStop}`],
+      });
 
-      timeline.push(test_phono_1);
-
-      const test_phono_2 = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 1000,
         response_ends_trial: false,
@@ -403,13 +383,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "200px"],
         margin_right: ["0px", "340px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: `${audioExt}testing/${test_Sound[i].sound2}.wav`,
-        choices: [`${imageStart}dot${dotStop}`, `${imageStart}dot${dotStop}`],
-      };
+        stimulus: `${audioDirectory}testing/${test_Sound[i].sound2}.wav`,
+        choices: [
+          `${imageTagPrefix}dot${dotStop}`,
+          `${imageTagPrefix}dot${dotStop}`,
+        ],
+      });
 
-      timeline.push(test_phono_2);
-
-      const test_phono_3 = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -418,11 +399,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "200px", "200px"],
         margin_right: ["0px", "0px", "0px"],
         display_attribute: ["inline-block", "inline-block", "inline-block"],
-        stimulus: `${audioExt}testing/${test_Sound[i].sound3}.wav`,
+        stimulus: `${audioDirectory}testing/${test_Sound[i].sound3}.wav`,
         choices: [
-          `${imageStart}dot${dotStop}`,
-          `${imageStart}dot${dotStop}`,
-          `${imageStart}dot${dotStop}`,
+          `${imageTagPrefix}dot${dotStop}`,
+          `${imageTagPrefix}dot${dotStop}`,
+          `${imageTagPrefix}dot${dotStop}`,
         ],
         data: {
           phase: "test_sound",
@@ -436,12 +417,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         on_finish(data) {
           data.correct = data.button_pressed === data.correct_response;
         },
-      };
-
-      timeline.push(test_phono_3);
+      });
     }
 
-    const ref_instr = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: 9000,
       response_ends_trial: false,
@@ -450,24 +429,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: `${audioExt}instruct-ref.wav`,
-      choices: [`${imageStart}mae${imageStop}`],
-    };
-
-    timeline.push(ref_instr);
+      stimulus: `${audioDirectory}instruct-ref.wav`,
+      choices: [`${imageTagPrefix}mae${imageTagPostfix}`],
+    });
 
     for (let i = testStart; i < testStop; i += 1) {
-      const show_trial_num = {
+      timeline.push({
         type: "html-keyboard-response",
         stimulus: `<p style='font-size:90px;'>${test_Ref[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
-      };
+      });
 
-      timeline.push(show_trial_num);
-
-      const test_referent = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -478,9 +453,9 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         display_attribute: ["inline-block", "inline-block", "block"],
         stimulus: "stimuli/sounds/silence.wav",
         choices: [
-          imageStart + test_Ref[i].left_image + imageStop,
-          imageStart + test_Ref[i].center_image + imageStop,
-          imageStart + test_Ref[i].right_image + imageStop,
+          imageTagPrefix + test_Ref[i].left_image + imageTagPostfix,
+          imageTagPrefix + test_Ref[i].center_image + imageTagPostfix,
+          imageTagPrefix + test_Ref[i].right_image + imageTagPostfix,
         ],
         data: {
           phase: "test_ref",
@@ -494,12 +469,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         on_finish(data) {
           data.correct = data.button_pressed === data.correct_response;
         },
-      };
-
-      timeline.push(test_referent);
+      });
     }
 
-    const visuo_instr = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: 8000,
       response_ends_trial: false,
@@ -508,24 +481,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: `${audioExt}instruct-link.wav`,
-      choices: [`${imageStart}mae${imageStop}`],
-    };
-
-    timeline.push(visuo_instr);
+      stimulus: `${audioDirectory}instruct-link.wav`,
+      choices: [`${imageTagPrefix}mae${imageTagPostfix}`],
+    });
 
     for (let i = testStart; i < testStop; i += 1) {
-      const show_trial_num = {
+      timeline.push({
         type: "html-keyboard-response",
         stimulus: `<p style='font-size:90px;'>${test_Link[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
-      };
+      });
 
-      timeline.push(show_trial_num);
-
-      const test_visuo = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -535,11 +504,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_right: ["0px", "0px", "0px"],
         display_attribute: ["inline-block", "inline-block", "block"],
 
-        stimulus: `${audioExt}testing/${test_Link[i].audio}.wav`,
+        stimulus: `${audioDirectory}testing/${test_Link[i].audio}.wav`,
         choices: [
-          imageStart + test_Link[i].left_image + imageStop,
-          imageStart + test_Link[i].center_image + imageStop,
-          imageStart + test_Link[i].right_image + imageStop,
+          imageTagPrefix + test_Link[i].left_image + imageTagPostfix,
+          imageTagPrefix + test_Link[i].center_image + imageTagPostfix,
+          imageTagPrefix + test_Link[i].right_image + imageTagPostfix,
         ],
         data: {
           phase: "test_link",
@@ -554,16 +523,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         on_finish(data) {
           data.correct = data.button_pressed === data.correct_response;
         },
-      };
-
-      timeline.push(test_visuo);
+      });
     }
   }
 
   function show_progress(block_num) {
     const blocks_left = 6 - block_num;
 
-    const progress_between_block = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: null,
       response_ends_trial: true,
@@ -572,22 +539,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: `${audioExt}between-block.wav`,
+      stimulus: `${audioDirectory}between-block.wav`,
       prompt: `<p style='font-size:30px;'>Great Job! You have ${blocks_left.toString()} groups left.`,
       choices: [
         '<img src= "stimuli/images/ok-button.jpg" title = "" width="200" height="100">',
       ],
       set_background: `end-block-${block_num.toString()}`,
       background_size: "100%",
-    };
-
-    timeline.push(progress_between_block);
+    });
   }
 
   function unlock_ship(code_type) {
     document.body.style.backgroundSize = "100%";
 
-    const num_pad_start = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: 6500,
       response_ends_trial: false,
@@ -599,13 +564,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       set_background: `numpad-${code_type.toString()}-1`,
       background_size: "auto",
       stimulus: "stimuli/sounds/instruct-2-unlock.wav",
-      choices: [`${imageStart}numpad-keys${numStop}`],
-    };
-
-    timeline.push(num_pad_start);
+      choices: [`${imageTagPrefix}numpad-keys${numStop}`],
+    });
 
     for (let i = 1; i <= 6; i += 1) {
-      const num_pad = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -617,13 +580,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: `numpad-${code_type.toString()}-${i.toString()}`,
         background_size: "auto",
         stimulus: `stimuli/sounds/key-${i.toString()}.wav`,
-        choices: [`${imageStart}numpad-keys${numStop}`],
-      };
-
-      timeline.push(num_pad);
+        choices: [`${imageTagPrefix}numpad-keys${numStop}`],
+      });
     }
 
-    const num_pad_end = {
+    timeline.push({
       type: "audio-button-response-flexiblelocations",
       trial_duration: 500,
       response_ends_trial: false,
@@ -635,14 +596,12 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       set_background: `numpad-${code_type.toString()}-6`,
       background_size: "auto",
       stimulus: "stimuli/sounds/key-7.wav",
-      choices: [`${imageStart}numpad-keys${numStop}`],
-    };
-
-    timeline.push(num_pad_end);
+      choices: [`${imageTagPrefix}numpad-keys${numStop}`],
+    });
   }
 
   function start_ship() {
-    const lever = {
+    timeline.push({
       type: "audio-slider-response",
       top_prompt: "<br><br> </br>",
       stimulus: "stimuli/sounds/instruct-4-turnon.wav",
@@ -655,12 +614,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       slider_width: 400,
       set_background: "control-panel-1",
       prompt: " ",
-    };
-
-    timeline.push(lever);
+    });
 
     for (let i = 2; i <= 5; i += 1) {
-      const lever = {
+      timeline.push({
         type: "audio-slider-response",
         top_prompt: "<br><br> </br>",
         stimulus: `stimuli/sounds/key-${i.toString()}.wav`,
@@ -673,9 +630,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         slider_width: 400,
         set_background: `control-panel-${i.toString()}`,
         prompt: " ",
-      };
-
-      timeline.push(lever);
+      });
     }
   }
 
@@ -683,7 +638,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     document.body.style.backgroundSize = "auto";
 
     if (plot_type === "a") {
-      const route_start = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -695,13 +650,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/instruct-5-route.wav",
-        choices: [`${imageStart}space-1${spaceStop}`],
-      };
-
-      timeline.push(route_start);
+        choices: [`${imageTagPrefix}space-1${spaceStop}`],
+      });
 
       for (let i = 2; i <= 3; i += 1) {
-        const route = {
+        timeline.push({
           type: "audio-button-response-flexiblelocations",
           trial_duration: null,
           response_ends_trial: true,
@@ -713,13 +666,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
           set_background: "control-panel-route",
           background_size: "auto",
           stimulus: "stimuli/sounds/key-2.wav",
-          choices: [`${imageStart}space-${i.toString()}${spaceStop}`],
-        };
-
-        timeline.push(route);
+          choices: [`${imageTagPrefix}space-${i.toString()}${spaceStop}`],
+        });
       }
 
-      const route_stop = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 500,
         response_ends_trial: true,
@@ -731,14 +682,12 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-2.wav",
-        choices: [`${imageStart}space-4${spaceStop}`],
-      };
-
-      timeline.push(route_stop);
+        choices: [`${imageTagPrefix}space-4${spaceStop}`],
+      });
     }
 
     if (plot_type === "b") {
-      const route_start = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
         response_ends_trial: true,
@@ -750,13 +699,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-1.wav",
-        choices: [`${imageStart}space-5${spaceStop}`],
-      };
-
-      timeline.push(route_start);
+        choices: [`${imageTagPrefix}space-5${spaceStop}`],
+      });
 
       for (let i = 6; i <= 7; i += 1) {
-        const route = {
+        timeline.push({
           type: "audio-button-response-flexiblelocations",
           trial_duration: null,
           response_ends_trial: true,
@@ -768,13 +715,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
           set_background: "control-panel-route",
           background_size: "auto",
           stimulus: "stimuli/sounds/key-2.wav",
-          choices: [`${imageStart}space-${i.toString()}${spaceStop}`],
-        };
-
-        timeline.push(route);
+          choices: [`${imageTagPrefix}space-${i.toString()}${spaceStop}`],
+        });
       }
 
-      const route_stop = {
+      timeline.push({
         type: "audio-button-response-flexiblelocations",
         trial_duration: 500,
         response_ends_trial: false,
@@ -786,10 +731,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-2.wav",
-        choices: [`${imageStart}space-8${spaceStop}`],
-      };
-
-      timeline.push(route_stop);
+        choices: [`${imageTagPrefix}space-8${spaceStop}`],
+      });
     }
   }
 
@@ -804,11 +747,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     if (block_num < 5) show_progress(block_num + 1);
   }
 
-  const fullscreen_exit = {
+  timeline.push({
     type: "fullscreen",
     fullscreen_mode: false,
-  };
-  timeline.push(fullscreen_exit);
+  });
 }
 
 function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
