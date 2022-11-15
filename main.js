@@ -2,11 +2,11 @@ const subject_id = jsPsych.data.getURLVariable("sub");
 const trial_order = jsPsych.data.getURLVariable("order");
 const today = new Date();
 const DoT = {
-  "month": today.getMonth() + 1,
-  "day": today.getDate(),
-  "year": today.getFullYear(),
-  "hour": today.getHours(),
-  "min": today.getMinutes(),
+  month: today.getMonth() + 1,
+  day: today.getDate(),
+  year: today.getFullYear(),
+  hour: today.getHours(),
+  min: today.getMinutes(),
 };
 
 const soundURL =
@@ -16,14 +16,13 @@ const refURL =
 const linkURL =
   "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv";
 
-const teachingURL =
-  `https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-${trial_order}.csv`;
+const teachingURL = `https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-${trial_order}.csv`;
 
 Papa.parse(soundURL, {
   download: true,
   header: true,
   dynamicTyping: true,
-  complete: function (results) {
+  complete(results) {
     const test_Sound = results.data;
     console.log(test_Sound);
     loadLinkTrials(test_Sound);
@@ -35,7 +34,7 @@ function loadLinkTrials(test_Sound) {
     download: true,
     header: true,
     dynamicTyping: true,
-    complete: function (results) {
+    complete(results) {
       const test_Link = results.data;
       console.log(test_Link);
       loadTeaching(test_Sound, test_Link);
@@ -48,7 +47,7 @@ function loadTeaching(test_Sound, test_Link) {
     download: true,
     header: true,
     dynamicTyping: true,
-    complete: function (results) {
+    complete(results) {
       const teaching = results.data;
       console.log(teaching);
       loadRefTrials(teaching, test_Sound, test_Link);
@@ -61,7 +60,7 @@ function loadRefTrials(teaching, test_Sound, test_Link) {
     download: true,
     header: true,
     dynamicTyping: true,
-    complete: function (results) {
+    complete(results) {
       const test_Ref = results.data;
       console.log(test_Ref);
       startExperiment(teaching, test_Sound, test_Ref, test_Link);
@@ -86,10 +85,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
   const welcome = {
     type: "fullscreen",
-    message:
-      "<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: " +
-      subject_id.toString() + "<br><br>Order: " + trial_order.toString() +
-      "</p><br>",
+    message: `<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: ${subject_id.toString()}<br><br>Order: ${trial_order.toString()}</p><br>`,
     button_label: "Next",
     delay_after: 250,
   };
@@ -113,7 +109,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     testStart = 0 + 5 * block_num;
     testStop = 5 + 5 * block_num;
 
-    if (block_num == 0) {
+    if (block_num === 0) {
       const intro_mae = {
         type: "audio-button-response-flexiblelocations",
         trial_duration: 26000,
@@ -123,10 +119,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: audioExt + "instruct-start.wav",
+        stimulus: `${audioExt}instruct-start.wav`,
         choices: [
-          imageStart + "mae" + imageStop,
-          imageStart + "earth" + imageStop,
+          `${imageStart}mae${imageStop}`,
+          `${imageStart}earth${imageStop}`,
         ],
       };
       timeline.push(intro_mae);
@@ -153,10 +149,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: audioExt + "instruct-more.wav",
+        stimulus: `${audioExt}instruct-more.wav`,
         choices: [
-          imageStart + "mae" + imageStop,
-          imageStart + "earth" + imageStop,
+          `${imageStart}mae${imageStop}`,
+          `${imageStart}earth${imageStop}`,
         ],
       };
       timeline.push(more_friends);
@@ -165,8 +161,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     for (let i = teachingStart; i < teachingStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
-        stimulus: "<p style='font-size:90px;'>" + teaching[i]["tr_num"] +
-          "</p>",
+        stimulus: `<p style='font-size:90px;'>${teaching[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
@@ -176,18 +171,18 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       const part_1 = {
         type: "audio-button-response-flexiblelocations",
-        trial_duration: teaching[i]["audio1_dur"],
+        trial_duration: teaching[i].audio1_dur,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
         margin_bottom: ["0px", "0px"],
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        set_background: teaching[i]["background"],
-        stimulus: audioExt + "teaching/" + teaching[i]["audio1"] + ".wav",
+        set_background: teaching[i].background,
+        stimulus: `${audioExt}teaching/${teaching[i].audio1}.wav`,
         choices: [
-          imageStart + teaching[i]["left_image1"] + imageStop,
-          imageStart + teaching[i]["right_image1"] + imageStop,
+          imageStart + teaching[i].left_image1 + imageStop,
+          imageStart + teaching[i].right_image1 + imageStop,
         ],
       };
 
@@ -195,31 +190,31 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       const part_2 = {
         type: "audio-button-response-flexiblelocations",
-        trial_duration: teaching[i]["audio2_dur"],
+        trial_duration: teaching[i].audio2_dur,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
         margin_bottom: ["0px", "0px"],
         margin_left: ["0px", "75px"],
         margin_right: ["75px", "0px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: audioExt + "teaching/" + teaching[i]["audio2"] + ".wav",
+        stimulus: `${audioExt}teaching/${teaching[i].audio2}.wav`,
         choices: [
-          imageStart + teaching[i]["left_image2"] + imageStop,
-          imageStart + teaching[i]["right_image2"] + imageStop,
+          imageStart + teaching[i].left_image2 + imageStop,
+          imageStart + teaching[i].right_image2 + imageStop,
         ],
         data: {
           phase: "teaching",
-          block: teaching[i]["block"],
-          trial: teaching[i]["phase_num"],
-          condition: teaching[i]["condition"],
-          alien: teaching[i]["alien"],
-          name: teaching[i]["name"],
-          target_side: teaching[i]["target_side"],
-          correct_response: teaching[i]["correct_response"],
+          block: teaching[i].block,
+          trial: teaching[i].phase_num,
+          condition: teaching[i].condition,
+          alien: teaching[i].alien,
+          name: teaching[i].name,
+          target_side: teaching[i].target_side,
+          correct_response: teaching[i].correct_response,
         },
         post_trial_gap: 500,
-        on_finish: function (data) {
-          data.correct = data.button_pressed == data.correct_response;
+        on_finish(data) {
+          data.correct = data.button_pressed === data.correct_response;
         },
       };
 
@@ -235,8 +230,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: audioExt + "instruct-sound.wav",
-      choices: [imageStart + "mae" + imageStop],
+      stimulus: `${audioExt}instruct-sound.wav`,
+      choices: [`${imageStart}mae${imageStop}`],
     };
 
     timeline.push(phono_instr);
@@ -244,8 +239,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
-        stimulus: "<p style='font-size:90px;'>" + test_Sound[i]["tr_num"] +
-          "</p>",
+        stimulus: `<p style='font-size:90px;'>${test_Sound[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
@@ -262,8 +256,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px"],
         margin_right: ["680px"],
         display_attribute: ["inline-block"],
-        stimulus: audioExt + "testing/" + test_Sound[i]["sound1"] + ".wav",
-        choices: [imageStart + "dot" + dotStop],
+        stimulus: `${audioExt}testing/${test_Sound[i].sound1}.wav`,
+        choices: [`${imageStart}dot${dotStop}`],
       };
 
       timeline.push(test_phono_1);
@@ -277,8 +271,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "200px"],
         margin_right: ["0px", "340px"],
         display_attribute: ["inline-block", "inline-block"],
-        stimulus: audioExt + "testing/" + test_Sound[i]["sound2"] + ".wav",
-        choices: [imageStart + "dot" + dotStop, imageStart + "dot" + dotStop],
+        stimulus: `${audioExt}testing/${test_Sound[i].sound2}.wav`,
+        choices: [`${imageStart}dot${dotStop}`, `${imageStart}dot${dotStop}`],
       };
 
       timeline.push(test_phono_2);
@@ -292,23 +286,23 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["0px", "200px", "200px"],
         margin_right: ["0px", "0px", "0px"],
         display_attribute: ["inline-block", "inline-block", "inline-block"],
-        stimulus: audioExt + "testing/" + test_Sound[i]["sound3"] + ".wav",
+        stimulus: `${audioExt}testing/${test_Sound[i].sound3}.wav`,
         choices: [
-          imageStart + "dot" + dotStop,
-          imageStart + "dot" + dotStop,
-          imageStart + "dot" + dotStop,
+          `${imageStart}dot${dotStop}`,
+          `${imageStart}dot${dotStop}`,
+          `${imageStart}dot${dotStop}`,
         ],
         data: {
           phase: "test_sound",
-          block: test_Sound[i]["block"],
-          trial: test_Sound[i]["phase_num"],
-          condition: test_Sound[i]["condition"],
-          name: test_Sound[i]["name"],
-          target_side: test_Sound[i]["target_side"],
-          correct_response: test_Sound[i]["correct_response"],
+          block: test_Sound[i].block,
+          trial: test_Sound[i].phase_num,
+          condition: test_Sound[i].condition,
+          name: test_Sound[i].name,
+          target_side: test_Sound[i].target_side,
+          correct_response: test_Sound[i].correct_response,
         },
-        on_finish: function (data) {
-          data.correct = data.button_pressed == data.correct_response;
+        on_finish(data) {
+          data.correct = data.button_pressed === data.correct_response;
         },
       };
 
@@ -324,8 +318,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: audioExt + "instruct-ref.wav",
-      choices: [imageStart + "mae" + imageStop],
+      stimulus: `${audioExt}instruct-ref.wav`,
+      choices: [`${imageStart}mae${imageStop}`],
     };
 
     timeline.push(ref_instr);
@@ -333,8 +327,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
-        stimulus: "<p style='font-size:90px;'>" + test_Ref[i]["tr_num"] +
-          "</p>",
+        stimulus: `<p style='font-size:90px;'>${test_Ref[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
@@ -353,21 +346,21 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         display_attribute: ["inline-block", "inline-block", "block"],
         stimulus: "stimuli/sounds/silence.wav",
         choices: [
-          imageStart + test_Ref[i]["left_image"] + imageStop,
-          imageStart + test_Ref[i]["center_image"] + imageStop,
-          imageStart + test_Ref[i]["right_image"] + imageStop,
+          imageStart + test_Ref[i].left_image + imageStop,
+          imageStart + test_Ref[i].center_image + imageStop,
+          imageStart + test_Ref[i].right_image + imageStop,
         ],
         data: {
           phase: "test_ref",
-          block: test_Ref[i]["block"],
-          trial: test_Ref[i]["phase_num"],
-          condition: test_Ref[i]["condition"],
-          alien: test_Ref[i]["alien"],
-          target_side: test_Ref[i]["target"],
-          correct_response: test_Ref[i]["correct_response"],
+          block: test_Ref[i].block,
+          trial: test_Ref[i].phase_num,
+          condition: test_Ref[i].condition,
+          alien: test_Ref[i].alien,
+          target_side: test_Ref[i].target,
+          correct_response: test_Ref[i].correct_response,
         },
-        on_finish: function (data) {
-          data.correct = data.button_pressed == data.correct_response;
+        on_finish(data) {
+          data.correct = data.button_pressed === data.correct_response;
         },
       };
 
@@ -383,8 +376,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: audioExt + "instruct-link.wav",
-      choices: [imageStart + "mae" + imageStop],
+      stimulus: `${audioExt}instruct-link.wav`,
+      choices: [`${imageStart}mae${imageStop}`],
     };
 
     timeline.push(visuo_instr);
@@ -392,8 +385,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     for (let i = testStart; i < testStop; i++) {
       const show_trial_num = {
         type: "html-keyboard-response",
-        stimulus: "<p style='font-size:90px;'>" + test_Link[i]["tr_num"] +
-          "</p>",
+        stimulus: `<p style='font-size:90px;'>${test_Link[i].tr_num}</p>`,
         choices: jsPsych.NO_KEYS,
         set_background: "black-background",
         trial_duration: 500,
@@ -411,24 +403,24 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_right: ["0px", "0px", "0px"],
         display_attribute: ["inline-block", "inline-block", "block"],
 
-        stimulus: audioExt + "testing/" + test_Link[i]["audio"] + ".wav",
+        stimulus: `${audioExt}testing/${test_Link[i].audio}.wav`,
         choices: [
-          imageStart + test_Link[i]["left_image"] + imageStop,
-          imageStart + test_Link[i]["center_image"] + imageStop,
-          imageStart + test_Link[i]["right_image"] + imageStop,
+          imageStart + test_Link[i].left_image + imageStop,
+          imageStart + test_Link[i].center_image + imageStop,
+          imageStart + test_Link[i].right_image + imageStop,
         ],
         data: {
           phase: "test_link",
-          block: test_Link[i]["block"],
-          trial: test_Link[i]["phase_num"],
-          condition: test_Link[i]["condition"],
-          alien: test_Link[i]["alien"],
-          name: test_Link[i]["audio"],
-          target_side: test_Link[i]["target"],
-          correct_response: test_Link[i]["correct_response"],
+          block: test_Link[i].block,
+          trial: test_Link[i].phase_num,
+          condition: test_Link[i].condition,
+          alien: test_Link[i].alien,
+          name: test_Link[i].audio,
+          target_side: test_Link[i].target,
+          correct_response: test_Link[i].correct_response,
         },
-        on_finish: function (data) {
-          data.correct = data.button_pressed == data.correct_response;
+        on_finish(data) {
+          data.correct = data.button_pressed === data.correct_response;
         },
       };
 
@@ -448,13 +440,12 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["0px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      stimulus: audioExt + "between-block.wav",
-      prompt: "<p style='font-size:30px;'>Great Job! You have " +
-        blocks_left.toString() + " groups left.",
+      stimulus: `${audioExt}between-block.wav`,
+      prompt: `<p style='font-size:30px;'>Great Job! You have ${blocks_left.toString()} groups left.`,
       choices: [
         '<img src= "stimuli/images/ok-button.jpg" title = "" width="200" height="100">',
       ],
-      set_background: "end-block-" + block_num.toString(),
+      set_background: `end-block-${block_num.toString()}`,
       background_size: "100%",
     };
 
@@ -473,10 +464,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["20px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      set_background: "numpad-" + code_type.toString() + "-1",
+      set_background: `numpad-${code_type.toString()}-1`,
       background_size: "auto",
       stimulus: "stimuli/sounds/instruct-2-unlock.wav",
-      choices: [imageStart + "numpad-keys" + numStop],
+      choices: [`${imageStart}numpad-keys${numStop}`],
     };
 
     timeline.push(num_pad_start);
@@ -491,10 +482,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         margin_left: ["20px"],
         margin_right: ["0px"],
         display_attribute: ["inline-block"],
-        set_background: "numpad-" + code_type.toString() + "-" + i.toString(),
+        set_background: `numpad-${code_type.toString()}-${i.toString()}`,
         background_size: "auto",
-        stimulus: "stimuli/sounds/key-" + i.toString() + ".wav",
-        choices: [imageStart + "numpad-keys" + numStop],
+        stimulus: `stimuli/sounds/key-${i.toString()}.wav`,
+        choices: [`${imageStart}numpad-keys${numStop}`],
       };
 
       timeline.push(num_pad);
@@ -509,10 +500,10 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       margin_left: ["20px"],
       margin_right: ["0px"],
       display_attribute: ["inline-block"],
-      set_background: "numpad-" + code_type.toString() + "-6",
+      set_background: `numpad-${code_type.toString()}-6`,
       background_size: "auto",
       stimulus: "stimuli/sounds/key-7.wav",
-      choices: [imageStart + "numpad-keys" + numStop],
+      choices: [`${imageStart}numpad-keys${numStop}`],
     };
 
     timeline.push(num_pad_end);
@@ -540,7 +531,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       const lever = {
         type: "audio-slider-response",
         top_prompt: "<br><br> </br>",
-        stimulus: "stimuli/sounds/key-" + i.toString() + ".wav",
+        stimulus: `stimuli/sounds/key-${i.toString()}.wav`,
         labels: ["1", "2", "3", "4", "5"],
         slider_start: 1,
         min: 1,
@@ -548,7 +539,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         step: 1,
         button_label: "OK",
         slider_width: 400,
-        set_background: "control-panel-" + i.toString(),
+        set_background: `control-panel-${i.toString()}`,
         prompt: " ",
       };
 
@@ -559,7 +550,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   function plot_route(plot_type) {
     document.body.style.backgroundSize = "auto";
 
-    if (plot_type == "a") {
+    if (plot_type === "a") {
       const route_start = {
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
@@ -572,7 +563,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/instruct-5-route.wav",
-        choices: [imageStart + "space-1" + spaceStop],
+        choices: [`${imageStart}space-1${spaceStop}`],
       };
 
       timeline.push(route_start);
@@ -590,7 +581,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
           set_background: "control-panel-route",
           background_size: "auto",
           stimulus: "stimuli/sounds/key-2.wav",
-          choices: [imageStart + "space-" + i.toString() + spaceStop],
+          choices: [`${imageStart}space-${i.toString()}${spaceStop}`],
         };
 
         timeline.push(route);
@@ -608,13 +599,13 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-2.wav",
-        choices: [imageStart + "space-4" + spaceStop],
+        choices: [`${imageStart}space-4${spaceStop}`],
       };
 
       timeline.push(route_stop);
     }
 
-    if (plot_type == "b") {
+    if (plot_type === "b") {
       const route_start = {
         type: "audio-button-response-flexiblelocations",
         trial_duration: null,
@@ -627,7 +618,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-1.wav",
-        choices: [imageStart + "space-5" + spaceStop],
+        choices: [`${imageStart}space-5${spaceStop}`],
       };
 
       timeline.push(route_start);
@@ -645,7 +636,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
           set_background: "control-panel-route",
           background_size: "auto",
           stimulus: "stimuli/sounds/key-2.wav",
-          choices: [imageStart + "space-" + i.toString() + spaceStop],
+          choices: [`${imageStart}space-${i.toString()}${spaceStop}`],
         };
 
         timeline.push(route);
@@ -663,56 +654,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
         set_background: "control-panel-route",
         background_size: "auto",
         stimulus: "stimuli/sounds/key-2.wav",
-        choices: [imageStart + "space-8" + spaceStop],
+        choices: [`${imageStart}space-8${spaceStop}`],
       };
 
       timeline.push(route_stop);
     }
   }
 
-  function display_results(data) {
-    const display_acc = {
-      type: "html-button-response",
-      stimulus: function () {
-        const trials_sound = jsPsych.data.get().filter({ phase: "test_sound" });
-        const correct_trials_sound = trials_sound.filter({ correct: true });
-        const accuracy_sound = Math.round(
-          correct_trials_sound.count() / trials_sound.count() * 100,
-        );
-
-        const trials_ref = jsPsych.data.get().filter({ phase: "test_ref" });
-        const correct_trials_ref = trials_ref.filter({ correct: true });
-        const accuracy_ref = Math.round(
-          correct_trials_ref.count() / trials_ref.count() * 100,
-        );
-
-        const trials_link = jsPsych.data.get().filter({ phase: "test_link" });
-        const correct_trials_link = trials_link.filter({ correct: true });
-        const accuracy_link = Math.round(
-          correct_trials_link.count() / trials_link.count() * 100,
-        );
-        return "<p>You correctly identified the names (form recognition) on " +
-          accuracy_sound + "% of the trials.</p>" +
-          "<p>You correctly identified the aliens (referent recognition) on " +
-          accuracy_ref + "% of the trials.</p>" +
-          "<p>You correctly identified the alien-name pairs (link recognition) on " +
-          accuracy_link + "% of the trials.</p>";
-      },
-      choices: ["Exit & Save"],
-      trial_duration: null,
-      set_background: "black-background",
-    };
-
-    timeline.push(display_acc);
-  }
-
   for (let block_num = 0; block_num <= 5; block_num++) {
     presentBlock(block_num);
-    if (block_num == 0) unlock_ship("a");
-    if (block_num == 1) unlock_ship("b");
-    if (block_num == 2) start_ship();
-    if (block_num == 3) plot_route("a");
-    if (block_num == 4) plot_route("b");
+    if (block_num === 0) unlock_ship("a");
+    if (block_num === 1) unlock_ship("b");
+    if (block_num === 2) start_ship();
+    if (block_num === 3) plot_route("a");
+    if (block_num === 4) plot_route("b");
 
     if (block_num < 5) show_progress(block_num + 1);
   }
@@ -727,147 +682,147 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 const imageExt = "stimuli/images/";
 
 const images = [
-  imageExt + "B1.jpg",
-  imageExt + "A1.jpg",
-  imageExt + "A2.jpg",
-  imageExt + "A3.jpg",
-  imageExt + "A4.jpg",
-  imageExt + "A21.jpg",
-  imageExt + "A22.jpg",
-  imageExt + "A23.jpg",
-  imageExt + "A24.jpg",
-  imageExt + "A25.jpg",
-  imageExt + "A26.jpg",
-  imageExt + "A27.jpg",
-  imageExt + "A28.jpg",
-  imageExt + "A30.jpg",
-  imageExt + "A31.jpg",
-  imageExt + "A32.jpg",
-  imageExt + "A33.jpg",
-  imageExt + "A34.jpg",
-  imageExt + "A35.jpg",
-  imageExt + "B1.jpg",
-  imageExt + "B2.jpg",
-  imageExt + "B3.jpg",
-  imageExt + "B4.jpg",
-  imageExt + "B21.jpg",
-  imageExt + "B22.jpg",
-  imageExt + "B23.jpg",
-  imageExt + "B24.jpg",
-  imageExt + "B25.jpg",
-  imageExt + "B26.jpg",
-  imageExt + "B28.jpg",
-  imageExt + "B29.jpg",
-  imageExt + "B30.jpg",
-  imageExt + "B31.jpg",
-  imageExt + "B32.jpg",
-  imageExt + "B34.jpg",
-  imageExt + "B35.jpg",
-  imageExt + "C1.jpg",
-  imageExt + "C2.jpg",
-  imageExt + "C3.jpg",
-  imageExt + "C21.jpg",
-  imageExt + "C22.jpg",
-  imageExt + "C23.jpg",
-  imageExt + "C24.jpg",
-  imageExt + "C25.jpg",
-  imageExt + "C26.jpg",
-  imageExt + "C27.jpg",
-  imageExt + "C28.jpg",
-  imageExt + "C29.jpg",
-  imageExt + "C30.jpg",
-  imageExt + "C31.jpg",
-  imageExt + "C32.jpg",
-  imageExt + "C33.jpg",
-  imageExt + "C34.jpg",
-  imageExt + "C35.jpg",
-  imageExt + "C36.jpg",
-  imageExt + "D1.jpg",
-  imageExt + "D2.jpg",
-  imageExt + "D3.jpg",
-  imageExt + "D4.jpg",
-  imageExt + "E1.jpg",
-  imageExt + "E2.jpg",
-  imageExt + "E3.jpg",
-  imageExt + "E4.jpg",
-  imageExt + "F1.jpg",
-  imageExt + "F2.jpg",
-  imageExt + "F3.jpg",
-  imageExt + "F4.jpg",
-  imageExt + "G1.jpg",
-  imageExt + "G2.jpg",
-  imageExt + "G3.jpg",
-  imageExt + "G4.jpg",
-  imageExt + "H1.jpg",
-  imageExt + "H2.jpg",
-  imageExt + "H3.jpg",
-  imageExt + "H4.jpg",
-  imageExt + "I1.jpg",
-  imageExt + "I2.jpg",
-  imageExt + "I3.jpg",
-  imageExt + "I4.jpg",
-  imageExt + "J1.jpg",
-  imageExt + "J2.jpg",
-  imageExt + "J3.jpg",
-  imageExt + "J4.jpg",
-  imageExt + "K1.jpg",
-  imageExt + "K2.jpg",
-  imageExt + "K3.jpg",
-  imageExt + "K4.jpg",
-  imageExt + "L1.jpg",
-  imageExt + "L2.jpg",
-  imageExt + "L3.jpg",
-  imageExt + "L4.jpg",
-  imageExt + "mercury.jpg",
-  imageExt + "venus.jpg",
-  imageExt + "earth.jpg",
-  imageExt + "mars.jpg",
-  imageExt + "jupiter.jpg",
-  imageExt + "saturn.jpg",
-  imageExt + "neptune.jpg",
-  imageExt + "mae.jpg",
-  imageExt + "black.jpg",
-  imageExt + "black-background.jpg",
-  imageExt + "launch-pad-background.jpg",
-  imageExt + "launch-pad-ship-background.jpg",
-  imageExt + "spaceship-1.jpg",
-  imageExt + "spaceship-2.jpg",
-  imageExt + "spaceship-3.jpg",
-  imageExt + "luggage-1.jpg",
-  imageExt + "luggage-2.jpg",
-  imageExt + "luggage-3.jpg",
-  imageExt + "newspaper.jpg",
-  imageExt + "plastic-bag.jpg",
-  imageExt + "numpad-a-1.jpg",
-  imageExt + "numpad-a-2.jpg",
-  imageExt + "numpad-a-3.jpg",
-  imageExt + "numpad-a-4.jpg",
-  imageExt + "numpad-a-5.jpg",
-  imageExt + "numpad-a-6.jpg",
-  imageExt + "numpad-a-7.jpg",
-  imageExt + "numpad-b-1.jpg",
-  imageExt + "numpad-b-2.jpg",
-  imageExt + "numpad-b-3.jpg",
-  imageExt + "numpad-b-4.jpg",
-  imageExt + "numpad-b-5.jpg",
-  imageExt + "numpad-b-6.jpg",
-  imageExt + "numpad-b-7.jpg",
-  imageExt + "numpad-keys.jpg",
-  imageExt + "dot.jpg",
-  imageExt + "space-1.jpg",
-  imageExt + "space-2.jpg",
-  imageExt + "space-3.jpg",
-  imageExt + "space-4.jpg",
-  imageExt + "space-5.jpg",
-  imageExt + "space-6.jpg",
-  imageExt + "space-7.jpg",
-  imageExt + "space-8.jpg",
-  imageExt + "space-1.jpg",
-  imageExt + "control-panel-1.jpg",
-  imageExt + "control-panel-2.jpg",
-  imageExt + "control-panel-3.jpg",
-  imageExt + "control-panel-4.jpg",
-  imageExt + "control-panel-5.jpg",
+  `${imageExt}B1.jpg`,
+  `${imageExt}A1.jpg`,
+  `${imageExt}A2.jpg`,
+  `${imageExt}A3.jpg`,
+  `${imageExt}A4.jpg`,
+  `${imageExt}A21.jpg`,
+  `${imageExt}A22.jpg`,
+  `${imageExt}A23.jpg`,
+  `${imageExt}A24.jpg`,
+  `${imageExt}A25.jpg`,
+  `${imageExt}A26.jpg`,
+  `${imageExt}A27.jpg`,
+  `${imageExt}A28.jpg`,
+  `${imageExt}A30.jpg`,
+  `${imageExt}A31.jpg`,
+  `${imageExt}A32.jpg`,
+  `${imageExt}A33.jpg`,
+  `${imageExt}A34.jpg`,
+  `${imageExt}A35.jpg`,
+  `${imageExt}B1.jpg`,
+  `${imageExt}B2.jpg`,
+  `${imageExt}B3.jpg`,
+  `${imageExt}B4.jpg`,
+  `${imageExt}B21.jpg`,
+  `${imageExt}B22.jpg`,
+  `${imageExt}B23.jpg`,
+  `${imageExt}B24.jpg`,
+  `${imageExt}B25.jpg`,
+  `${imageExt}B26.jpg`,
+  `${imageExt}B28.jpg`,
+  `${imageExt}B29.jpg`,
+  `${imageExt}B30.jpg`,
+  `${imageExt}B31.jpg`,
+  `${imageExt}B32.jpg`,
+  `${imageExt}B34.jpg`,
+  `${imageExt}B35.jpg`,
+  `${imageExt}C1.jpg`,
+  `${imageExt}C2.jpg`,
+  `${imageExt}C3.jpg`,
+  `${imageExt}C21.jpg`,
+  `${imageExt}C22.jpg`,
+  `${imageExt}C23.jpg`,
+  `${imageExt}C24.jpg`,
+  `${imageExt}C25.jpg`,
+  `${imageExt}C26.jpg`,
+  `${imageExt}C27.jpg`,
+  `${imageExt}C28.jpg`,
+  `${imageExt}C29.jpg`,
+  `${imageExt}C30.jpg`,
+  `${imageExt}C31.jpg`,
+  `${imageExt}C32.jpg`,
+  `${imageExt}C33.jpg`,
+  `${imageExt}C34.jpg`,
+  `${imageExt}C35.jpg`,
+  `${imageExt}C36.jpg`,
+  `${imageExt}D1.jpg`,
+  `${imageExt}D2.jpg`,
+  `${imageExt}D3.jpg`,
+  `${imageExt}D4.jpg`,
+  `${imageExt}E1.jpg`,
+  `${imageExt}E2.jpg`,
+  `${imageExt}E3.jpg`,
+  `${imageExt}E4.jpg`,
+  `${imageExt}F1.jpg`,
+  `${imageExt}F2.jpg`,
+  `${imageExt}F3.jpg`,
+  `${imageExt}F4.jpg`,
+  `${imageExt}G1.jpg`,
+  `${imageExt}G2.jpg`,
+  `${imageExt}G3.jpg`,
+  `${imageExt}G4.jpg`,
+  `${imageExt}H1.jpg`,
+  `${imageExt}H2.jpg`,
+  `${imageExt}H3.jpg`,
+  `${imageExt}H4.jpg`,
+  `${imageExt}I1.jpg`,
+  `${imageExt}I2.jpg`,
+  `${imageExt}I3.jpg`,
+  `${imageExt}I4.jpg`,
+  `${imageExt}J1.jpg`,
+  `${imageExt}J2.jpg`,
+  `${imageExt}J3.jpg`,
+  `${imageExt}J4.jpg`,
+  `${imageExt}K1.jpg`,
+  `${imageExt}K2.jpg`,
+  `${imageExt}K3.jpg`,
+  `${imageExt}K4.jpg`,
+  `${imageExt}L1.jpg`,
+  `${imageExt}L2.jpg`,
+  `${imageExt}L3.jpg`,
+  `${imageExt}L4.jpg`,
+  `${imageExt}mercury.jpg`,
+  `${imageExt}venus.jpg`,
+  `${imageExt}earth.jpg`,
+  `${imageExt}mars.jpg`,
+  `${imageExt}jupiter.jpg`,
+  `${imageExt}saturn.jpg`,
+  `${imageExt}neptune.jpg`,
+  `${imageExt}mae.jpg`,
+  `${imageExt}black.jpg`,
+  `${imageExt}black-background.jpg`,
+  `${imageExt}launch-pad-background.jpg`,
+  `${imageExt}launch-pad-ship-background.jpg`,
+  `${imageExt}spaceship-1.jpg`,
+  `${imageExt}spaceship-2.jpg`,
+  `${imageExt}spaceship-3.jpg`,
+  `${imageExt}luggage-1.jpg`,
+  `${imageExt}luggage-2.jpg`,
+  `${imageExt}luggage-3.jpg`,
+  `${imageExt}newspaper.jpg`,
+  `${imageExt}plastic-bag.jpg`,
+  `${imageExt}numpad-a-1.jpg`,
+  `${imageExt}numpad-a-2.jpg`,
+  `${imageExt}numpad-a-3.jpg`,
+  `${imageExt}numpad-a-4.jpg`,
+  `${imageExt}numpad-a-5.jpg`,
+  `${imageExt}numpad-a-6.jpg`,
+  `${imageExt}numpad-a-7.jpg`,
+  `${imageExt}numpad-b-1.jpg`,
+  `${imageExt}numpad-b-2.jpg`,
+  `${imageExt}numpad-b-3.jpg`,
+  `${imageExt}numpad-b-4.jpg`,
+  `${imageExt}numpad-b-5.jpg`,
+  `${imageExt}numpad-b-6.jpg`,
+  `${imageExt}numpad-b-7.jpg`,
+  `${imageExt}numpad-keys.jpg`,
+  `${imageExt}dot.jpg`,
+  `${imageExt}space-1.jpg`,
+  `${imageExt}space-2.jpg`,
+  `${imageExt}space-3.jpg`,
+  `${imageExt}space-4.jpg`,
+  `${imageExt}space-5.jpg`,
+  `${imageExt}space-6.jpg`,
+  `${imageExt}space-7.jpg`,
+  `${imageExt}space-8.jpg`,
+  `${imageExt}space-1.jpg`,
+  `${imageExt}control-panel-1.jpg`,
+  `${imageExt}control-panel-2.jpg`,
+  `${imageExt}control-panel-3.jpg`,
+  `${imageExt}control-panel-4.jpg`,
+  `${imageExt}control-panel-5.jpg`,
 ];
 
 function postToRedcap(body) {
@@ -878,34 +833,36 @@ function postToRedcap(body) {
       "Content-Type": "application/x-www-form-urlencoded",
       Accept: "application/json",
     },
-    body: body,
+    body,
   });
 }
 
 function uploadToRedcap(token) {
-  postToRedcap("token=" + token + "&content=generateNextRecordName")
-    .then(function (response) {
-      return response.text();
-    })
-    .then(function (text) {
+  postToRedcap(`token=${token}&content=generateNextRecordName`)
+    .then((response) => response.text())
+    .then((text) => {
       const id = text;
       postToRedcap(
-        "token=" +
-          token +
-          "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
-          JSON.stringify({
+        `token=${token}&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[${JSON.stringify(
+          {
             record_id: id,
             subject_num: subject_id,
             order: trial_order,
             date: JSON.stringify(DoT),
-            results_sound: jsPsych.data.get().filter({ phase: "test_sound" })
+            results_sound: jsPsych.data
+              .get()
+              .filter({ phase: "test_sound" })
               .json(),
-            results_ref: jsPsych.data.get().filter({ phase: "test_ref" })
+            results_ref: jsPsych.data
+              .get()
+              .filter({ phase: "test_ref" })
               .json(),
-            results_link: jsPsych.data.get().filter({ phase: "test_link" })
+            results_link: jsPsych.data
+              .get()
+              .filter({ phase: "test_link" })
               .json(),
-          }) +
-          "]&returnContent=count&returnFormat=json",
+          }
+        )}]&returnContent=count&returnFormat=json`
       );
     });
 }
@@ -913,25 +870,31 @@ function uploadToRedcap(token) {
 function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   createTrials(teaching, test_Sound, test_Ref, test_Link);
   jsPsych.init({
-    timeline: timeline,
+    timeline,
 
     preload_images: images,
     default_iti: 0,
-    on_finish: function () {
+    on_finish() {
       console.log("form recognition accuracy:");
-      const results_sound = jsPsych.data.get().filter({ phase: "test_sound" })
+      const results_sound = jsPsych.data
+        .get()
+        .filter({ phase: "test_sound" })
         .select("correct");
       console.log(results_sound);
       console.log(results_sound.mean());
 
       console.log("referent recognition accuracy:");
-      const results_ref = jsPsych.data.get().filter({ phase: "test_ref" })
+      const results_ref = jsPsych.data
+        .get()
+        .filter({ phase: "test_ref" })
         .select("correct");
       console.log(results_ref);
       console.log(results_ref.mean());
 
       console.log("link recognition accuracy:");
-      const results_link = jsPsych.data.get().filter({ phase: "test_link" })
+      const results_link = jsPsych.data
+        .get()
+        .filter({ phase: "test_link" })
         .select("correct");
       console.log(results_link);
       console.log(results_link.mean());
