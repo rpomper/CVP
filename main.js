@@ -1,3 +1,63 @@
+
+function audioBufferSource(jsPsych, url) {
+  const audioContext = jsPsych.pluginAPI.audioContext();
+  return jsPsych.pluginAPI.getAudioBuffer(url).then((buffer) => {
+    const bufferSource = audioContext.createBufferSource();
+    bufferSource.buffer = buffer;
+    bufferSource.connect(audioContext.destination);
+    return bufferSource;
+  });
+}
+
+function switchSides(image) {
+  image.style.gridColumn += 1;
+  if (image.style.gridColumn === 3)
+    image.style.gridColumn = 1;
+}
+
+class OstensiveNamingJsPsychPlugin {
+  constructor(jsPsych) {
+    this.jsPsych = jsPsych;
+  }
+  trial(display_element, trial) {
+    const grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+    grid.style.gridTemplateRows = `repeat(1, 1fr)`;
+    const image = new Image();
+    image.src = trial.imageUrl;
+    image.style.visibility = "hidden";
+    image.style.gridColumn = 1;
+    grid.append(image);
+    display_element.append(grid);
+    audioBufferSource(this.jsPsych, trial.audioUrl).then((audioSource) => {
+      audioSource.start();
+      image.style.visibility = "visible";
+      this.jsPsych.pluginAPI.setTimeout(() => {
+        switchSides(image);
+        this.jsPsych.pluginAPI.setTimeout(() => {
+          switchSides(image);
+          this.jsPsych.pluginAPI.setTimeout(() => {
+            this.jsPsych.finishTrial();
+          }, 1500);
+        }, 1500);
+      }, 1500);
+    });
+  }
+}
+
+OstensiveNamingJsPsychPlugin.info = {
+  name: "PLUGIN-NAME",
+  parameters: {
+    imageUrl: {
+      type: jsPsychModule.ParameterType.IMAGE,
+    },
+    audioUrl: {
+      type: jsPsychModule.ParameterType.AUDIO,
+    }
+  },
+};
+
 function postToRedcap(body) {
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
   return fetch("https://study.boystown.org/api/", {
@@ -42,153 +102,152 @@ function uploadToRedcap(token) {
 
 const timeline = [];
 
-const imageExt = "stimuli/images/";
+const imageDirectory = "stimuli/images/";
 const images = [
-  `${imageExt}B1.jpg`,
-  `${imageExt}A1.jpg`,
-  `${imageExt}A2.jpg`,
-  `${imageExt}A3.jpg`,
-  `${imageExt}A4.jpg`,
-  `${imageExt}A21.jpg`,
-  `${imageExt}A22.jpg`,
-  `${imageExt}A23.jpg`,
-  `${imageExt}A24.jpg`,
-  `${imageExt}A25.jpg`,
-  `${imageExt}A26.jpg`,
-  `${imageExt}A27.jpg`,
-  `${imageExt}A28.jpg`,
-  `${imageExt}A30.jpg`,
-  `${imageExt}A31.jpg`,
-  `${imageExt}A32.jpg`,
-  `${imageExt}A33.jpg`,
-  `${imageExt}A34.jpg`,
-  `${imageExt}A35.jpg`,
-  `${imageExt}B1.jpg`,
-  `${imageExt}B2.jpg`,
-  `${imageExt}B3.jpg`,
-  `${imageExt}B4.jpg`,
-  `${imageExt}B21.jpg`,
-  `${imageExt}B22.jpg`,
-  `${imageExt}B23.jpg`,
-  `${imageExt}B24.jpg`,
-  `${imageExt}B25.jpg`,
-  `${imageExt}B26.jpg`,
-  `${imageExt}B28.jpg`,
-  `${imageExt}B29.jpg`,
-  `${imageExt}B30.jpg`,
-  `${imageExt}B31.jpg`,
-  `${imageExt}B32.jpg`,
-  `${imageExt}B34.jpg`,
-  `${imageExt}B35.jpg`,
-  `${imageExt}C1.jpg`,
-  `${imageExt}C2.jpg`,
-  `${imageExt}C3.jpg`,
-  `${imageExt}C21.jpg`,
-  `${imageExt}C22.jpg`,
-  `${imageExt}C23.jpg`,
-  `${imageExt}C24.jpg`,
-  `${imageExt}C25.jpg`,
-  `${imageExt}C26.jpg`,
-  `${imageExt}C27.jpg`,
-  `${imageExt}C28.jpg`,
-  `${imageExt}C29.jpg`,
-  `${imageExt}C30.jpg`,
-  `${imageExt}C31.jpg`,
-  `${imageExt}C32.jpg`,
-  `${imageExt}C33.jpg`,
-  `${imageExt}C34.jpg`,
-  `${imageExt}C35.jpg`,
-  `${imageExt}C36.jpg`,
-  `${imageExt}D1.jpg`,
-  `${imageExt}D2.jpg`,
-  `${imageExt}D3.jpg`,
-  `${imageExt}D4.jpg`,
-  `${imageExt}E1.jpg`,
-  `${imageExt}E2.jpg`,
-  `${imageExt}E3.jpg`,
-  `${imageExt}E4.jpg`,
-  `${imageExt}F1.jpg`,
-  `${imageExt}F2.jpg`,
-  `${imageExt}F3.jpg`,
-  `${imageExt}F4.jpg`,
-  `${imageExt}G1.jpg`,
-  `${imageExt}G2.jpg`,
-  `${imageExt}G3.jpg`,
-  `${imageExt}G4.jpg`,
-  `${imageExt}H1.jpg`,
-  `${imageExt}H2.jpg`,
-  `${imageExt}H3.jpg`,
-  `${imageExt}H4.jpg`,
-  `${imageExt}I1.jpg`,
-  `${imageExt}I2.jpg`,
-  `${imageExt}I3.jpg`,
-  `${imageExt}I4.jpg`,
-  `${imageExt}J1.jpg`,
-  `${imageExt}J2.jpg`,
-  `${imageExt}J3.jpg`,
-  `${imageExt}J4.jpg`,
-  `${imageExt}K1.jpg`,
-  `${imageExt}K2.jpg`,
-  `${imageExt}K3.jpg`,
-  `${imageExt}K4.jpg`,
-  `${imageExt}L1.jpg`,
-  `${imageExt}L2.jpg`,
-  `${imageExt}L3.jpg`,
-  `${imageExt}L4.jpg`,
-  `${imageExt}mercury.jpg`,
-  `${imageExt}venus.jpg`,
-  `${imageExt}earth.jpg`,
-  `${imageExt}mars.jpg`,
-  `${imageExt}jupiter.jpg`,
-  `${imageExt}saturn.jpg`,
-  `${imageExt}neptune.jpg`,
-  `${imageExt}mae.jpg`,
-  `${imageExt}black.jpg`,
-  `${imageExt}black-background.jpg`,
-  `${imageExt}launch-pad-background.jpg`,
-  `${imageExt}launch-pad-ship-background.jpg`,
-  `${imageExt}spaceship-1.jpg`,
-  `${imageExt}spaceship-2.jpg`,
-  `${imageExt}spaceship-3.jpg`,
-  `${imageExt}luggage-1.jpg`,
-  `${imageExt}luggage-2.jpg`,
-  `${imageExt}luggage-3.jpg`,
-  `${imageExt}newspaper.jpg`,
-  `${imageExt}plastic-bag.jpg`,
-  `${imageExt}numpad-a-1.jpg`,
-  `${imageExt}numpad-a-2.jpg`,
-  `${imageExt}numpad-a-3.jpg`,
-  `${imageExt}numpad-a-4.jpg`,
-  `${imageExt}numpad-a-5.jpg`,
-  `${imageExt}numpad-a-6.jpg`,
-  `${imageExt}numpad-a-7.jpg`,
-  `${imageExt}numpad-b-1.jpg`,
-  `${imageExt}numpad-b-2.jpg`,
-  `${imageExt}numpad-b-3.jpg`,
-  `${imageExt}numpad-b-4.jpg`,
-  `${imageExt}numpad-b-5.jpg`,
-  `${imageExt}numpad-b-6.jpg`,
-  `${imageExt}numpad-b-7.jpg`,
-  `${imageExt}numpad-keys.jpg`,
-  `${imageExt}dot.jpg`,
-  `${imageExt}space-1.jpg`,
-  `${imageExt}space-2.jpg`,
-  `${imageExt}space-3.jpg`,
-  `${imageExt}space-4.jpg`,
-  `${imageExt}space-5.jpg`,
-  `${imageExt}space-6.jpg`,
-  `${imageExt}space-7.jpg`,
-  `${imageExt}space-8.jpg`,
-  `${imageExt}space-1.jpg`,
-  `${imageExt}control-panel-1.jpg`,
-  `${imageExt}control-panel-2.jpg`,
-  `${imageExt}control-panel-3.jpg`,
-  `${imageExt}control-panel-4.jpg`,
-  `${imageExt}control-panel-5.jpg`,
+  `${imageDirectory}B1.jpg`,
+  `${imageDirectory}A1.jpg`,
+  `${imageDirectory}A2.jpg`,
+  `${imageDirectory}A3.jpg`,
+  `${imageDirectory}A4.jpg`,
+  `${imageDirectory}A21.jpg`,
+  `${imageDirectory}A22.jpg`,
+  `${imageDirectory}A23.jpg`,
+  `${imageDirectory}A24.jpg`,
+  `${imageDirectory}A25.jpg`,
+  `${imageDirectory}A26.jpg`,
+  `${imageDirectory}A27.jpg`,
+  `${imageDirectory}A28.jpg`,
+  `${imageDirectory}A30.jpg`,
+  `${imageDirectory}A31.jpg`,
+  `${imageDirectory}A32.jpg`,
+  `${imageDirectory}A33.jpg`,
+  `${imageDirectory}A34.jpg`,
+  `${imageDirectory}A35.jpg`,
+  `${imageDirectory}B1.jpg`,
+  `${imageDirectory}B2.jpg`,
+  `${imageDirectory}B3.jpg`,
+  `${imageDirectory}B4.jpg`,
+  `${imageDirectory}B21.jpg`,
+  `${imageDirectory}B22.jpg`,
+  `${imageDirectory}B23.jpg`,
+  `${imageDirectory}B24.jpg`,
+  `${imageDirectory}B25.jpg`,
+  `${imageDirectory}B26.jpg`,
+  `${imageDirectory}B28.jpg`,
+  `${imageDirectory}B29.jpg`,
+  `${imageDirectory}B30.jpg`,
+  `${imageDirectory}B31.jpg`,
+  `${imageDirectory}B32.jpg`,
+  `${imageDirectory}B34.jpg`,
+  `${imageDirectory}B35.jpg`,
+  `${imageDirectory}C1.jpg`,
+  `${imageDirectory}C2.jpg`,
+  `${imageDirectory}C3.jpg`,
+  `${imageDirectory}C21.jpg`,
+  `${imageDirectory}C22.jpg`,
+  `${imageDirectory}C23.jpg`,
+  `${imageDirectory}C24.jpg`,
+  `${imageDirectory}C25.jpg`,
+  `${imageDirectory}C26.jpg`,
+  `${imageDirectory}C27.jpg`,
+  `${imageDirectory}C28.jpg`,
+  `${imageDirectory}C29.jpg`,
+  `${imageDirectory}C30.jpg`,
+  `${imageDirectory}C31.jpg`,
+  `${imageDirectory}C32.jpg`,
+  `${imageDirectory}C33.jpg`,
+  `${imageDirectory}C34.jpg`,
+  `${imageDirectory}C35.jpg`,
+  `${imageDirectory}C36.jpg`,
+  `${imageDirectory}D1.jpg`,
+  `${imageDirectory}D2.jpg`,
+  `${imageDirectory}D3.jpg`,
+  `${imageDirectory}D4.jpg`,
+  `${imageDirectory}E1.jpg`,
+  `${imageDirectory}E2.jpg`,
+  `${imageDirectory}E3.jpg`,
+  `${imageDirectory}E4.jpg`,
+  `${imageDirectory}F1.jpg`,
+  `${imageDirectory}F2.jpg`,
+  `${imageDirectory}F3.jpg`,
+  `${imageDirectory}F4.jpg`,
+  `${imageDirectory}G1.jpg`,
+  `${imageDirectory}G2.jpg`,
+  `${imageDirectory}G3.jpg`,
+  `${imageDirectory}G4.jpg`,
+  `${imageDirectory}H1.jpg`,
+  `${imageDirectory}H2.jpg`,
+  `${imageDirectory}H3.jpg`,
+  `${imageDirectory}H4.jpg`,
+  `${imageDirectory}I1.jpg`,
+  `${imageDirectory}I2.jpg`,
+  `${imageDirectory}I3.jpg`,
+  `${imageDirectory}I4.jpg`,
+  `${imageDirectory}J1.jpg`,
+  `${imageDirectory}J2.jpg`,
+  `${imageDirectory}J3.jpg`,
+  `${imageDirectory}J4.jpg`,
+  `${imageDirectory}K1.jpg`,
+  `${imageDirectory}K2.jpg`,
+  `${imageDirectory}K3.jpg`,
+  `${imageDirectory}K4.jpg`,
+  `${imageDirectory}L1.jpg`,
+  `${imageDirectory}L2.jpg`,
+  `${imageDirectory}L3.jpg`,
+  `${imageDirectory}L4.jpg`,
+  `${imageDirectory}mercury.jpg`,
+  `${imageDirectory}venus.jpg`,
+  `${imageDirectory}earth.jpg`,
+  `${imageDirectory}mars.jpg`,
+  `${imageDirectory}jupiter.jpg`,
+  `${imageDirectory}saturn.jpg`,
+  `${imageDirectory}neptune.jpg`,
+  `${imageDirectory}mae.jpg`,
+  `${imageDirectory}black.jpg`,
+  `${imageDirectory}black-background.jpg`,
+  `${imageDirectory}launch-pad-background.jpg`,
+  `${imageDirectory}launch-pad-ship-background.jpg`,
+  `${imageDirectory}spaceship-1.jpg`,
+  `${imageDirectory}spaceship-2.jpg`,
+  `${imageDirectory}spaceship-3.jpg`,
+  `${imageDirectory}luggage-1.jpg`,
+  `${imageDirectory}luggage-2.jpg`,
+  `${imageDirectory}luggage-3.jpg`,
+  `${imageDirectory}newspaper.jpg`,
+  `${imageDirectory}plastic-bag.jpg`,
+  `${imageDirectory}numpad-a-1.jpg`,
+  `${imageDirectory}numpad-a-2.jpg`,
+  `${imageDirectory}numpad-a-3.jpg`,
+  `${imageDirectory}numpad-a-4.jpg`,
+  `${imageDirectory}numpad-a-5.jpg`,
+  `${imageDirectory}numpad-a-6.jpg`,
+  `${imageDirectory}numpad-a-7.jpg`,
+  `${imageDirectory}numpad-b-1.jpg`,
+  `${imageDirectory}numpad-b-2.jpg`,
+  `${imageDirectory}numpad-b-3.jpg`,
+  `${imageDirectory}numpad-b-4.jpg`,
+  `${imageDirectory}numpad-b-5.jpg`,
+  `${imageDirectory}numpad-b-6.jpg`,
+  `${imageDirectory}numpad-b-7.jpg`,
+  `${imageDirectory}numpad-keys.jpg`,
+  `${imageDirectory}dot.jpg`,
+  `${imageDirectory}space-1.jpg`,
+  `${imageDirectory}space-2.jpg`,
+  `${imageDirectory}space-3.jpg`,
+  `${imageDirectory}space-4.jpg`,
+  `${imageDirectory}space-5.jpg`,
+  `${imageDirectory}space-6.jpg`,
+  `${imageDirectory}space-7.jpg`,
+  `${imageDirectory}space-8.jpg`,
+  `${imageDirectory}space-1.jpg`,
+  `${imageDirectory}control-panel-1.jpg`,
+  `${imageDirectory}control-panel-2.jpg`,
+  `${imageDirectory}control-panel-3.jpg`,
+  `${imageDirectory}control-panel-4.jpg`,
+  `${imageDirectory}control-panel-5.jpg`,
 ];
 
 const jsPsych = initJsPsych({
-  preload_images: images,
   default_iti: 0,
   on_finish() {
     uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
@@ -225,6 +284,11 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   const spaceStop = '.jpg"  title = "" width="800" height="218">';
 
   timeline.push({
+    type: jsPsychPreload,
+    auto_preload: true,
+  });
+
+  timeline.push({
     type: jsPsychHtmlButtonResponse,
     stimulus:
       "<p style='font-size:30px;'>Click the star to begin!</p>",
@@ -244,6 +308,12 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     stimulus: "",
     button_html: '<img src="stimuli/images/star.bmp"></img>',
     choices: [""],
+  });
+
+  timeline.push({
+    type: OstensiveNamingJsPsychPlugin,
+    imageUrl: `${imageDirectory}bee.bmp`,
+    audioUrl: `${audioDirectory}bee_h_sp1.wav`
   });
 
   function presentBlock(block_num) {
