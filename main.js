@@ -240,6 +240,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     set_background: "black-background",
   });
 
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+      "<p style='font-size:30px;'>Click the star to begin!</p>",
+    button_html: '<img src="stimuli/images/star.bmp"></img>',
+    choices: [""],
+  });
+
   function presentBlock(block_num) {
     const teachingStart = 0 + 5 * block_num;
     const teachingStop = 5 + 5 * block_num;
@@ -756,7 +764,6 @@ Papa.parse(soundURL, {
   },
 });
 
-document.body.style.backgroundColor = "black";
 document.body.style.backgroundSize = "100%";
 document.body.style.backgroundPosition = "top";
 document.body.style.backgroundRepeat = "no-repeat";
