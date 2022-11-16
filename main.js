@@ -33,15 +33,6 @@ function percentString(a) {
   return `${a}%`;
 }
 
-function circleElementWithColorAndDiameter(color, diameterPixels) {
-  const circle = document.createElement("div");
-  circle.style.height = pixelsString(diameterPixels);
-  circle.style.width = pixelsString(diameterPixels);
-  circle.style.borderRadius = pixelsString(diameterPixels / 2);
-  circle.style.backgroundColor = color;
-  return circle;
-}
-
 function clear(parent) {
   // https://stackoverflow.com/a/3955238
   while (parent.firstChild) {
@@ -59,35 +50,33 @@ function addBorderAndDelayedFinishOnClick(element, jsPsych, parent) {
   });
 }
 
+function fixedHiddenCircleImage(trial, parent) {
+  const circle = new Image();
+  parent.append(circle);
+  circle.src = trial.circleImageUrl;
+  circle.style.position = "fixed";
+  circle.style.visibility = "hidden";
+  return circle;
+}
+
 class FormExampleJsPsychPlugin {
   constructor(jsPsych) {
     this.jsPsych = jsPsych;
   }
+
   trial(display_element, trial) {
-    const leftCircle = new Image();
-    leftCircle.src = trial.circleImageUrl;
-    leftCircle.style.position = "fixed";
+    const leftCircle = fixedHiddenCircleImage(trial, display_element);
     leftCircle.style.left = percentString(25);
     leftCircle.style.top = percentString(50);
     leftCircle.style.transform = "translate(-50%, -50%)";
-    leftCircle.style.visibility = "hidden";
-    display_element.append(leftCircle);
-    const middleCircle = new Image();
-    middleCircle.src = trial.circleImageUrl;
-    middleCircle.style.position = "fixed";
+    const middleCircle = fixedHiddenCircleImage(trial, display_element);
     middleCircle.style.left = percentString(50);
     middleCircle.style.top = percentString(50);
     middleCircle.style.transform = "translate(-50%, -50%)";
-    middleCircle.style.visibility = "hidden";
-    display_element.append(middleCircle);
-    const rightCircle = new Image();
-    rightCircle.src = trial.circleImageUrl;
-    rightCircle.style.position = "fixed";
+    const rightCircle = fixedHiddenCircleImage(trial, display_element);
     rightCircle.style.right = percentString(25);
     rightCircle.style.top = percentString(50);
     rightCircle.style.transform = "translate(50%, -50%)";
-    rightCircle.style.visibility = "hidden";
-    display_element.append(rightCircle);
     audioBufferSource(this.jsPsych, trial.audioUrl).then((audioSource) => {
       audioSource.start();
       this.jsPsych.pluginAPI.setTimeout(() => {
