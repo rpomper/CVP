@@ -225,25 +225,23 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   const spaceStop = '.jpg"  title = "" width="800" height="218">';
 
   timeline.push({
-    type: jsPsychFullscreen,
-    message: `<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: ${subject_id.toString()}<br><br>Order: ${trial_order.toString()}</p><br>`,
-    button_label: "Next",
-    delay_after: 250,
-  });
-
-  timeline.push({
-    type: jsPsychHtmlButtonResponse,
-    stimulus:
-      "<p style='font-size:30px;'> When you are ready, click the NEXT button to hear the instructions.</br> </p>",
-    choices: ["Next"],
-    trial_duration: null,
-    set_background: "black-background",
-  });
-
-  timeline.push({
     type: jsPsychHtmlButtonResponse,
     stimulus:
       "<p style='font-size:30px;'>Click the star to begin!</p>",
+    button_html: '<img src="stimuli/images/star.bmp"></img>',
+    choices: [""],
+  });
+
+  timeline.push({
+    type: jsPsychAudioKeyboardResponse,
+    trial_ends_after_audio: true,
+    choices: "NO_KEYS",
+    stimulus: `${audioDirectory}ON_intro.wav`
+  });
+
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: "",
     button_html: '<img src="stimuli/images/star.bmp"></img>',
     choices: [""],
   });
