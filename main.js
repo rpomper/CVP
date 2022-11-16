@@ -322,6 +322,15 @@ function startExperiment(page, conditionSelect, jsPsych) {
         middleCircleAppearsAfterMilliseconds: 2000,
         rightCircleAppearsAfterMilliseconds: 3000,
       });
+
+      timeline.push({
+        type: FormExampleJsPsychPlugin,
+        audioUrl: `${audioDirectory}3AFCform_example3.wav`,
+        circleImageUrl: `${imageDirectory}BlackDot.bmp`,
+        leftCircleAppearsAfterMilliseconds: 1000,
+        middleCircleAppearsAfterMilliseconds: 2000,
+        rightCircleAppearsAfterMilliseconds: 3000,
+      });
       break;
     default:
       break;
