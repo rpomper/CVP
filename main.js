@@ -12,10 +12,12 @@ function audioBufferSource(jsPsych, url) {
 function moveToColumn(image, column) {
   switch (column) {
     case 1:
+      image.style.right = "";
       image.style.left = "25%";
       image.style.transform = "translate(-50%, -50%)";
       break;
     case 2:
+      image.style.left = "";
       image.style.right = "25%";
       image.style.transform = "translate(50%, -50%)";
       break;
@@ -47,6 +49,7 @@ class OstensiveNamingJsPsychPlugin {
         this.jsPsych.pluginAPI.setTimeout(() => {
           moveToColumn(image, trial.startingColumn);
           this.jsPsych.pluginAPI.setTimeout(() => {
+            display_element.removeChild(image);
             this.jsPsych.finishTrial();
           }, 2000);
         }, 2000);
@@ -327,6 +330,20 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     imageUrl: `${imageDirectory}bee.bmp`,
     audioUrl: `${audioDirectory}bee_h_sp1.wav`,
     startingColumn: 1
+  });
+
+  timeline.push({
+    type: jsPsychAudioKeyboardResponse,
+    trial_ends_after_audio: true,
+    choices: "NO_KEYS",
+    stimulus: `${audioDirectory}click_the_star_to_begin.wav`
+  });
+
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: "",
+    button_html: '<img src="stimuli/images/star.bmp"></img>',
+    choices: [""],
   });
 
   function presentBlock(block_num) {
