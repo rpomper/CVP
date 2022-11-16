@@ -42,6 +42,23 @@ function circleElementWithColorAndDiameter(color, diameterPixels) {
   return circle;
 }
 
+function clear(parent) {
+  // https://stackoverflow.com/a/3955238
+  while (parent.firstChild) {
+    parent.removeChild(parent.lastChild);
+  }
+}
+
+function addBorderAndDelayedFinishOnClick(element, jsPsych, parent) {
+  element.addEventListener("click", () => {
+    element.style.border = `${pixelsString(2)} solid black`;
+    jsPsych.pluginAPI.setTimeout(() => {
+      clear(parent);
+      jsPsych.finishTrial();
+    }, 2000);
+  });
+}
+
 class FormExampleJsPsychPlugin {
   constructor(jsPsych) {
     this.jsPsych = jsPsych;
@@ -83,24 +100,21 @@ class FormExampleJsPsychPlugin {
         rightCircle.style.visibility = "visible";
       }, trial.rightCircleAppearsAfterMilliseconds);
       audioSource.onended = () => {
-        leftCircle.addEventListener("click", () => {
-          leftCircle.style.border = `${pixelsString(2)} solid black`;
-          this.jsPsych.pluginAPI.setTimeout(() => {
-            this.jsPsych.finishTrial();
-          }, 2000);
-        });
-        middleCircle.addEventListener("click", () => {
-          middleCircle.style.border = `${pixelsString(2)} solid black`;
-          this.jsPsych.pluginAPI.setTimeout(() => {
-            this.jsPsych.finishTrial();
-          }, 2000);
-        });
-        rightCircle.addEventListener("click", () => {
-          rightCircle.style.border = `${pixelsString(2)} solid black`;
-          this.jsPsych.pluginAPI.setTimeout(() => {
-            this.jsPsych.finishTrial();
-          }, 2000);
-        });
+        addBorderAndDelayedFinishOnClick(
+          leftCircle,
+          this.jsPsych,
+          display_element
+        );
+        addBorderAndDelayedFinishOnClick(
+          middleCircle,
+          this.jsPsych,
+          display_element
+        );
+        addBorderAndDelayedFinishOnClick(
+          rightCircle,
+          this.jsPsych,
+          display_element
+        );
       };
     });
   }
@@ -294,6 +308,15 @@ function startExperiment(page, conditionSelect, jsPsych) {
       timeline.push({
         type: FormExampleJsPsychPlugin,
         audioUrl: `${audioDirectory}3AFCform_example1.wav`,
+        circleImageUrl: `${imageDirectory}BlackDot.bmp`,
+        leftCircleAppearsAfterMilliseconds: 1000,
+        middleCircleAppearsAfterMilliseconds: 2000,
+        rightCircleAppearsAfterMilliseconds: 3000,
+      });
+
+      timeline.push({
+        type: FormExampleJsPsychPlugin,
+        audioUrl: `${audioDirectory}3AFCform_example2.wav`,
         circleImageUrl: `${imageDirectory}BlackDot.bmp`,
         leftCircleAppearsAfterMilliseconds: 1000,
         middleCircleAppearsAfterMilliseconds: 2000,
