@@ -265,7 +265,7 @@ const images = [
 const jsPsych = initJsPsych({
   default_iti: 0,
   on_finish() {
-    uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
+    //uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
     jsPsych.data.displayData();
   },
 });
@@ -306,7 +306,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   timeline.push({
     type: jsPsychHtmlButtonResponse,
     stimulus:
-      "<p style='font-size:30px;'>Click the star to begin!</p>",
+      "<p style='font-size:50px;'>Click the star to begin!</p>",
     button_html: '<img src="stimuli/images/star.bmp"></img>',
     choices: [""],
   });
@@ -344,6 +344,13 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     stimulus: "",
     button_html: '<img src="stimuli/images/star.bmp"></img>',
     choices: [""],
+  });
+
+  timeline.push({
+    type: OstensiveNamingJsPsychPlugin,
+    imageUrl: `${imageDirectory}joast.bmp`,
+    audioUrl: `${audioDirectory}joast_t_sp1.wav`,
+    startingColumn: 2
   });
 
   function presentBlock(block_num) {
