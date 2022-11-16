@@ -1,23 +1,3 @@
-const subject_id = jsPsych.data.getURLVariable("sub");
-const trial_order = jsPsych.data.getURLVariable("order");
-const today = new Date();
-const DoT = {
-  month: today.getMonth() + 1,
-  day: today.getDate(),
-  year: today.getFullYear(),
-  hour: today.getHours(),
-  min: today.getMinutes(),
-};
-
-const soundURL =
-  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv";
-const refURL =
-  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Ref.csv";
-const linkURL =
-  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv";
-
-const teachingURL = `https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-${trial_order}.csv`;
-
 function postToRedcap(body) {
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
   return fetch("https://study.boystown.org/api/", {
@@ -207,6 +187,35 @@ const images = [
   `${imageExt}control-panel-5.jpg`,
 ];
 
+const jsPsych = initJsPsych({
+  preload_images: images,
+  default_iti: 0,
+  on_finish() {
+    uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
+    jsPsych.data.displayData();
+  },
+});
+
+const subject_id = jsPsych.data.getURLVariable("sub");
+const trial_order = jsPsych.data.getURLVariable("order");
+const today = new Date();
+const DoT = {
+  month: today.getMonth() + 1,
+  day: today.getDate(),
+  year: today.getFullYear(),
+  hour: today.getHours(),
+  min: today.getMinutes(),
+};
+
+const soundURL =
+  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Sound.csv";
+const refURL =
+  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Ref.csv";
+const linkURL =
+  "https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-1-Link.csv";
+
+const teachingURL = `https://raw.githubusercontent.com/rpomper/PreFam/master/orders/PreFam-Order-${trial_order}.csv`;
+
 function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   const audioDirectory = "stimuli/sounds/";
   const imageTagPrefix = '<img src= "stimuli/images/';
@@ -216,14 +225,14 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   const spaceStop = '.jpg"  title = "" width="800" height="218">';
 
   timeline.push({
-    type: "fullscreen",
+    type: jsPsychFullscreen,
     message: `<p style='font-size:30px;'> Version: 1.6.3 <br><br><br>Subject: ${subject_id.toString()}<br><br>Order: ${trial_order.toString()}</p><br>`,
     button_label: "Next",
     delay_after: 250,
   });
 
   timeline.push({
-    type: "html-button-response",
+    type: jsPsychHtmlButtonResponse,
     stimulus:
       "<p style='font-size:30px;'> When you are ready, click the NEXT button to hear the instructions.</br> </p>",
     choices: ["Next"],
@@ -238,35 +247,9 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     const testStop = 5 + 5 * block_num;
 
     if (block_num === 0) {
-      timeline.push({
-        type: "audio-button-response-flexiblelocations",
-        trial_duration: 26000,
-        response_ends_trial: false,
-        margin_top: ["0px", "0px"],
-        margin_bottom: ["0px", "0px"],
-        margin_left: ["0px", "75px"],
-        margin_right: ["75px", "0px"],
-        display_attribute: ["inline-block", "inline-block"],
-        stimulus: `${audioDirectory}instruct-start.wav`,
-        choices: [
-          `${imageTagPrefix}mae${imageTagPostfix}`,
-          `${imageTagPrefix}earth${imageTagPostfix}`,
-        ],
-      });
-
-      timeline.push({
-        type: "html-button-response",
-        stimulus:
-          "<p style='font-size:30px;'> When you are ready to meet Mae's friends, click the START button below.</br> </p>",
-        choices: [
-          '<img src= "stimuli/images/start-button.jpg" title = "" width="150" height="75">',
-        ],
-        trial_duration: null,
-        set_background: "black-background",
-      });
     } else {
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: 10000,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
@@ -284,15 +267,15 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     for (let i = teachingStart; i < teachingStop; i += 1) {
       timeline.push({
-        type: "html-keyboard-response",
+        type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p style='font-size:90px;'>${teaching[i].tr_num}</p>`,
-        choices: jsPsych.NO_KEYS,
+        choices: "NO_KEYS",
         set_background: "black-background",
         trial_duration: 500,
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: teaching[i].audio1_dur,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
@@ -309,7 +292,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: teaching[i].audio2_dur,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
@@ -340,7 +323,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: 9000,
       response_ends_trial: false,
       margin_top: ["0px"],
@@ -354,15 +337,15 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     for (let i = testStart; i < testStop; i += 1) {
       timeline.push({
-        type: "html-keyboard-response",
+        type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p style='font-size:90px;'>${test_Sound[i].tr_num}</p>`,
-        choices: jsPsych.NO_KEYS,
+        choices: "NO_KEYS",
         set_background: "black-background",
         trial_duration: 500,
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: 1000,
         response_ends_trial: false,
         margin_top: ["0px"],
@@ -375,7 +358,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: 1000,
         response_ends_trial: false,
         margin_top: ["0px", "0px"],
@@ -391,7 +374,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["0px", "0px", "0px"],
@@ -421,7 +404,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: 9000,
       response_ends_trial: false,
       margin_top: ["0px"],
@@ -435,15 +418,15 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     for (let i = testStart; i < testStop; i += 1) {
       timeline.push({
-        type: "html-keyboard-response",
+        type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p style='font-size:90px;'>${test_Ref[i].tr_num}</p>`,
-        choices: jsPsych.NO_KEYS,
+        choices: "NO_KEYS",
         set_background: "black-background",
         trial_duration: 500,
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["0px", "0px", "0px"],
@@ -473,7 +456,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: 8000,
       response_ends_trial: false,
       margin_top: ["0px"],
@@ -487,15 +470,15 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     for (let i = testStart; i < testStop; i += 1) {
       timeline.push({
-        type: "html-keyboard-response",
+        type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p style='font-size:90px;'>${test_Link[i].tr_num}</p>`,
-        choices: jsPsych.NO_KEYS,
+        choices: "NO_KEYS",
         set_background: "black-background",
         trial_duration: 500,
       });
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["0px", "0px", "0px"],
@@ -531,7 +514,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     const blocks_left = 6 - block_num;
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: null,
       response_ends_trial: true,
       margin_top: ["0px"],
@@ -553,7 +536,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     document.body.style.backgroundSize = "100%";
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: 6500,
       response_ends_trial: false,
       margin_top: ["25px"],
@@ -569,7 +552,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     for (let i = 1; i <= 6; i += 1) {
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["25px"],
@@ -585,7 +568,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
     }
 
     timeline.push({
-      type: "audio-button-response-flexiblelocations",
+      type: jsPsychAudioButtonResponse,
       trial_duration: 500,
       response_ends_trial: false,
       margin_top: ["25px"],
@@ -601,37 +584,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   }
 
   function start_ship() {
-    timeline.push({
-      type: "audio-slider-response",
-      top_prompt: "<br><br> </br>",
-      stimulus: "stimuli/sounds/instruct-4-turnon.wav",
-      labels: ["1", "2", "3", "4", "5"],
-      slider_start: 1,
-      min: 1,
-      max: 5,
-      step: 1,
-      button_label: "OK",
-      slider_width: 400,
-      set_background: "control-panel-1",
-      prompt: " ",
-    });
-
-    for (let i = 2; i <= 5; i += 1) {
-      timeline.push({
-        type: "audio-slider-response",
-        top_prompt: "<br><br> </br>",
-        stimulus: `stimuli/sounds/key-${i.toString()}.wav`,
-        labels: ["1", "2", "3", "4", "5"],
-        slider_start: 1,
-        min: 1,
-        max: 5,
-        step: 1,
-        button_label: "OK",
-        slider_width: 400,
-        set_background: `control-panel-${i.toString()}`,
-        prompt: " ",
-      });
-    }
   }
 
   function plot_route(plot_type) {
@@ -639,7 +591,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     if (plot_type === "a") {
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["150px"],
@@ -655,7 +607,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       for (let i = 2; i <= 3; i += 1) {
         timeline.push({
-          type: "audio-button-response-flexiblelocations",
+          type: jsPsychAudioButtonResponse,
           trial_duration: null,
           response_ends_trial: true,
           margin_top: ["150px"],
@@ -671,7 +623,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       }
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: 500,
         response_ends_trial: true,
         margin_top: ["150px"],
@@ -688,7 +640,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
     if (plot_type === "b") {
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: null,
         response_ends_trial: true,
         margin_top: ["150px"],
@@ -704,7 +656,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
       for (let i = 6; i <= 7; i += 1) {
         timeline.push({
-          type: "audio-button-response-flexiblelocations",
+          type: jsPsychAudioButtonResponse,
           trial_duration: null,
           response_ends_trial: true,
           margin_top: ["150px"],
@@ -720,7 +672,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       }
 
       timeline.push({
-        type: "audio-button-response-flexiblelocations",
+        type: jsPsychAudioButtonResponse,
         trial_duration: 500,
         response_ends_trial: false,
         margin_top: ["150px"],
@@ -755,15 +707,7 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
 
 function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   createTrials(teaching, test_Sound, test_Ref, test_Link);
-  jsPsych.init({
-    timeline,
-    preload_images: images,
-    default_iti: 0,
-    on_finish() {
-      uploadToRedcap("9AD33F7962227A4DA4920A77E6A80685");
-      jsPsych.data.displayData();
-    },
-  });
+  jsPsych.run(timeline);
 }
 
 function loadRefTrials(teaching, test_Sound, test_Link) {
