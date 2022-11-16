@@ -47,21 +47,24 @@ class FormExampleJsPsychPlugin {
     this.jsPsych = jsPsych;
   }
   trial(display_element, trial) {
-    const leftCircle = circleElementWithColorAndDiameter("black", 200);
+    const leftCircle = new Image();
+    leftCircle.src = trial.circleImageUrl;
     leftCircle.style.position = "fixed";
     leftCircle.style.left = percentString(25);
     leftCircle.style.top = percentString(50);
     leftCircle.style.transform = "translate(-50%, -50%)";
     leftCircle.style.visibility = "hidden";
     display_element.append(leftCircle);
-    const middleCircle = circleElementWithColorAndDiameter("black", 200);
+    const middleCircle = new Image();
+    middleCircle.src = trial.circleImageUrl;
     middleCircle.style.position = "fixed";
     middleCircle.style.left = percentString(50);
     middleCircle.style.top = percentString(50);
     middleCircle.style.transform = "translate(-50%, -50%)";
     middleCircle.style.visibility = "hidden";
     display_element.append(middleCircle);
-    const rightCircle = circleElementWithColorAndDiameter("black", 200);
+    const rightCircle = new Image();
+    rightCircle.src = trial.circleImageUrl;
     rightCircle.style.position = "fixed";
     rightCircle.style.right = percentString(25);
     rightCircle.style.top = percentString(50);
@@ -81,13 +84,22 @@ class FormExampleJsPsychPlugin {
       }, trial.rightCircleAppearsAfterMilliseconds);
       audioSource.onended = () => {
         leftCircle.addEventListener("click", () => {
-          this.jsPsych.finishTrial();
+          leftCircle.style.border = `${pixelsString(2)} solid black`;
+          this.jsPsych.pluginAPI.setTimeout(() => {
+            this.jsPsych.finishTrial();
+          }, 2000);
         });
         middleCircle.addEventListener("click", () => {
-          this.jsPsych.finishTrial();
+          middleCircle.style.border = `${pixelsString(2)} solid black`;
+          this.jsPsych.pluginAPI.setTimeout(() => {
+            this.jsPsych.finishTrial();
+          }, 2000);
         });
         rightCircle.addEventListener("click", () => {
-          this.jsPsych.finishTrial();
+          rightCircle.style.border = `${pixelsString(2)} solid black`;
+          this.jsPsych.pluginAPI.setTimeout(() => {
+            this.jsPsych.finishTrial();
+          }, 2000);
         });
       };
     });
@@ -99,6 +111,9 @@ FormExampleJsPsychPlugin.info = {
   parameters: {
     audioUrl: {
       type: jsPsychModule.ParameterType.AUDIO,
+    },
+    circleImageUrl: {
+      type: jsPsychModule.ParameterType.IMAGE,
     },
     leftCircleAppearsAfterMilliseconds: {
       type: jsPsychModule.ParameterType.INT,
@@ -279,6 +294,7 @@ function startExperiment(page, conditionSelect, jsPsych) {
       timeline.push({
         type: FormExampleJsPsychPlugin,
         audioUrl: `${audioDirectory}3AFCform_example1.wav`,
+        circleImageUrl: `${imageDirectory}BlackDot.bmp`,
         leftCircleAppearsAfterMilliseconds: 1000,
         middleCircleAppearsAfterMilliseconds: 2000,
         rightCircleAppearsAfterMilliseconds: 3000,
