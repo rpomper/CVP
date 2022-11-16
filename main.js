@@ -9,10 +9,19 @@ function audioBufferSource(jsPsych, url) {
   });
 }
 
-function switchSides(image) {
-  image.style.gridColumn += 1;
-  if (image.style.gridColumn === 3)
-    image.style.gridColumn = 1;
+function moveToColumn(image, column) {
+  switch (column) {
+    case 1:
+      image.style.left = "25%";
+      image.style.transform = "translate(-50%, -50%)";
+      break;
+    case 2:
+      image.style.right = "25%";
+      image.style.transform = "translate(50%, -50%)";
+      break;
+    default:
+      break;
+  }
 }
 
 class OstensiveNamingJsPsychPlugin {
@@ -20,28 +29,28 @@ class OstensiveNamingJsPsychPlugin {
     this.jsPsych = jsPsych;
   }
   trial(display_element, trial) {
-    const grid = document.createElement("div");
-    grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "repeat(2, 1fr)";
-    grid.style.gridTemplateRows = `repeat(1, 1fr)`;
     const image = new Image();
-    image.src = trial.imageUrl;
+    image.style.position = "fixed";
+    image.style.top = "50%";
+    image.style.maxWidth = "50%";
+    image.style.maxHeight = "100%";
+    moveToColumn(image, trial.startingColumn)
     image.style.visibility = "hidden";
-    image.style.gridColumn = 1;
-    grid.append(image);
-    display_element.append(grid);
+    image.src = trial.imageUrl;
+
+    display_element.append(image);
     audioBufferSource(this.jsPsych, trial.audioUrl).then((audioSource) => {
       audioSource.start();
       image.style.visibility = "visible";
       this.jsPsych.pluginAPI.setTimeout(() => {
-        switchSides(image);
+        moveToColumn(image, (trial.startingColumn % 2) + 1);
         this.jsPsych.pluginAPI.setTimeout(() => {
-          switchSides(image);
+          moveToColumn(image, trial.startingColumn);
           this.jsPsych.pluginAPI.setTimeout(() => {
             this.jsPsych.finishTrial();
-          }, 1500);
-        }, 1500);
-      }, 1500);
+          }, 2000);
+        }, 2000);
+      }, 2000);
     });
   }
 }
@@ -54,6 +63,9 @@ OstensiveNamingJsPsychPlugin.info = {
     },
     audioUrl: {
       type: jsPsychModule.ParameterType.AUDIO,
+    },
+    startingColumn: {
+      type: jsPsychModule.ParameterType.INT
     }
   },
 };
@@ -313,7 +325,8 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
   timeline.push({
     type: OstensiveNamingJsPsychPlugin,
     imageUrl: `${imageDirectory}bee.bmp`,
-    audioUrl: `${audioDirectory}bee_h_sp1.wav`
+    audioUrl: `${audioDirectory}bee_h_sp1.wav`,
+    startingColumn: 1
   });
 
   function presentBlock(block_num) {
@@ -763,22 +776,6 @@ function createTrials(teaching, test_Sound, test_Ref, test_Link, tabletop) {
       });
     }
   }
-
-  for (let block_num = 0; block_num <= 5; block_num += 1) {
-    presentBlock(block_num);
-    if (block_num === 0) unlock_ship("a");
-    if (block_num === 1) unlock_ship("b");
-    if (block_num === 2) start_ship();
-    if (block_num === 3) plot_route("a");
-    if (block_num === 4) plot_route("b");
-
-    if (block_num < 5) show_progress(block_num + 1);
-  }
-
-  timeline.push({
-    type: "fullscreen",
-    fullscreen_mode: false,
-  });
 }
 
 function startExperiment(teaching, test_Sound, test_Ref, test_Link, tabletop) {
